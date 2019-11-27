@@ -1,2 +1,9 @@
 # xlua-framework-enhanced
-forked from smilehao/xlua-framework，功能加强版，支持Addressables, 统一渲染管线等Unity新特性
+
+在源框架的基础上，增加以下新功能：
+
+* 资源管理修改为Addressables
+* 渲染管线修改为URP
+* 网络模块增强，添加断线重连，弱网络处理等
+* 更多功能更新
+
