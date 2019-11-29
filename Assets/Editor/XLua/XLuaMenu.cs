@@ -4,10 +4,12 @@ using System.IO;
 using Debug = UnityEngine.Debug;
 using AssetBundles;
 using System.Diagnostics;
+using System;
 
 [InitializeOnLoad]
 public static class XLuaMenu
 {
+
     [MenuItem("XLua/Copy Lua Files To AssetsPackage", false, 51)]
     public static void CopyLuaFilesToAssetsPackage()
     {
@@ -84,32 +86,10 @@ public static class XLuaMenu
         Debug.Log("Copy lua files over");
     }
 
-    [MenuItem("XLua/Lua Encode4Editor", false, 52)]
-    public static void Encode4Editor()
-    {
 
-        string destination = Path.Combine(Application.dataPath, "LuaScriptsEncode");
-        string source = Path.Combine(Application.dataPath, XLuaManager.luaScriptsFolder);
-        GameUtility.SafeDeleteDir(destination);
+    
 
-        FileUtil.CopyFileOrDirectoryFollowSymlinks(source, destination);
-
-        var luaFiles = GameUtility.GetSpecifyFilesInFolder(destination, new string[] { ".lua" }, false);
-        if (luaFiles != null && luaFiles.Length > 0)
-        {
-            for (int i = 0; i < luaFiles.Length; i++)
-            {
-                GameUtility.SafeDeleteFile(luaFiles[i]);
-                EncodeLuaFile(luaFiles[i].Replace("LuaScriptsEncode", XLuaManager.luaScriptsFolder), luaFiles[i]);
-
-            }
-        }
-
-        AssetDatabase.Refresh();
-        Debug.Log("Encode lua files over");
-    }
-
-    public static void EncodeLuaFile(string srcFile , string outFile)
+    private static void EncodeLuaFile(string srcFile , string outFile)
     {
         bool isWin = true;
         string luaexe = string.Empty;

@@ -37,6 +37,8 @@ public class UIMVCGen
     public static string tpl_controller = "Assets/Editor/UI/Template/UIControllerGen.tpl.txt";
     public static string tpl_config = "Assets/Editor/UI/Template/UIConfigGen.tpl.txt";
 
+    public static string default_layer = "NormalLayer";
+
     public static List<string> comTypes = new List<string> {
         "UIButton","UIButtonGroup","UICanvas","UIImage","UIInput","UILayer",
         "UISlider","UITabGroup","UIText","UIToggleButton","UIWrapComponent"
@@ -91,7 +93,7 @@ public class UIMVCGen
     /// <summary>
     /// 生成UI模板
     /// </summary>
-    public static void GenUITemplate(string moduleName, string templatePath, string outputPath)
+    public static void GenUITemplate(string moduleName,string layerName, string templatePath, string outputPath)
     {
         EditorUtility.DisplayProgressBar("生成中...", "生成模板...", 20);
         TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(templatePath);
@@ -115,6 +117,7 @@ public class UIMVCGen
 
             LuaTable data = lua_env.NewTable();
             data.Set("module_name", moduleName);
+            data.Set("module_layer", layerName);
             data.Set("model_class_name", moduleName + "Model");
             data.Set("view_class_name", moduleName + "View");
             data.Set("controller_class_name", moduleName + "Ctrl");
@@ -139,56 +142,6 @@ public class UIMVCGen
         EditorUtility.ClearProgressBar();
         AssetDatabase.Refresh();
     }
-
-    /// <summary>
-    /// 生成位置坐标模板
-    /// </summary>
-    public static void GenLevelTemplate(string moduleName, string templatePath, string outputPath)
-    {
-        EditorUtility.DisplayProgressBar("生成中...", "生成模板...", 20);
-        TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(templatePath);
-
-        Generator.GetTasks tasks = null;
-        List<ComItem> comList = new List<ComItem>();
-
-        Transform trans = Selection.activeTransform;
-        if (trans != null && !trans.name.Contains("_"))
-        {
-            FindChild(trans.name, trans, comList);
-
-        }
-        else
-        {
-            Logger.LogError("prefab 名字为空或名字中带下划线，请规范命名！");
-        }
-
-        tasks += (lua_env, user_cfg) =>
-        {
-
-            LuaTable data = lua_env.NewTable();
-
-            data.Set("leveldata_name", moduleName + "LevelData");
-
-            data.Set("com_list", comList);
-
-
-            List<CustomGenTask> list = new List<CustomGenTask>();
-            CustomGenTask task = new CustomGenTask
-            {
-                Data = data,
-                Output = new StreamWriter(outputPath,
-                false, new UTF8Encoding(false))
-            };
-            list.Add(task);
-
-            return list;
-        };
-
-        Generator.CustomGen(ta.text, tasks);
-        EditorUtility.ClearProgressBar();
-        AssetDatabase.Refresh();
-    }
-
 
 
     [MenuItem("GameObject/MVC/Gen MVC", priority = 10)]
@@ -217,7 +170,7 @@ public class UIMVCGen
             return;
         }
 
-        GenUITemplate(trans.name,tpl_model,modelPath);
+        GenUITemplate(trans.name,default_layer,tpl_model, modelPath);
     }
 
     [MenuItem("GameObject/MVC/Gen V", priority = 12)]
@@ -236,7 +189,7 @@ public class UIMVCGen
             return;
         }
 
-        GenUITemplate(trans.name, tpl_view, viewPath);
+        GenUITemplate(trans.name, default_layer, tpl_view, viewPath);
     }
 
     [MenuItem("GameObject/MVC/Gen C", priority = 13)]
@@ -255,7 +208,7 @@ public class UIMVCGen
             return;
         }
 
-        GenUITemplate(trans.name, tpl_controller, ctrlPath);
+        GenUITemplate(trans.name, default_layer, tpl_controller, ctrlPath);
     }
 
     [MenuItem("GameObject/MVC/Gen Config", priority = 14)]
@@ -274,89 +227,7 @@ public class UIMVCGen
             return;
         }
 
-        GenUITemplate(trans.name, tpl_config, configPath);
+        GenUITemplate(trans.name, default_layer, tpl_config, configPath);
     }
-    struct levelPos
-    {
-        float x;
-        float y;
-    }
-    [MenuItem("GameObject/MVC/关卡地图位置坐标", priority = 14)]
-    public static void GenUILevel()
-    {
-        Transform trans = Selection.activeTransform;
-        if (trans == null) return;
-        string pagePath = output_dir+ "UILevelMain";
-        if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
-        string configPath = pagePath + "/UILevelItemPosData.lua";
 
-        string namekey;
-        //Dictionary<int,>
-        string key;
-        string content;
-        List<string> levelList = new List<string>();
-        List<string> lineList = new List<string>();
-        Encoding flag = Encoding.Unicode;
-        File.WriteAllText(configPath, "local levelmapdata = {\n", flag);
-        for (int i = 0; i < trans.childCount; i++)
-        {
-            Transform transchild = trans.GetChild(i);
-
-                namekey = transchild.name.Substring(0,7);
- 
-            if (namekey == "UILevel")
-                {
-                    key = transchild.name.Substring(7, transchild.name.Length-7);
-                    levelList.Clear();
-                    lineList.Clear();
-                    for (int ik = 0; ik < transchild.childCount; ik++)
-                    {
-                        Transform transcc = transchild.GetChild(ik);
-                        namekey = transcc.name.Substring(0, 5);
-                        if (namekey == "level")
-                        {
-                            content = string.Format("{{{0:N2},{1:N2}}}", transcc.localPosition.x, transcc.localPosition.y);
-                           // Debug.LogError(transcc.name + ":" + content);
-                            levelList.Add(content);
-                        }
-                        if (transcc.name.Length > 7)
-                        {
-                            namekey = transcc.name.Substring(0, 7);
-                            if (namekey == "preline")
-                            {
-                                content = string.Format("{{{0:N2},{1:N2}}}", transcc.localPosition.x, transcc.localPosition.y);
-                               // Debug.LogError(transcc.name + ":" + content);
-                                lineList.Add(content);
-                            }
-                        }
-                    }
-                    if(levelList.Count >0 && lineList.Count >0)
-                    {
-                        content = "";
-                        for (int k = 0; k < levelList.Count -1; k++)
-                        {
-                        content += levelList[k];
-                        content += ",";
-                        }
-                        content += levelList[levelList.Count-1];
-                        string c1 = string.Format("leveldata={{{1}}}", key, content);
-                    content = "";
-                        for (int k = 0; k < lineList.Count - 1; k++)
-                        {
-                            content += lineList[k];
-                            content += ",";
-                        }
-                        content += lineList[lineList.Count - 1];
-                    string c2 = string.Format("linepos={{{1}}}", key, content);
-                    string str = string.Format("[{0}]={{\n{1},\n{2}\n}},\n", key, c1, c2);
-                    File.AppendAllText(configPath, str, flag);
-                    Debug.Log(str);
-                }
-                    
-                }
-         }
-        File.AppendAllText(configPath, "}\n", flag);
-        File.AppendAllText(configPath, "SetLooseReadonly(levelmapdata)\n", flag);
-        File.AppendAllText(configPath, "return levelmapdata", flag);
-    }
 }

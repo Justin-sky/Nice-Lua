@@ -18,7 +18,7 @@ require "TemplateCommon"
 -- 窗口配置
 local <%=module_name%> = {
 	Name = UIWindowNames.<%=module_name%>,
-	Layer = UILayers.BackgroudLayer,
+	Layer = UILayers.<%=module_layer%>,
 	Model = require "UI.<%=module_name%>.Model.<%=model_class_name%>",
 	Ctrl = require "UI.<%=module_name%>.Controller.<%=controller_class_name%>",
 	View = require "UI.<%=module_name%>.View.<%=view_class_name%>",

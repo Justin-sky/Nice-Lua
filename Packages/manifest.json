@@ -4,6 +4,7 @@
     "com.unity.addressables": "1.4.0",
     "com.unity.cinemachine": "2.3.4",
     "com.unity.device-simulator": "1.3.0-preview",
+    "com.unity.quicksearch": "1.5.0-preview.2",
     "com.unity.recorder": "2.0.3-preview.1",
     "com.unity.render-pipelines.core": "file:../PackageSources/com.unity.render-pipelines.core",
     "com.unity.render-pipelines.universal": "file:../PackageSources/com.unity.render-pipelines.universal",
