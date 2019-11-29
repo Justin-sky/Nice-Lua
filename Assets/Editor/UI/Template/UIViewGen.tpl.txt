@@ -1,0 +1,59 @@
+<%
+require "TemplateCommon"
+%>
+--[[
+-- 视图层
+-- 注意：
+-- 1、成员变量最好预先在OnCreate函数声明，提高代码可读性
+-- 2、OnEnable函数每次在窗口打开时调用，直接刷新
+-- 3、组件命名参考代码规范
+--]]
+
+local <%=view_class_name%> = BaseClass("<%=view_class_name%>", UIBaseView)
+local base = UIBaseView
+
+
+local function OnCreate(self)
+	base.OnCreate(self)
+	-- 初始化各个组件
+	<%ForEachCsList(com_list, function(item)%>
+	self.<%=item.com_var_name%><%=item.com_type_name%> = self:AddComponent(<%=item.com_type_name%>, "<%=item.com_path_name%>")
+    <%end)%>
+
+end
+
+local function OnEnable(self)
+	base.OnEnable(self)
+	self:OnRefresh()
+end
+
+local function OnRefresh(self)
+	-- 各组件刷新
+	
+end
+
+local function OnAddListener(self)
+	base.OnAddListener(self)
+	-- UI消息注册
+	
+end
+
+local function OnRemoveListener(self)
+	base.OnRemoveListener(self)
+	-- UI消息注销
+	
+end
+
+local function OnDestroy(self)
+	-- 销毁
+	base.OnDestroy(self)
+end
+
+<%=view_class_name%>.OnCreate = OnCreate
+<%=view_class_name%>.OnEnable = OnEnable
+<%=view_class_name%>.OnRefresh = OnRefresh
+<%=view_class_name%>.OnAddListener = OnAddListener
+<%=view_class_name%>.OnRemoveListener = OnRemoveListener
+<%=view_class_name%>.OnDestroy = OnDestroy
+
+return <%=view_class_name%>

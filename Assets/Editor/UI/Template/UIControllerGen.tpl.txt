@@ -1,0 +1,18 @@
+<%
+require "TemplateCommon"
+%>
+--[[
+-- 控制层
+--]]
+
+local <%=controller_class_name%> = BaseClass("<%=controller_class_name%>", UIBaseCtrl)
+
+
+local function CloseSelf(self)
+	UIManager:GetInstance():CloseWindow(UIWindowNames.<%=module_name%>)
+end
+
+
+<%=controller_class_name%>.CloseSelf = CloseSelf
+
+return <%=controller_class_name%>

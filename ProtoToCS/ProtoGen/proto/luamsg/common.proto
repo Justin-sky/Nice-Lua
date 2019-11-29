@@ -1,0 +1,32 @@
+package common;
+
+
+message test4
+{
+	optional int32 f = 1[default = 0];
+	optional string ccc = 2[default = 'asdasdasd'];
+	optional string cmd_data = 3[default = ""];
+}
+
+message test3
+{
+	optional int32 d = 1[default = 0];
+	optional test4 cc = 2;
+}
+
+message client_info
+{
+	//用户相关///////////////////////////////
+	optional string user_name = 7[default = ''];
+	optional int32 use_icon = 8[default = 0];	//正在使用的头像
+}
+
+message match_player
+{
+	optional int32 uid = 1[default = 0];
+	optional string name = 2[default = '']; 
+	optional int32 country = 3[default = 0];
+	optional int32 icon = 4[default = 0];
+	optional int32 race = 5[default = 0];
+	optional int32 race_level = 6[default = 0];
+}
