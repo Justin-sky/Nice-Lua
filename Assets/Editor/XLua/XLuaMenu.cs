@@ -42,6 +42,7 @@ public static class XLuaMenu
             return;
         }
         //先删除后copy 否则会失败
+        AssetDatabase.Refresh();
         GameUtility.SafeDeleteDir(destination);
         FileUtil.CopyFileOrDirectoryFollowSymlinks(source, destination);
         //清理非Lua文件
@@ -78,8 +79,8 @@ public static class XLuaMenu
                 {
                     GameUtility.SafeRenameFile(luaFiles[i], luaFiles[i] + ".bytes");
                 }
-                
             }
+
         }
 
         AssetDatabase.Refresh();
