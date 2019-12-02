@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Linq;
 
 namespace AssetBundles
 {
@@ -15,12 +17,16 @@ namespace AssetBundles
 
         //cache asset
         List<UnityEngine.Object> assetsCaching = new List<UnityEngine.Object>();
+        Dictionary<string, TextAsset> luaCaching = null;
+
         List<AddressablesAsyncLoader> processingAddressablesAsyncLoader = new List<AddressablesAsyncLoader>();
+        LuaAsyncLoader luaAsyncLoader = null;
 
         // 等待处理的资源请求
         Queue<ResourceWebRequester> webRequesterQueue = new Queue<ResourceWebRequester>();
         // 正在处理的资源请求
         List<ResourceWebRequester> prosessingWebRequester = new List<ResourceWebRequester>();
+
 
         public bool IsProsessRunning
         {
@@ -36,6 +42,7 @@ namespace AssetBundles
 
         }
 
+        #region ============== clear asset and cache
         public IEnumerator Cleanup()
         {
             // 等待所有请求完成
@@ -64,6 +71,51 @@ namespace AssetBundles
             assetsCaching.Remove(go);
             Addressables.Release(go);
         }
+        #endregion
+
+        #region ============== preload lua Async
+        public LuaAsyncLoader LoadLuaAsync(string[] luaPaths)
+        {
+            luaAsyncLoader = LuaAsyncLoader.Get(); ;
+            luaAsyncLoader.Init(luaPaths);
+            return luaAsyncLoader;
+        }
+
+        void OnProcessLuaAsyncLoader()
+        {
+            if (luaAsyncLoader == null) return;
+
+            luaAsyncLoader.Update();
+            if (luaAsyncLoader.isDone)
+            {
+                luaCaching = luaAsyncLoader.luaAssets;
+            }
+        }
+        
+        public TextAsset GetLuaCache(string luapath)
+        {
+            if(luaCaching != null)
+            {
+                TextAsset lua = null;
+                luaCaching.TryGetValue(luapath,out lua);
+                if (lua != null) return lua;
+
+                Logger.LogError($"can't found  {luapath} in luaCache");
+            }
+            Logger.LogError("lua cache is null, please preload lua first!");
+            return null;
+        }
+        void ReleaseLuas()
+        {
+            if (luaCaching == null) {
+                Logger.LogError("lua cache is null, can not release!");
+                return;
+            }
+            luaAsyncLoader.Dispose();
+            luaAsyncLoader = null;
+            luaCaching = null;
+        }
+        #endregion
 
 
         #region =============== LoadAssetAsync
@@ -95,7 +147,7 @@ namespace AssetBundles
         #endregion
 
 
-        #region using webrequest
+        #region ============== using webrequest
         // 从服务器下载网页内容，需提供完整url，非AB（不计引用计数、不缓存），Creater使用后记得回收
         public ResourceWebRequester DownloadWebResourceAsync(string url)
         {
@@ -132,6 +184,7 @@ namespace AssetBundles
         {
             OnProcessAddressablesAsyncLoader();
             OnProsessingWebRequester();
+            OnProcessLuaAsyncLoader();
         }
 
       

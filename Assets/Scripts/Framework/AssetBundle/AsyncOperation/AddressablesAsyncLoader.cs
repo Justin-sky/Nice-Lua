@@ -51,6 +51,9 @@ namespace AssetBundles
             if (assetType == typeof(Sprite))
             {
                 handle = Addressables.LoadAssetAsync<Sprite>(addressPath);
+            }else if(AssetType == typeof(TextAsset))
+            {
+                handle = Addressables.LoadAssetAsync<TextAsset>(addressPath);
             }
             else
             {

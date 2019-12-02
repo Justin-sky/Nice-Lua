@@ -177,6 +177,7 @@
     <Compile Include="Assets\Scripts\Config\Setting.cs" />
     <Compile Include="Assets\Scripts\Framework\AssetBundle\AddressablesManager.cs" />
     <Compile Include="Assets\Scripts\Framework\AssetBundle\AsyncOperation\AddressablesAsyncLoader.cs" />
+    <Compile Include="Assets\Scripts\Framework\AssetBundle\AsyncOperation\LuaAsyncLoader.cs" />
     <Compile Include="Assets\Scripts\Framework\AssetBundle\AsyncOperation\ResourceAsyncOperation.cs" />
     <Compile Include="Assets\Scripts\Framework\AssetBundle\AsyncOperation\ResourceWebRequester.cs" />
     <Compile Include="Assets\Scripts\Framework\AssetBundle\Config\AssetBundleConfig.cs" />

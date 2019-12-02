@@ -21,10 +21,10 @@ public class GameLaunch : MonoBehaviour
     {
         LoggerHelper.Instance.Startup();
         //注释掉IOS的推送服务
-//#if UNITY_IPHONE
-//        UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert | UnityEngine.iOS.NotificationType.Badge | UnityEngine.iOS.NotificationType.Sound);
-//        UnityEngine.iOS.Device.SetNoBackupFlag(Application.persistentDataPath);
-//#endif
+        //#if UNITY_IPHONE
+        //        UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert | UnityEngine.iOS.NotificationType.Badge | UnityEngine.iOS.NotificationType.Sound);
+        //        UnityEngine.iOS.Device.SetNoBackupFlag(Application.persistentDataPath);
+        //#endif
 
         // 初始化App版本
         var start = DateTime.Now;
@@ -44,11 +44,20 @@ public class GameLaunch : MonoBehaviour
         // 启动xlua热修复模块
         start = DateTime.Now;
         XLuaManager.Instance.Startup();
-        string luaAssetbundleName = XLuaManager.Instance.AssetbundleName;
-        //AssetBundleManager.Instance.SetAssetBundleResident(luaAssetbundleName, true);
-        //var abloader = AssetBundleManager.Instance.LoadAssetBundleAsync(luaAssetbundleName);
-        //yield return abloader;
-        //abloader.Dispose();
+
+        //预加载Lua
+        BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AssetBundleConfig.AssetsPathMapFileName, typeof(TextAsset));
+        yield return loader;
+
+        TextAsset maptext = loader.asset as TextAsset;
+        string[] luas = maptext.text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+        AddressablesManager.Instance.ReleaseAsset(loader.asset);
+        loader.Dispose();
+        LuaAsyncLoader luaLoader = AddressablesManager.Instance.LoadLuaAsync(luas);
+        yield return luaLoader;
+
+
         XLuaManager.Instance.OnInit();
        // XLuaManager.Instance.StartHotfix();
         Logger.Log(string.Format("XLuaManager StartHotfix use {0}ms", (DateTime.Now - start).Milliseconds));
@@ -58,6 +67,7 @@ public class GameLaunch : MonoBehaviour
         yield return null;
         yield return InitNoticeTipPrefab();
 
+        
         // 开始更新
         if (updater != null)
         {
