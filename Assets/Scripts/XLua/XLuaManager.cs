@@ -85,11 +85,6 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         }
     }
 
-    public string AssetbundleName
-    {
-        get;
-        protected set;
-    }
 
     // 重启虚拟机：热更资源以后被加载的lua脚本可能已经过时，需要重新加载
     // 最简单和安全的方式是另外创建一个虚拟器，所有东西一概重启

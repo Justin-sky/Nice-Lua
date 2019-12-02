@@ -195,7 +195,7 @@
     <Compile Include="Assets\Scripts\Framework\Socket\Interface\IPv6SupportMidleware.cs" />
     <Compile Include="Assets\Scripts\Framework\Socket\enum\ESocketError.cs" />
     <Compile Include="Assets\Scripts\Framework\UI\UINoticeTip.cs" />
-    <Compile Include="Assets\Scripts\GameLaunch\AssetbundleUpdater.cs" />
+    <Compile Include="Assets\Scripts\GameLaunch\AddressableUpdater.cs" />
     <Compile Include="Assets\Scripts\GameLaunch\GameLaunch.cs" />
     <Compile Include="Assets\Scripts\ShowFPS.cs" />
     <Compile Include="Assets\Scripts\Tests\RotateHeo.cs" />

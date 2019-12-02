@@ -105,7 +105,7 @@ namespace AssetBundles
             Logger.LogError("lua cache is null, please preload lua first!");
             return null;
         }
-        void ReleaseLuas()
+        public void ReleaseLuas()
         {
             if (luaCaching == null) {
                 Logger.LogError("lua cache is null, can not release!");
