@@ -45,6 +45,7 @@ public class GameLaunch : MonoBehaviour
         start = DateTime.Now;
         XLuaManager.Instance.Startup();
 
+#if !UNITY_EDITOR
         //预加载Lua
         BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AssetBundleConfig.AssetsPathMapFileName, typeof(TextAsset));
         yield return loader;
@@ -56,7 +57,7 @@ public class GameLaunch : MonoBehaviour
         loader.Dispose();
         LuaAsyncLoader luaLoader = AddressablesManager.Instance.LoadLuaAsync(luas);
         yield return luaLoader;
-
+#endif
 
         XLuaManager.Instance.OnInit();
        // XLuaManager.Instance.StartHotfix();
@@ -97,6 +98,7 @@ public class GameLaunch : MonoBehaviour
             }
             GameUtility.SafeWriteAllText(appVersionPath, streamingAppVersion);
             ChannelManager.instance.appVersion = streamingAppVersion;
+            Addressables.Release(handle);
         }
 
         yield break;
@@ -104,12 +106,6 @@ public class GameLaunch : MonoBehaviour
 
     IEnumerator InitChannel()
     {
-#if UNITY_EDITOR
-        if (AssetBundleConfig.IsEditorMode)
-        {
-            yield break;
-        }
-#endif
         AsyncOperationHandle<TextAsset> handle = Addressables.LoadAssetAsync<TextAsset>(BuildUtils.ChannelNameFileName);
         yield return handle;
 
@@ -118,6 +114,8 @@ public class GameLaunch : MonoBehaviour
             var channelName = handle.Result.text;
             ChannelManager.instance.Init(channelName);
             Logger.Log(string.Format("channelName = {0}", channelName));
+
+            Addressables.Release(handle);
         }
         yield break;
     }
