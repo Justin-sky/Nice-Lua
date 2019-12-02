@@ -201,7 +201,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         {
             luaEnv.Tick();
 
-            if (Time.frameCount % 100 == 0)
+            if (Time.frameCount % 1000 == 0)
             {
                 luaEnv.FullGc();
             }
