@@ -19,50 +19,62 @@ Shader "HOG/Particles/Additive_RGBA" {
 		Blend SrcAlpha One
 		Cull Off Lighting Off ZWrite Off Fog { Mode Off }
           
-		CGINCLUDE
-		#pragma multi_compile LIGHTMAP_OFF LIGHTMAP_ON
-		
-		#include "UnityCG.cginc" 
-		sampler2D _MainTex;
-		sampler2D _AlphaTex;
-
-		float4 _MainTex_ST;
-		float4 _AlphaTex_ST;
-		uniform fixed4 _EffectColor;
-  
-		struct v2f {
-			fixed4 pos : SV_POSITION;
-			fixed2 uv : TEXCOORD0;
-			fixed4 color : TEXCOORD1;
-		};
-
-	
-		v2f vert (appdata_full v)
+		Pass
 		{
-			v2f o;
-			o.pos = UnityObjectToClipPos(v.vertex);
-			o.uv.xy = TRANSFORM_TEX(v.texcoord.xy,_MainTex);
-			o.color = v.color;
-			return o;
-		}
-		ENDCG
-
-		
-		Pass {
-			CGPROGRAM
+			HLSLPROGRAM
+			#pragma multi_compile LIGHTMAP_OFF LIGHTMAP_ON
 			#pragma vertex vert
 			#pragma fragment frag	
-			fixed4 frag (v2f i) : COLOR
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+			CBUFFER_START(UnityPerMaterial)
+			sampler2D _MainTex;
+			sampler2D _AlphaTex;
+
+			float4 _MainTex_ST;
+			float4 _AlphaTex_ST;
+			uniform half4 _EffectColor;
+			CBUFFER_END
+
+
+			struct Attributes
 			{
-				fixed3 rgb = tex2D(_MainTex, i.uv.xy);
-				fixed a = tex2D(_AlphaTex, i.uv.xy).a;
-				fixed4 o = fixed4(rgb, a) * i.color;
-				
+				float4 positionOS       : POSITION;
+				float2 uv               : TEXCOORD0;
+				half4 color				: Color;
+
+			};
+
+			struct v2f {
+				half4 pos : SV_POSITION;
+				half2 uv : TEXCOORD0;
+				half4 color : TEXCOORD1;
+			};
+
+
+			v2f vert(Attributes v)
+			{
+				v2f o;
+				o.pos = TransformObjectToHClip(v.positionOS.xyz);
+				o.uv.xy = TRANSFORM_TEX(v.uv.xy,_MainTex);
+				o.color = v.color;
+				return o;
+			}
+
+			half4 frag(v2f i) : COLOR
+			{
+				half3 rgb = tex2D(_MainTex, i.uv.xy);
+				half a = tex2D(_AlphaTex, i.uv.xy).a;
+				half4 o = half4(rgb, a) * i.color;
+
 
 				return o;
 			}
-			ENDCG 
-		}	
+			ENDHLSL
+
+		}
+
     }   
 
 }
