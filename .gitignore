@@ -2,3 +2,6 @@
 Library/
 Temp/
 Recordings/
+*.csproj
+*.sln
+Assets/LuaScripts/.idea/
