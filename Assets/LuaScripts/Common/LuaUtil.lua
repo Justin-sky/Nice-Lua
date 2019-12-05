@@ -7,6 +7,12 @@
 
 local unpack = unpack or table.unpack
 
+function handlerEx(method, obj)
+	return function(...)
+		return method(obj, ...)
+	end
+end
+
 -- 解决原生pack的nil截断问题，SafePack与SafeUnpack要成对使用
 function SafePack(...)
 	local params = {...}
