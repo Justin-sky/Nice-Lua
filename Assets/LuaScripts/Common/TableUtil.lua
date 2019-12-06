@@ -99,7 +99,7 @@ local function keyof(hashtable, value)
 end
 
 -- 从数组中删除指定值，返回删除的值的个数
-function table.removebyvalue(array, value, removeall)
+local function removebyvalue(array, value, removeall)
     local remove_count = 0
 	for i = #array, 1, -1 do
 		if array[i] == value then
@@ -230,3 +230,5 @@ table.filter = filter
 table.choose = choose
 table.circulator = circulator
 table.dump = dump
+table.removebyvalue = removebyvalue
+table.remove_value = removebyvalue

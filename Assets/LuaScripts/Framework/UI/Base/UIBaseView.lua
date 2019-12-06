@@ -29,11 +29,22 @@ local function __init(self, holder, var_arg, model, ctrl)
 	else 
 		self.model = model
 	end
-	
+
+	-- ViewModel
+	self.Binder = PropertyBinder.New()
+	self.viewModelProperty = BindableProperty.New()
 	-- 窗口画布
 	self.canvas = nil
 	-- 窗口基础order，窗口内添加的其它canvas设置的order都以它做偏移
 	self.base_order = 0
+end
+
+local function SetBindingContext(self, viewModel)
+	self.viewModelProperty.Value = viewModel
+end
+
+local function GetBindingContext(self)
+	return self.viewModelProperty.Value
 end
 
 -- 创建：资源加载完毕
@@ -48,6 +59,13 @@ local function OnCreate(self)
 	self.rectTransform.offsetMin = Vector2.zero
 	self.rectTransform.localScale = Vector3.one
 	self.rectTransform.localPosition = Vector3.zero
+
+	table.insert(self.viewModelProperty.OnValueChanged, handlerEx(self.OnBindingContextChanged, self))
+end
+
+local function OnBindingContextChanged(self,oldValue, newValue)
+	self.Binder:Unbind(oldValue)
+	self.Binder:Bind(newValue)
 end
 
 -- 打开：窗口显示
@@ -108,6 +126,11 @@ local function OnDestroy(self)
 	self.model = nil
 	self.ctrl = nil
 	self.__ui_callback = nil
+
+	self:SetBindingContext(nil)
+	self.Binder = nil
+	table.remove_value(self.viewModelProperty.OnValueChanged, handlerEx(self.OnBindingContextChanged, self))
+
 	base.OnDestroy(self)
 end
 
@@ -120,5 +143,7 @@ UIBaseView.OnDisable = OnDisable
 UIBaseView.AddUIListener = AddUIListener
 UIBaseView.RemoveUIListener = RemoveUIListener
 UIBaseView.OnDestroy = OnDestroy
-
+UIBaseView.SetBindingContext = SetBindingContext
+UIBaseView.GetBindingContext = GetBindingContext
+UIBaseView.OnBindingContextChanged = OnBindingContextChanged
 return UIBaseView

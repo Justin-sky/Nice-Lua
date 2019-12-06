@@ -41,6 +41,7 @@ local function ClickOnLoginBtn(self)
 	local name = self.account_input:GetText()
 	local password = self.password_input:GetText()
 	self.ctrl:LoginServer(name, password)
+
 end
 
 local function OnCreate(self)
@@ -70,7 +71,7 @@ local function OnCreate(self)
 	end)
 	-- 使用方式二：私有函数、成员函数绑定
 	self.login_btn:SetOnClick(self, ClickOnLoginBtn)
-	
+
 	-- 以下为UI特效层级测试代码
 	local effect1_config = EffectConfig.UIPetRankYellow
 	local effect2_config = EffectConfig.UITaskFinish
@@ -88,7 +89,7 @@ local function OnCreate(self)
 	self:AddComponent(UICanvas, test_bottom_canvas_path, 1)
 	self:AddComponent(UICanvas, test_uieffect2_path, 3)
 	self:AddComponent(UICanvas, test_top_canvas_path, 5)
-	
+
 	-- 以下为计时器、更新函数、协程的测试代码
 	self.timer_value = 0
 	self.update_value = 0
@@ -116,64 +117,65 @@ local function OnCreate(self)
 			self.test_coroutine_text:SetText(tostring(string.format("%.3f", self.coroutine_value)))
 		end
 	end)
+
 end
 
-local function OnEnable(self)
-	base.OnEnable(self)
-	self:OnRefresh()
-end
+	local function OnEnable(self)
+		base.OnEnable(self)
+		self:OnRefresh()
+	end
 
--- Update测试
-local function Update(self)
-	self.update_value = self.update_value + Time.deltaTime
-	self.test_updater_text:SetText(tostring(string.format("%.3f", self.update_value)))
-end
+	-- Update测试
+	local function Update(self)
+		self.update_value = self.update_value + Time.deltaTime
+		self.test_updater_text:SetText(tostring(string.format("%.3f", self.update_value)))
+	end
 
-local function OnRefreshServerInfo(self)
-	self.server_text:SetText(self.model.area_name.." "..self.model.server_name)
-end
+	local function OnRefreshServerInfo(self)
+		self.server_text:SetText(self.model.area_name.." "..self.model.server_name)
+	end
 
-local function OnRefresh(self)
-	-- 各组件刷新
-	self.app_version_text:SetText("游戏版本号："..self.model.client_app_ver)
-	self.res_version_text:SetText("资源版本号："..self.model.client_res_ver)
-	self.account_input:SetText(self.model.account)
-	self.password_input:SetText(self.model.password)
-	OnRefreshServerInfo(self)
-end
+	local function OnRefresh(self)
+		-- 各组件刷新
+		self.app_version_text:SetText("游戏版本号："..self.model.client_app_ver)
+		self.res_version_text:SetText("资源版本号："..self.model.client_res_ver)
+		--self.account_input:SetText(self.model.account)
+		self.password_input:SetText(self.model.password)
+		OnRefreshServerInfo(self)
+	end
 
 
-local function OnAddListener(self)
-	base.OnAddListener(self)
-	-- UI消息注册
-	self:AddUIListener(UIMessageNames.UILOGIN_ON_SELECTED_SVR_CHG, OnRefreshServerInfo)
-end
+	local function OnAddListener(self)
+		base.OnAddListener(self)
+		-- UI消息注册
+		self:AddUIListener(UIMessageNames.UILOGIN_ON_SELECTED_SVR_CHG, OnRefreshServerInfo)
+	end
 
-local function OnRemoveListener(self)
-	base.OnRemoveListener(self)
-	-- UI消息注销
-	self:RemoveUIListener(UIMessageNames.UILOGIN_ON_SELECTED_SVR_CHG, OnRefreshServerInfo)
-end
+	local function OnRemoveListener(self)
+		base.OnRemoveListener(self)
+		-- UI消息注销
+		self:RemoveUIListener(UIMessageNames.UILOGIN_ON_SELECTED_SVR_CHG, OnRefreshServerInfo)
+	end
 
-local function OnDestroy(self)
-	self.app_version_text = nil
-	self.res_version_text = nil
-	self.server_text = nil
-	self.account_input = nil
-	self.password_input = nil
-	self.server_select_btn = nil
-	self.login_btn = nil
-	-- 测试代码
-	self.timer:Stop()
-	base.OnDestroy(self)
-end
+	local function OnDestroy(self)
+		self.app_version_text = nil
+		self.res_version_text = nil
+		self.server_text = nil
+		self.account_input = nil
+		self.password_input = nil
+		self.server_select_btn = nil
+		self.login_btn = nil
+		-- 测试代码
+		self.timer:Stop()
+		base.OnDestroy(self)
+	end
 
-UILoginView.OnCreate = OnCreate
-UILoginView.OnEnable = OnEnable
-UILoginView.Update = Update
-UILoginView.OnRefresh = OnRefresh
-UILoginView.OnAddListener = OnAddListener
-UILoginView.OnRemoveListener = OnRemoveListener
-UILoginView.OnDestroy = OnDestroy
+	UILoginView.OnCreate = OnCreate
+	UILoginView.OnEnable = OnEnable
+	UILoginView.Update = Update
+	UILoginView.OnRefresh = OnRefresh
+	UILoginView.OnAddListener = OnAddListener
+	UILoginView.OnRemoveListener = OnRemoveListener
+	UILoginView.OnDestroy = OnDestroy
 
 return UILoginView

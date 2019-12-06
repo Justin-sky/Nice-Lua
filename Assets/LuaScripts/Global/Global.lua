@@ -34,6 +34,12 @@ UserData = require "DataCenter.UserData.UserData"
 -- game config
 LangUtil = require "Config.LangUtil"
 
+-- MVVM
+require "Framework.UI.MVVM.Bindable.BindableProperty"
+require "Framework.UI.MVVM.Bindable.ObservableList"
+require "Framework.UI.MVVM.Bindable.ComputeBindableProperty"
+PropertyBinder = require "Framework.UI.MVVM.PropertyBinder"
+
 -- ui base
 UIUtil = require "Framework.UI.Util.UIUtil"
 UIBaseModel = require "Framework.UI.Base.UIBaseModel"
