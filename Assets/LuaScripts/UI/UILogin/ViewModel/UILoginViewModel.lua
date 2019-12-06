@@ -11,17 +11,21 @@
 local UILoginViewModel = BaseClass("UILoginViewModel",UIBaseViewModel)
 
 local function OnCreate(self)
-    self.app_version_text = BindableProperty.New("APP: 1.0")
-    self.res_version_text = BindableProperty.New("Res: 9982")
-    self.server_text = BindableProperty.New("Choose Server")
+    self.app_version_text = BindableProperty.New()
+    self.res_version_text = BindableProperty.New()
+    self.server_text = BindableProperty.New()
 
-    self.account_input = BindableProperty.New("justin")
-    self.password_input = BindableProperty.New("1")
+    self.account_input = BindableProperty.New()
+    self.password_input = BindableProperty.New()
 
 end
 
-local function UpdateData(self,name)
-
+local function UpdateData(self,data)
+    if(data.app_version_text) then self.app_version_text.Value = data.app_version_text end
+    if(data.res_version_text) then self.res_version_text.Value = data.res_version_text end
+    if(data.server_text) then self.server_text.Value = data.server_text end
+    if(data.account_input) then self.account_input.Value = data.account_input end
+    if(data.password_input) then self.password_input.Value = data.password_input end
 end
 
 UILoginViewModel.OnCreate = OnCreate

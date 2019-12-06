@@ -43,7 +43,7 @@ local function ClickOnLoginBtn(self)
 	local password =self.viewModelProperty.Value["password_input"].Value
 	print("user: "..name.." pwd: "..password)
 
-	--self.ctrl:LoginServer(name, password)
+	self.ctrl:LoginServer(name, password)
 
 end
 
@@ -144,23 +144,30 @@ end
 
 -- Update测试
 local function Update(self)
-	--update viewmodel..test
-	--self.viewModel:UpdateData()
 
 	self.update_value = self.update_value + Time.deltaTime
 	self.test_updater_text:SetText(tostring(string.format("%.3f", self.update_value)))
 end
 
 local function OnRefreshServerInfo(self)
-	self.server_text:SetText(self.model.area_name.." "..self.model.server_name)
+	local data = {
+		server_text=self.model.area_name.." "..self.model.server_name,
+	}
+	self.viewModelProperty.Value:UpdateData(data)
 end
 
 local function OnRefresh(self)
 	-- 各组件刷新
-	--self.app_version_text:SetText("游戏版本号："..self.model.client_app_ver)
-	--self.res_version_text:SetText("资源版本号："..self.model.client_res_ver)
-	--self.account_input:SetText(self.model.account)
-	--self.password_input:SetText(self.model.password)
+
+	local data = {
+		app_version_text="app: 2.0",
+		res_version_text="res: 87",
+		server_text="server",
+		account_input="Justin",
+		password_input="123456",
+	}
+	self.viewModelProperty.Value:UpdateData(data)
+
 	OnRefreshServerInfo(self)
 end
 
