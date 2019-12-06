@@ -8,7 +8,7 @@
 --]]
 
 
-local UILoginItemViewModel = BaseClass("UILoginItemViewModel")
+local UILoginItemViewModel = BaseClass("UILoginItemViewModel",UIBaseViewModel)
 
 
 local function OnCreate(self,age)

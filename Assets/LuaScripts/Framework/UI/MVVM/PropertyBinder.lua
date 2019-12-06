@@ -25,7 +25,8 @@ local function getProperty(viewModel, path)
     return propertyPath, property[path[#path]]
 end
 
-local function OnCreate(self, view)
+-- 如非必要，别重写构造函数，使用OnCreate初始化
+local function __init(self, view)
     self.view = view
     self._binders = {} --function(viewModel)
     self._unbinders = {} --function(viewModel)
@@ -138,7 +139,7 @@ local function Unbind(self, viewModel)
     end
 end
 
-PropertyBinder.OnCreate = OnCreate
+PropertyBinder.__init = __init
 PropertyBinder.Add = Add
 PropertyBinder.AddEx = AddEx
 PropertyBinder.RegisterEvent = RegisterEvent

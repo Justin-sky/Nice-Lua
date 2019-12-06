@@ -14,7 +14,7 @@ local base = UIBaseContainer
 
 -- 构造函数：必须把基类需要的所有参数列齐---即使在这里不用，提高代码可读性
 -- 子类别再写构造函数，初始化工作放OnCreate
-local function __init(self, holder, var_arg, model, ctrl)
+local function __init(self, holder, var_arg, model, ctrl, viewModel)
 	assert(model ~= nil)
 	assert(ctrl ~= nil)
 	self.ctrl = ctrl
@@ -26,25 +26,23 @@ local function __init(self, holder, var_arg, model, ctrl)
 				error("You can't write model derectly!", 2)
 			end
 		})
-	else 
+	else
 		self.model = model
 	end
 
 	-- ViewModel
-	self.Binder = PropertyBinder.New()
+	self.Binder = PropertyBinder.New(self)
 	self.viewModelProperty = BindableProperty.New()
+
+	if(viewModel~=nil) then
+		self.viewModelProperty.Value = viewModel
+
+	end
+
 	-- 窗口画布
 	self.canvas = nil
 	-- 窗口基础order，窗口内添加的其它canvas设置的order都以它做偏移
 	self.base_order = 0
-end
-
-local function SetBindingContext(self, viewModel)
-	self.viewModelProperty.Value = viewModel
-end
-
-local function GetBindingContext(self)
-	return self.viewModelProperty.Value
 end
 
 -- 创建：资源加载完毕
@@ -63,9 +61,24 @@ local function OnCreate(self)
 	table.insert(self.viewModelProperty.OnValueChanged, handlerEx(self.OnBindingContextChanged, self))
 end
 
+local function BindAll(self)
+	self.Binder:Bind(self.viewModelProperty.Value)
+end
+
+-- Binding 上下文改变时触发
 local function OnBindingContextChanged(self,oldValue, newValue)
 	self.Binder:Unbind(oldValue)
 	self.Binder:Bind(newValue)
+end
+
+-- 修改viewModel
+local function SetBindingContext(self, viewModel)
+	self.viewModelProperty.Value = viewModel
+end
+
+-- 获取viewModel
+local function GetBindingContext(self)
+	return self.viewModelProperty.Value
 end
 
 -- 打开：窗口显示
@@ -146,4 +159,6 @@ UIBaseView.OnDestroy = OnDestroy
 UIBaseView.SetBindingContext = SetBindingContext
 UIBaseView.GetBindingContext = GetBindingContext
 UIBaseView.OnBindingContextChanged = OnBindingContextChanged
+UIBaseView.BindAll = BindAll
+
 return UIBaseView

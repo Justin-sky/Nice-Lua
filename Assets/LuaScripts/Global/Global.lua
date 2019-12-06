@@ -47,6 +47,7 @@ UIBaseCtrl = require "Framework.UI.Base.UIBaseCtrl"
 UIBaseComponent = require "Framework.UI.Base.UIBaseComponent"
 UIBaseContainer = require "Framework.UI.Base.UIBaseContainer"
 UIBaseView = require "Framework.UI.Base.UIBaseView"
+UIBaseViewModel = require "Framework.UI.Base.UIBaseViewModel"
 
 -- ui component
 UILayer = require "Framework.UI.Component.UILayer"

@@ -16,6 +16,8 @@ local UIWindow = {
 	Ctrl = UIBaseCtrl,
 	-- View实例
 	View = UIBaseView,
+	-- ViewModel实例
+	ViewModel = UIBaseViewModel,
 	-- 是否激活
 	Active = false,
 	-- 预设路径

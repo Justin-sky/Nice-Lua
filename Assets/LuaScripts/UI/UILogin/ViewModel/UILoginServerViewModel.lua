@@ -1,4 +1,4 @@
-local UILoginServerViewModel = BaseClass("UILoginServerViewModel")
+local UILoginServerViewModel = BaseClass("UILoginServerViewModel", UIBaseViewModel)
 
 
 local function OnCreate(self)

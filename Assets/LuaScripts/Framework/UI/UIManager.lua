@@ -118,9 +118,18 @@ local function InitWindow(self, ui_name, window)
 	if config.Ctrl then
 		window.Ctrl = config.Ctrl.New(window.Model)
 	end
-	if config.View then
-		window.View = config.View.New(layer, window.Name, window.Model, window.Ctrl)
+	if config.ViewModel then
+		window.ViewModel = config.ViewModel.New(ui_name)
 	end
+	if config.View then
+		if config.ViewModel then
+			window.View = config.View.New(layer, window.Name, window.Model, window.Ctrl, window.ViewModel)
+		else
+			window.View = config.View.New(layer, window.Name, window.Model, window.Ctrl)
+		end
+
+	end
+
 	window.Active = false
 	window.Layer = layer
 	window.PrefabPath = config.PrefabPath
