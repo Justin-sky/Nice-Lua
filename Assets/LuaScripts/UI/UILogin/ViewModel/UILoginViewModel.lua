@@ -11,9 +11,9 @@
 local UILoginViewModel = BaseClass("UILoginViewModel",UIBaseViewModel)
 
 local function OnCreate(self)
-    print("UILogin View Model OnCreate..................")
+
     self.account_input = BindableProperty.New("justin")
-    self.password_input = BindableProperty.New()
+    self.password_input = BindableProperty.New("1")
 
 end
 

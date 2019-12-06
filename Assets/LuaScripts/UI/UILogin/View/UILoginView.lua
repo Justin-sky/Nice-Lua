@@ -41,6 +41,8 @@ local test_coroutine_path = "TestCoroutine"
 local function ClickOnLoginBtn(self)
 	local name = self.account_input:GetText()
 	local password = self.password_input:GetText()
+	print("user: "..name.." pwd: "..password)
+	print(self.viewModelProperty.Value["account_input"].Value)
 	--self.ctrl:LoginServer(name, password)
 
 end
@@ -51,14 +53,11 @@ local function OnCreate(self)
 	self.app_version_text = self:AddComponent(UIText, app_version_text_path)
 	self.res_version_text = self:AddComponent(UIText, res_version_text_path)
 	self.server_text = self:AddComponent(UIText, server_text_path)
-	self.account_input = self:AddComponent(UIInput, account_input_path)
-	self.password_input = self:AddComponent(UIInput, password_input_path)
+	self.account_input = self:AddComponent(UIInput, account_input_path, self.Binder, "account_input")
+	self.password_input = self:AddComponent(UIInput, password_input_path, self.Binder, "password_input")
 	self.server_select_btn = self:AddComponent(UIButton, server_select_btn_path)
 	self.login_btn = self:AddComponent(UIButton, login_btn_path)
 
-	self.Binder:Add("account_input", function (old, new)
-		self.account_input:SetText(new)
-	end)
 
 	--长按事件
 	do
@@ -161,7 +160,7 @@ local function OnRefresh(self)
 	self.app_version_text:SetText("游戏版本号："..self.model.client_app_ver)
 	self.res_version_text:SetText("资源版本号："..self.model.client_res_ver)
 	--self.account_input:SetText(self.model.account)
-	self.password_input:SetText(self.model.password)
+	--self.password_input:SetText(self.model.password)
 	OnRefreshServerInfo(self)
 end
 

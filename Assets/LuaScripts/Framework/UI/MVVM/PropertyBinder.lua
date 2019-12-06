@@ -32,6 +32,10 @@ local function __init(self, view)
     self._unbinders = {} --function(viewModel)
 end
 
+local function GetView(self)
+    return self.view
+end
+
 local  function Add(self, name, valueChangedHandler)
     local registerFunc = function(viewModel, bindableProperty)
         table.insert(bindableProperty.OnValueChanged, valueChangedHandler)
@@ -145,5 +149,6 @@ PropertyBinder.AddEx = AddEx
 PropertyBinder.RegisterEvent = RegisterEvent
 PropertyBinder.Bind = Bind
 PropertyBinder.Unbind = Unbind
+PropertyBinder.GetView = GetView
 
 return PropertyBinder
