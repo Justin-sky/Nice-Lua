@@ -14,6 +14,12 @@ local function OnCreate(self, binder, property_name)
 	-- Unity侧原生组件
 	self.unity_uiinput = UIUtil.FindInput(self.transform)
 	self.view = binder:GetView()
+
+	if not IsNull(self.unity_uiinput) and IsNull(self.gameObject) then
+		self.gameObject = self.unity_uiinput.gameObject
+		self.transform = self.unity_uiinput.transform
+	end
+
 	--添加双向绑定
 	if(binder~=nil and property_name~=nil and not IsNull(self.unity_uiinput)) then
 		--ViewModel => Input
@@ -30,10 +36,6 @@ local function OnCreate(self, binder, property_name)
 		self.unity_uiinput.onEndEdit:AddListener(self.__onEditEnd )
 	end
 
-	if not IsNull(self.unity_uiinput) and IsNull(self.gameObject) then
-		self.gameObject = self.unity_uiinput.gameObject
-		self.transform = self.unity_uiinput.transform
-	end
 end
 
 

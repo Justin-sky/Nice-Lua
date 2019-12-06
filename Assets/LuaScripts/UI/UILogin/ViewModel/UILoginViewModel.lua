@@ -11,6 +11,9 @@
 local UILoginViewModel = BaseClass("UILoginViewModel",UIBaseViewModel)
 
 local function OnCreate(self)
+    self.app_version_text = BindableProperty.New("APP: 1.0")
+    self.res_version_text = BindableProperty.New("Res: 9982")
+    self.server_text = BindableProperty.New("Choose Server")
 
     self.account_input = BindableProperty.New("justin")
     self.password_input = BindableProperty.New("1")

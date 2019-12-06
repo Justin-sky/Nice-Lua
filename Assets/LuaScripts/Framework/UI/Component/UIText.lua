@@ -10,7 +10,7 @@ local UIText = BaseClass("UIText", UIBaseComponent)
 local base = UIBaseComponent
 
 -- 创建
-local function OnCreate(self)
+local function OnCreate(self, binder, property_name)
 	base.OnCreate(self)
 	-- Unity侧原生组件
 	self.unity_uitext = UIUtil.FindText(self.transform)
@@ -18,6 +18,19 @@ local function OnCreate(self)
 	if IsNull(self.unity_uitext) and not IsNull(self.gameObject) then
 		self.gameObject = self.unity_uitext.gameObject
 		self.transform = self.unity_uitext.transform
+	end
+
+	--添加绑定
+	if(binder~=nil and property_name~=nil and not IsNull(self.unity_uitext)) then
+		--ViewModel => Input
+		binder:Add(property_name, function (oldValue, newValue)
+			print("=============== text=============")
+			print(newValue)
+
+			if oldValue ~= newValue then
+				self:SetText(newValue)
+			end
+		end)
 	end
 end
 
