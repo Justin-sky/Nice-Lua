@@ -2,9 +2,9 @@
 
 Road Map ：
 
-* 资源管理修改为Addressables
+* 资源管理修改为Addressables（完成）
 * UI框架支持MVVM
-* 渲染管线修改为URP
+* 渲染管线修改为URP（完成）
 * 网络模块增强，添加断线重连，弱网络处理等
 * 新手引导系统
 * 任务系统
