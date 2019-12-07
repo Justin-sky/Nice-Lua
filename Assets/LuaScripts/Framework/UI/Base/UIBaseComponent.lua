@@ -88,7 +88,15 @@ local function OnCreate(self)
 	else
 		error("OnCreate : error params list! "..type(self.__var_arg).." "..tostring(self.__var_arg))
 	end
-	self.__name = self.gameObject.name
+	--[[
+	   创建组件时，如果传入的参数是string, 说明是指定路径，设置组件名为路径，如果不这样设置，两不同路径相同组件创建时将差别是重复
+	]]
+	if type(self.__var_arg) == "string" then
+		self.__name = self.__var_arg
+	else
+		self.__name = self.gameObject.name
+	end
+
 	self.rectTransform = UIUtil.FindComponent(self.transform, typeof(CS.UnityEngine.RectTransform))
 	self.__var_arg = nil
 end
