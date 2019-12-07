@@ -56,7 +56,7 @@ local function OnCreate(self)
 	self.account_input = self:AddComponent(UIInput, account_input_path, self.Binder, "account_input")
 	self.password_input = self:AddComponent(UIInput, password_input_path, self.Binder, "password_input")
 	self.server_select_btn = self:AddComponent(UIButton, server_select_btn_path)
-	self.login_btn = self:AddComponent(UIButton, login_btn_path)
+	self.login_btn = self:AddComponent(UIButton, login_btn_path, self.Binder, "login_btn_click")
 
 
 	--长按事件
@@ -77,7 +77,7 @@ local function OnCreate(self)
 			self.ctrl:ChooseServer()
 		end)
 		-- 使用方式二：私有函数、成员函数绑定
-		self.login_btn:SetOnClick(self, ClickOnLoginBtn)
+		--self.login_btn:SetOnClick(self, ClickOnLoginBtn)
 	end
 
 	-- 以下为UI特效层级测试代码

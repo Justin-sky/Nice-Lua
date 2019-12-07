@@ -18,6 +18,11 @@ local function OnCreate(self)
     self.account_input = BindableProperty.New()
     self.password_input = BindableProperty.New()
 
+    self.login_btn_click = {
+        OnClick = function()
+            print("================================ login btn click............................")
+        end
+    }
 end
 
 local function UpdateData(self,data)

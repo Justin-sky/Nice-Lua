@@ -24,9 +24,6 @@ local function OnCreate(self, binder, property_name)
 	if(binder~=nil and property_name~=nil and not IsNull(self.unity_uitext)) then
 		--ViewModel => Input
 		binder:Add(property_name, function (oldValue, newValue)
-			print("=============== text=============")
-			print(newValue)
-
 			if oldValue ~= newValue then
 				self:SetText(newValue)
 			end

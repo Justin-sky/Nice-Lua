@@ -12,17 +12,33 @@ local UIButton = BaseClass("UIButton", UIBaseContainer)
 local base = UIBaseContainer
 
 -- 创建
-local function OnCreate(self, relative_path)
+local function OnCreate(self, binder, property_name, relative_path)
 	base.OnCreate(self)
 	-- Unity侧原生组件
 	self.unity_uibutton = UIUtil.FindButton(self.transform, relative_path)
 	-- 记录点击回调
 	self.__onclick = nil
-	
+
 	if IsNull(self.unity_uibutton) and IsNull(self.gameObject) then
 		self.gameObject = self.unity_uibutton.gameObject
 		self.transform = self.unity_uibutton.transform
 	end
+
+	if(binder == nil) then return end
+	--绑定事件
+	binder:RegisterEvent(function(viewModel, property)
+		self:SetOnClick(function ()
+			local onClick = property['OnClick']
+			if onClick == nil then
+				return
+			end
+			onClick()
+		end)
+	end, function()
+		if self.__onclick ~= nil then
+			self.unity_uibutton.onClick:RemoveListener(self.__onclick)
+		end
+	end, property_name)
 end
 
 -- 虚拟点击
