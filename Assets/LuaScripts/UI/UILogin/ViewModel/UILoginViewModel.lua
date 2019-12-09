@@ -20,7 +20,15 @@ local function OnCreate(self)
 
     self.login_btn_click = {
         OnClick = function()
-            print("================================ login btn click............................")
+            print("================================ login btn click 1............................")
+            print(self.account_input)
+            print(self.password_input)
+            print("================================ login btn click 2............................")
+        end
+    }
+    self.server_select_btn = {
+        OnClick = function()
+            print("================================ server select btn click............................")
         end
     }
 end

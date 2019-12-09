@@ -55,7 +55,7 @@ local function OnCreate(self)
 	self.server_text = self:AddComponent(UIText, server_text_path, self.Binder, "server_text")
 	self.account_input = self:AddComponent(UIInput, account_input_path, self.Binder, "account_input")
 	self.password_input = self:AddComponent(UIInput, password_input_path, self.Binder, "password_input")
-	self.server_select_btn = self:AddComponent(UIButton, server_select_btn_path)
+	self.server_select_btn = self:AddComponent(UIButton, server_select_btn_path,self.Binder,"server_select_btn")
 	self.login_btn = self:AddComponent(UIButton, login_btn_path, self.Binder, "login_btn_click")
 
 
@@ -73,9 +73,9 @@ local function OnCreate(self)
 	-- 设置点击回调
 	do
 		-- 使用方式一：闭包绑定
-		self.server_select_btn:SetOnClick(function()
-			self.ctrl:ChooseServer()
-		end)
+		--self.server_select_btn:SetOnClick(function()
+		--	self.ctrl:ChooseServer()
+		--end)
 		-- 使用方式二：私有函数、成员函数绑定
 		--self.login_btn:SetOnClick(self, ClickOnLoginBtn)
 	end

@@ -9,7 +9,7 @@ local UISlider = BaseClass("UISlider", UIBaseComponent)
 local base = UIBaseComponent
 
 -- 创建
-local function OnCreate(self)
+local function OnCreate(self, binder, property_name)
 	base.OnCreate(self)
 	-- Unity侧原生组件
 	self.unity_uislider = UIUtil.FindSlider(self.transform)
@@ -17,6 +17,17 @@ local function OnCreate(self)
 	if not IsNull(self.unity_uislider) and IsNull(self.gameObject) then
 		self.gameObject = self.unity_uislider.gameObject
 		self.transform = self.unity_uislider.transform
+	end
+
+	--添加双向绑定
+	if(binder~=nil and property_name~=nil and not IsNull(self.unity_uiinput)) then
+		--ViewModel => Input
+		binder:Add(property_name, function (oldValue, newValue)
+			if oldValue ~= newValue then
+				self:SetValue(newValue)
+			end
+		end)
+
 	end
 end
 
