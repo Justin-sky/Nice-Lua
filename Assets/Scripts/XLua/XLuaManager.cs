@@ -173,14 +173,10 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         scriptPath.Append(filepath.Replace(".", "/")).Append(".lua");
 
 #if UNITY_EDITOR
-        if (AssetBundleConfig.IsEditorMode)
-        {
-
-            var scriptDir = Path.Combine(Application.dataPath, luaScriptsFolder);
-            var luaPath = Path.Combine(scriptDir, scriptPath.ToString());
-            // Logger.Log("Load lua script : " + luaPath);
-            return GameUtility.SafeReadAllBytes(luaPath);
-        }
+        var scriptDir = Path.Combine(Application.dataPath, luaScriptsFolder);
+        var luaPath = Path.Combine(scriptDir, scriptPath.ToString());
+        // Logger.Log("Load lua script : " + luaPath);
+        return GameUtility.SafeReadAllBytes(luaPath);
 #endif
 
         var luaAddress = scriptPath.Append(".bytes").ToString();
