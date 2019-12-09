@@ -17,8 +17,8 @@ local money_text_path = "ContentRoot/Top/Money/Text"
 local function OnCreate(self)
 	base.OnCreate(self)
 	-- 初始化各个组件
-	self.fighting_btn = self:AddComponent(UIButton, fighting_btn_path)
-	self.logout_btn = self:AddComponent(UIButton, logout_btn_path)
+	self.fighting_btn = self:AddComponent(UIButton, fighting_btn_path, self.Binder, "fighting_btn")
+	self.logout_btn = self:AddComponent(UIButton, logout_btn_path, self.Binder, "logout_btn")
 
 	self.hp_text = self:AddComponent(UIText, hp_text_path, self.Binder, "hp_text")
 	self.mp_text = self:AddComponent(UIText, mp_text_path, self.Binder, "mp_text")
@@ -27,19 +27,7 @@ local function OnCreate(self)
 	-- 调用父类Bind所有属性
 	base.BindAll(self)
 
-	self.fighting_btn:SetOnClick(function()
-		self.ctrl:StartFighting()
-	end)
-	
-	self.logout_btn:SetOnClick(function()
-		self.ctrl:Logout()
-	end)
 
-	-- 初始化 TOP
-	local data = {
-		hp_text=1800,mp_text=800,money_text=120
-	}
-	self.viewModelProperty.Value:UpdateData(data)
 end
 
 local function OnEnable(self)

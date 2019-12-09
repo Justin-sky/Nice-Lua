@@ -20,10 +20,11 @@ local function OnCreate(self)
 	base.OnCreate(self)
 	
 	-- 1、按钮初始化
-	self.back_btn = self:AddComponent(UIButton, back_btn_path)
-	self.confirm_btn = self:AddComponent(UIButton, confirm_btn_path)
+	self.back_btn = self:AddComponent(UIButton, back_btn_path, self.Binder, "back_btn")
+	self.confirm_btn = self:AddComponent(UIButton, confirm_btn_path, self.Binder, "confirm_btn")
 	self.recommend_btn = self:AddComponent(UIToggleButton, recommend_btn_path)
-	
+
+
 	-- 2、区域列表初始化
 	-- A）不继承UIWrapComponent去实现子类，而是直接挂载组件
 	-- B）添加按钮组，area_wrapgroup下所以按钮以UIToggleButton组件实例添加到按钮组
@@ -39,35 +40,26 @@ local function OnCreate(self)
 	-- A）继承UIWrapComponent去实现子类
 	-- B）添加按钮组，area_wrapgroup下所以按钮以UIToggleButton组件实例添加到按钮组
 	self.svr_wrapgroup = self:AddComponent(UIWrapGroup, svr_scroll_content_path, UIServerWrapItem)
-	self.server_list = nil
-	self.selected_server_id = nil
 	self.svr_wrapgroup:AddButtonGroup(UIToggleButton)
 	
-	-- 4、按钮点击回调
-	self.back_btn:SetOnClick(function()
-		self.ctrl:CloseSelf()
-	end)
-	self.confirm_btn:SetOnClick(function()
-		self.ctrl:SetSelectedServer(self.selected_server_id)
-		self.ctrl:CloseSelf()
-	end)
-	
+
 	-- 5、区域列表回调：
 	-- A）area_wrapgroup使用挂载组件的方式，必须注册刷新和按钮点击回调
 	-- B）设置默认选中推荐按钮
 	self.area_wrapgroup:SetOnRefresh(self.OnAreaWrapgroupRefresh, self)
 	self.area_wrapgroup:SetOnClick(self.OnAreaBtngroupClick, self)
 	self.area_wrapgroup:SetOriginal(recommend_btn_virtual_index)
+
+
+	-- 调用父类Bind所有属性
+	base.BindAll(self)
 end
 
 local function OnEnable(self)
 	base.OnEnable(self)
 	
-	-- 获取model层当前选择server
-	self.selected_server_id = self.model.selected_server_id
-	
 	-- 各组件刷新，重置wrapgroup长度，wrapgroup、btngroup复位
-	self.area_wrapgroup:SetLength(table.count(self.model.area_ids))
+	self.area_wrapgroup:SetLength(table.count(self.viewModelProperty.Value["area_ids"]))
 	self.area_wrapgroup:ResetToBeginning()
 end
 
@@ -75,7 +67,7 @@ end
 local function OnAreaWrapgroupRefresh(self, wrap_component, real_index, check)
 	-- 刷新按钮下的文字
 	local text = wrap_component:GetComponent(area_btn_text_path, UIText)
-	local area_id = self.model.area_ids[real_index + 1]
+	local area_id = self.viewModelProperty.Value["area_ids"][real_index + 1]
 	local btn_name = LangUtil.GetServerAreaName(area_id)
 	text:SetText(btn_name)
 end
@@ -85,16 +77,17 @@ local function OnAreaBtngroupClick(self, wrap_component, toggle_btn, virtual_ind
 	if not check then
 		return
 	end
-	
+
 	if virtual_index == recommend_btn_virtual_index then
-		self.server_list = self.model.recommend_servers
+		self.server_list = self.viewModelProperty.Value['recommend_servers']
 	else
-		local area_id = self.model.area_ids[virtual_index + 1]
-		self.server_list = self.model.area_servers[area_id]
+		local area_id = self.viewModelProperty.Value['area_ids'][virtual_index + 1]
+		self.server_list = self.viewModelProperty.Value['area_servers'][area_id]
 	end
 	
 	-- 区域列表回调：UIWrapGroup建立专门脚本UIServerItem刷新示例
-	local selected_server_index = self:ServerID2ServerIndex(self.selected_server_id)
+	local selected_server_id = self.viewModelProperty.Value["selected_server_id"]
+	local selected_server_index = self:ServerID2ServerIndex(selected_server_id)
 	self.svr_wrapgroup:SetLength(table.count(self.server_list))
 	self.svr_wrapgroup:SetOriginal(selected_server_index)
 	self.svr_wrapgroup:ResetToBeginning()
@@ -116,7 +109,12 @@ end
 
 -- 设置选择server
 local function SetSelectedServer(self, server_index)
-	self.selected_server_id = self.server_list[server_index + 1].server_id
+	self.viewModelProperty.Value["selected_server_id"] = self.server_list[server_index + 1].server_id
+end
+
+local function OnDestroy(self)
+	self.server_list = nil
+	base.OnDestroy(self)
 end
 
 UILoginServerView.OnCreate = OnCreate
@@ -125,5 +123,6 @@ UILoginServerView.OnAreaWrapgroupRefresh = OnAreaWrapgroupRefresh
 UILoginServerView.OnAreaBtngroupClick = OnAreaBtngroupClick
 UILoginServerView.ServerID2ServerIndex = ServerID2ServerIndex
 UILoginServerView.SetSelectedServer = SetSelectedServer
+UILoginServerView.OnDestroy = OnDestroy
 
 return UILoginServerView

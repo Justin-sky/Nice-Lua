@@ -9,24 +9,47 @@
 
 
 local UITestMainViewModel = BaseClass("UITestMainViewModel",UIBaseViewModel)
+local base = UIBaseViewModel
 
 local function OnCreate(self)
-    self.hp_text = BindableProperty.New()
-    self.mp_text = BindableProperty.New()
-    self.money_text = BindableProperty.New()
+    self.hp_text = BindableProperty.New(2122)
+    self.mp_text = BindableProperty.New(90999)
+    self.money_text = BindableProperty.New(876787)
 
-
+    self.fighting_btn = {
+        OnClick = function()
+            SceneManager:GetInstance():SwitchScene(SceneConfig.BattleScene)
+        end
+    }
+    self.logout_btn = {
+        OnClick = function()
+            SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
+        end
+    }
 end
 
-local function UpdateData(self,data)
-    if(data.hp_text) then self.hp_text.Value = data.hp_text end
-    if(data.mp_text) then self.mp_text.Value = data.mp_text end
-    if(data.money_text) then self.money_text.Value = data.money_text end
+-- 打开
+local function OnEnable(self)
+    base.OnEnable(self)
+end
 
+-- 关闭
+local function OnDisable(self)
+    base.OnDisable(self)
+    -- 清理成员变量
+end
+
+-- 销毁
+local function OnDistroy(self)
+    base.OnDistroy(self)
+    -- 清理成员变量
 end
 
 UITestMainViewModel.OnCreate = OnCreate
-UITestMainViewModel.UpdateData = UpdateData
+UITestMainViewModel.OnEnable = OnEnable
+UITestMainViewModel.OnDisable = OnDisable
+UITestMainViewModel.OnDistroy = OnDistroy
+
 
 
 return UITestMainViewModel

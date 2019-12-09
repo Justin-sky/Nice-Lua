@@ -111,21 +111,16 @@ local function InitWindow(self, ui_name, window)
 	
 	window.Name = ui_name
 	if self.keep_model[ui_name] then
-		window.Model = self.keep_model[ui_name]
-	elseif config.Model then
-		window.Model = config.Model.New(ui_name)
-	end
-	if config.Ctrl then
-		window.Ctrl = config.Ctrl.New(window.Model)
-	end
-	if config.ViewModel then
+		window.ViewModel = self.keep_model[ui_name]
+	elseif config.ViewModel then
 		window.ViewModel = config.ViewModel.New(ui_name)
 	end
+
 	if config.View then
 		if config.ViewModel then
-			window.View = config.View.New(layer, window.Name, window.Model, window.Ctrl, window.ViewModel)
+			window.View = config.View.New(layer, window.Name, window.ViewModel)
 		else
-			window.View = config.View.New(layer, window.Name, window.Model, window.Ctrl)
+			window.View = config.View.New(layer, window.Name)
 		end
 
 	end
@@ -142,14 +137,15 @@ end
 local function ActivateWindow(self, target, ...)
 	assert(target)
 	assert(target.IsLoading == false, "You can only activate window after prefab locaded!")
-	target.Model:Activate(...)
+
+	target.ViewModel:Activate(...)
 	target.View:SetActive(true)
 	self:Broadcast(UIMessageNames.UIFRAME_ON_WINDOW_OPEN, target)
 end
 
 -- 反激活窗口
 local function Deactivate(self, target)
-	target.Model:Deactivate()
+	target.ViewModel:Deactivate()
 	target.View:SetActive(false)
 	self:Broadcast(UIMessageNames.UIFRAME_ON_WINDOW_CLOSE, target)
 end
@@ -157,8 +153,7 @@ end
 -- 打开窗口：私有，必要时准备资源
 local function InnerOpenWindow(self, target, ...)
 	assert(target)
-	assert(target.Model)
-	assert(target.Ctrl)
+	assert(target.ViewModel)
 	assert(target.View)
 	assert(target.Active == false, "You should close window before open again!")
 	
@@ -193,8 +188,7 @@ end
 -- 关闭窗口：私有
 local function InnerCloseWindow(self, target)
 	assert(target)
-	assert(target.Model)
-	assert(target.Ctrl)
+	assert(target.ViewModel)
 	assert(target.View)
 	if target.Active then
 		Deactivate(self, target)
@@ -307,11 +301,10 @@ local function InnerDestroyWindow(self, ui_name, target, include_keep_model)
 	GameObjectPool:GetInstance():RecycleGameObject(self.windows[ui_name].PrefabPath, target.View.gameObject)
 	if include_keep_model then
 		self.keep_model[ui_name] = nil
-		InnerDelete(target.Model)
+		InnerDelete(target.ViewModel)
 	elseif not self.keep_model[ui_name] then
-		InnerDelete(target.Model)
+		InnerDelete(target.ViewModel)
 	end
-	InnerDelete(target.Ctrl)
 	InnerDelete(target.View)
 	self.windows[ui_name] = nil
 end
@@ -360,7 +353,7 @@ local function SetKeepModel(self, ui_name, keep)
 	local target = self:GetWindow(ui_name)
 	assert(target, "Try to keep a model that window does not exist: "..ui_name)
 	if keep then
-		self.keep_model[target.Name] = target.Model
+		self.keep_model[target.Name] = target.ViewModel
 	else
 		self.keep_model[target.Name] = nil
 	end
@@ -485,7 +478,7 @@ end
 local function WaitForTipResponse(self)
 	local ui_name = UIWindowNames.UINoticeTip
 	local window = self:WaitForViewCreated(ui_name)
-	return window.Model:WaitForResponse()
+	return window.ViewModel:WaitForResponse()
 end
 
 -- 析构函数

@@ -25,7 +25,7 @@ local function OnEnable(self)
 	-- 当前选择的登陆服务器
 	self.selected_server_id = 0
 	
-	self:OnRefresh()
+	--self:OnRefresh()
 end
 
 -- 获取推荐服务器列表
