@@ -25,7 +25,7 @@ local function OnEnable(self)
 	-- 当前选择的登陆服务器
 	self.selected_server_id = 0
 	
-	--self:OnRefresh()
+
 end
 
 -- 获取推荐服务器列表
@@ -71,6 +71,7 @@ local function FetchAreaList(servers)
 end
 
 local function OnRefresh(self)
+
 	local server_data = ServerData:GetInstance()
 	self.recommend_servers = FetchRecommendList(server_data.servers)
 	self.area_ids, self.area_servers = FetchAreaList(server_data.servers)

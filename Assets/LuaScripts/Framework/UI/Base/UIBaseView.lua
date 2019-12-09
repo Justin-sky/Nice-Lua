@@ -76,30 +76,8 @@ local function OnEnable(self)
 	self.base_order = self.holder:PopWindowOder()
 
 	base.OnEnable(self)
-	self:OnAddListener()
 end
 
--- 注册消息
-local function OnAddListener(self)
-end
-
--- 注销消息
-local function OnRemoveListener(self)
-end
-
-local function AddCallback(keeper, msg_name, callback)
-	assert(callback ~= nil)
-	keeper[msg_name] = callback
-end
-
-local function GetCallback(keeper, msg_name)
-	return keeper[msg_name]
-end
-
-local function RemoveCallback(keeper, msg_name, callback)
-	assert(callback ~= nil)
-	keeper[msg_name] = nil
-end
 
 -- 注册UI数据监听事件，别重写
 local function AddUIListener(self, msg_name, callback)
@@ -117,7 +95,6 @@ end
 
 -- 关闭：窗口隐藏
 local function OnDisable(self)
-	self:OnRemoveListener()
 	base.OnDisable(self)
 	self.holder:PushWindowOrder()
 end
@@ -140,8 +117,6 @@ end
 UIBaseView.__init = __init
 UIBaseView.OnCreate = OnCreate
 UIBaseView.OnEnable = OnEnable
-UIBaseView.OnAddListener = OnAddListener
-UIBaseView.OnRemoveListener = OnRemoveListener
 UIBaseView.OnDisable = OnDisable
 UIBaseView.AddUIListener = AddUIListener
 UIBaseView.RemoveUIListener = RemoveUIListener

@@ -108,7 +108,6 @@ local function SetServerInfo(self, select_svr_id)
     if select_svr ~= nil then
         local area_name = LangUtil.GetServerAreaName(select_svr.area_id)
         local server_name = LangUtil.GetServerName(client_data.login_server_id)
-
         self.server_text.Value = area_name..server_name
     end
 end
