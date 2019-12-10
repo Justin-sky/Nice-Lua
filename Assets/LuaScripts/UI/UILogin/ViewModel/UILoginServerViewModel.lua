@@ -3,7 +3,10 @@ local base = UIBaseViewModel
 
 local function OnCreate(self)
 
-    self.selected_server_id = nil
+    self.selected_server_id = 10001
+    self.area_ids = BindableProperty.New()
+    self.area_servers = BindableProperty.New()
+    self.recommend_servers = BindableProperty.New()
 
     self.back_btn = {
         OnClick = function()
@@ -38,11 +41,11 @@ local function OnEnable(self)
     base.OnEnable(self)
     -- 窗口关闭时可以清理的成员变量放这
     -- 推荐服务器列表
-    self.recommend_servers = nil
+    self.recommend_servers.Value = nil
     -- 区域id列表
-    self.area_ids = nil
+    self.area_ids.Value = nil
     -- 所有区域下的服务器列表
-    self.area_servers = nil
+    self.area_servers.Value = nil
     -- 当前选择的登陆服务器
     self.selected_server_id = 0
 
@@ -93,8 +96,9 @@ end
 
 local function OnRefresh(self)
     local server_data = ServerData:GetInstance()
-    self.recommend_servers = FetchRecommendList(server_data.servers)
-    self.area_ids, self.area_servers = FetchAreaList(server_data.servers)
+    self.recommend_servers.Value = FetchRecommendList(server_data.servers)
+
+    self.area_ids.Value, self.area_servers.Value = FetchAreaList(server_data.servers)
     self.selected_server_id = ClientData:GetInstance().login_server_id
 
 end
@@ -103,9 +107,9 @@ end
 local function OnDisable(self)
     base.OnDisable(self)
     -- 清理成员变量
-    self.recommend_servers = nil
-    self.area_ids = nil
-    self.area_servers = nil
+    self.recommend_servers.Value = nil
+    self.area_ids.Value = nil
+    self.area_servers.Value = nil
     self.selected_server_id = 0
 end
 
