@@ -35,6 +35,13 @@ local function OnCreate(self)
 	self.area_wrapgroup:AddButtonGroup(UIToggleButton)
 	self.area_wrapgroup:AddButton(UIToggleButton, self.recommend_btn, recommend_btn_virtual_index)
 	self.area_wrapgroup:SetOriginal(recommend_btn_virtual_index)
+	--推荐按钮在此接收事件
+	self.area_wrapgroup:SetOnClick(function (wrap_component, toggle_btn, virtual_index, check)
+		if check == true and virtual_index == recommend_btn_virtual_index then
+			self:SetSelectedArea(recommend_btn_virtual_index)
+		end
+	end)
+
 
 	-- 3、服务器列表初始化
 	-- A）继承UIWrapComponent去实现子类

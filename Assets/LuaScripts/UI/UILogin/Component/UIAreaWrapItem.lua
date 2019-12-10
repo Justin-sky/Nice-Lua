@@ -24,11 +24,8 @@ end
 
 -- 组件添加了按钮组，则按钮被点击时回调该函数
 local function OnClick(self, toggle_btn, real_index, check)
-
     if check then
         self.view:SetSelectedArea(real_index)
-    else
-        self.view:SetSelectedArea(-1)
     end
 end
 
