@@ -7,8 +7,6 @@
 local UIBattleMain = {
 	Name = UIWindowNames.UIBattleMain,
 	Layer = UILayers.BackgroudLayer,
-	Model = nil,
-	Ctrl = require "UI.UIBattle.Controller.UIBattleMainCtrl",
 	View = require "UI.UIBattle.View.UIBattleMainView",
 	ViewModel = require "UI.UIBattle.ViewModel.UIBattleMainViewModel",
 	PrefabPath = "UI/Prefabs/View/UIBattleMain.prefab",
