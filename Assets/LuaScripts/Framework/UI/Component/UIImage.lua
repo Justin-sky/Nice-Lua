@@ -9,16 +9,27 @@ local UIImage = BaseClass("UIImage", UIBaseComponent)
 local base = UIBaseComponent
 
 -- 创建
-local function OnCreate(self, atlas_config, original_sprite_name)
+local function OnCreate(self, atlas_config, binder, property_name)
 	base.OnCreate(self)
 	-- Unity侧原生组件
 	self.unity_uiimage = UIUtil.FindImage(self.transform)
 	self.atlas_config = atlas_config
-	self.sprite_name = original_sprite_name
-	
+
 	if IsNull(self.unity_uiimage) and not IsNull(self.gameObject) then
 		self.gameObject = self.unity_uiimage.gameObject
 		self.transform = self.unity_uiimage.transform
+	end
+
+	--添加绑定
+	if(binder~=nil and property_name~=nil and not IsNull(self.unity_uiimage)) then
+		--ViewModel => Input
+		binder:Add(property_name, function (oldValue, newValue)
+			if oldValue ~= newValue then
+				if(newValue ~= nil) then
+					self:SetSpriteName(newValue)
+				end
+			end
+		end)
 	end
 end
 

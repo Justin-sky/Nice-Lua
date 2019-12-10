@@ -25,7 +25,7 @@ local function OnCreate(self)
 	-- 组件初始化
 	self.server_name_text = self:AddComponent(UIText, "SvrName")
 	self.server_choose_cmp = self:AddComponent(UIBaseComponent, "SvrChoose")
-	self.server_state_img = self:AddComponent(UIImage, "SvrState", AtlasConfig.Login, GetServerStateSpriteName())
+	self.server_state_img = self:AddComponent(UIImage, "SvrState", AtlasConfig.Login)
 end
 
 -- 组件被复用时回调该函数，执行组件的刷新

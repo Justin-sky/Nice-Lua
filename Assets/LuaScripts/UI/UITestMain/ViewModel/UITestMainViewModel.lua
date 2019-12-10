@@ -16,6 +16,10 @@ local function OnCreate(self)
     self.mp_text = BindableProperty.New(90999)
     self.money_text = BindableProperty.New(876787)
 
+    self.hp_image = BindableProperty.New("login2_05.png" )
+    self.mp_image = BindableProperty.New("login2_10.png")
+    self.money_image = BindableProperty.New("login2_11.png")
+
     self.fighting_btn = {
         OnClick = function()
             SceneManager:GetInstance():SwitchScene(SceneConfig.BattleScene)
