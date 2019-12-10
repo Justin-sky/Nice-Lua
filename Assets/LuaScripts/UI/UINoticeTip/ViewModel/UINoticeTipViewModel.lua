@@ -3,8 +3,8 @@
 -- UILNoticeTip模型层
 --]]
 
-local UILNoticeTip = BaseClass("UILNoticeTip", UIBaseModel)
-local base = UIBaseModel
+local UILNoticeTip = BaseClass("UILNoticeTip", UIBaseViewModel)
+local base = UIBaseViewModel
 
 -- 创建
 local function OnCreate(self)

@@ -7,8 +7,7 @@
 local UINoticeTip = {
 	Name = UIWindowNames.UINoticeTip,
 	Layer = UILayers.TipLayer,
-	Model = require "UI.UINoticeTip.Model.UINoticeTipModel",
-	Ctrl = nil,
+	ViewModel = require "UI.UINoticeTip.ViewModel.UINoticeTipViewModel",
 	View = require "UI.UINoticeTip.View.UINoticeTipView",
 	PrefabPath = "UI/Prefabs/Common/UINoticeTip.prefab",
 }
