@@ -31,9 +31,9 @@ local base = UIBaseContainer
 
 -- 创建
 local function OnCreate(self, wrap_class, ...)
-	assert(type(wrap_class) == "table" and wrap_class.__ctype == ClassType.class, "wrap_class err : "..tostring(wrap_class))
+	assert(type(wrap_class) == "table" and wrap_class.__ctype == ClassType.class, "wrap_class err : " .. tostring(wrap_class))
 	base.OnCreate(self)
-	
+
 	-- Unity侧原生组件
 	self.unity_scrollrect = self.transform:GetComponentInParent(typeof(CS.UnityEngine.UI.ScrollRect))
 	self.unity_grid = self.transform:GetComponent(typeof(CS.UnityEngine.UI.GridLayoutGroup))
@@ -42,9 +42,9 @@ local function OnCreate(self, wrap_class, ...)
 	assert(not IsNull(self.unity_grid), "No found UnityEngine.UI.GridLayoutGroup!")
 	self.unity_grid.enabled = false
 	if not IsNull(self.unity_sizefitter) then
-		self.unity_sizefitter.enabled = fasle
+		self.unity_sizefitter.enabled = false
 	end
-	
+
 	-- 由原生组件配置初始化数据
 	-- 尺寸、间隔、边框--->左上角顶点偏移，粘合边框的Item尺寸
 	local cell_size = self.unity_grid.cellSize
@@ -60,17 +60,13 @@ local function OnCreate(self, wrap_class, ...)
 	self.horizontal = self.unity_scrollrect.horizontal
 	-- 通过四角坐标（左下、左上、右上、右下）计算scroll_rect中心点在局部坐标系中的坐标
 	self.rectTransform.anchoredPosition = Vector2.zero
-	local scroll_rect_trans = self.unity_scrollrect.transform:GetComponent(typeof(CS.UnityEngine.RectTransform))
-	local scroll_world_corners = { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero}
-	scroll_rect_trans:GetWorldCorners(scroll_world_corners)
-	local bottom_left = self.transform:InverseTransformPoint(scroll_world_corners[1])
-	local top_right = self.transform:InverseTransformPoint(scroll_world_corners[3])
-	
+	local maskSize = self.unity_scrollrect.transform:GetComponent(typeof(CS.UnityEngine.RectTransform)).sizeDelta
+
 	self.center = Vector2.zero
 	self.center_original = Vector2.zero
-	self.center_original.x = (bottom_left.x + top_right.x) / 2
-	self.center_original.y = (bottom_left.y + top_right.y) / 2
-	
+	self.center_original.x = maskSize.x / 2
+	self.center_original.y = -maskSize.y / 2
+
 	-- 其它成员数据
 	-- 最小索引
 	self.min_index = 0
@@ -82,7 +78,7 @@ local function OnCreate(self, wrap_class, ...)
 	self.__btngroup = nil
 	-- 当前选中虚拟索引
 	self.__cur_check_index = nil
-	
+
 	-- 自动添加当前挂载节点下的所有孩子
 	local child_count = self.transform.childCount
 	for i = 0, child_count - 1 do
@@ -96,7 +92,7 @@ local function OnCreate(self, wrap_class, ...)
 		self.extents = self.cell_size.y * count
 	end
 	self.half_extents = self.extents / 2
-	
+
 	-- 回调
 	-- 注册scroll拖动回调
 	self.__onmove = function(vec2)
@@ -128,6 +124,7 @@ local function GetLocalPosition(self, real_index, local_position)
 		local_position.y = local_position.y - self.cell_size.y / 2
 		local_position.z = 0
 		local_position = local_position + self.topleft_offset
+		return local_position
 	else
 		local_position.x = math.floor(real_index % self.constraint_count) * self.cell_size.x
 		local_position.x = local_position.x + self.cell_size.x / 2
@@ -135,10 +132,12 @@ local function GetLocalPosition(self, real_index, local_position)
 		local_position.y = local_position.y - self.cell_size.y / 2
 		local_position.z = 0
 		local_position = local_position + self.topleft_offset
+		return local_position
 	end
 end
-	
--- 获取真实索引                                                                                                                                                                                                                                                                             
+
+
+-- 获取真实索引
 local function GetRealIndex(self, local_position)
 	local offset = local_position - self.topleft_offset
 	local raw_index = math.floor(-offset.y / self.cell_size.y)
@@ -156,14 +155,21 @@ local function SetLength(self, length)
 	self.min_index = 0
 	self.max_index = length - 1
 	local index = 0
+	local activeCount = 0
+	local needActive = true
 	self:Walk(function(component)
-		component:SetActive(index <= self.max_index)
+		needActive = index <= self.max_index
+		component:SetActive(needActive)
+		if needActive then
+			activeCount = activeCount + 1
+		end
 		index = index + 1
 	end)
+	self.child_active_count = activeCount
 	-- 设置滑动范围
 	local scroll_size = Vector2.New(0, 0)
-	local alignment_index = math.floor((length + self.constraint_count - 1)/ self.constraint_count) * self.constraint_count - 1
-	GetLocalPosition(self, alignment_index, self.tmp_vec3)
+	local alignment_index = math.floor((length + self.constraint_count - 1) / self.constraint_count) * self.constraint_count - 1
+	self.tmp_vec3 = GetLocalPosition(self, alignment_index, self.tmp_vec3)
 	scroll_size.x = math.abs(self.tmp_vec3.x) + self.cell_size.x / 2
 	scroll_size.y = math.abs(self.tmp_vec3.y) + self.cell_size.y / 2
 	self.rectTransform.sizeDelta = scroll_size
@@ -177,7 +183,7 @@ local function AddComponent(self, component_target, var_arg, ...)
 		local lookup_table = {}
 		self:Walk(function(componet)
 			local cmp_name = componet:GetName()
-			assert(lookup_table[cmp_name] == nil, "Aready exists component named : "..cmp_name)
+			assert(lookup_table[cmp_name] == nil, "Aready exists component named : " .. cmp_name)
 			lookup_table[cmp_name] = true
 		end)
 	end
@@ -196,15 +202,15 @@ local function ButtonGroupOnClick(self, toggle_btn, check)
 	if virtual_index == nil then
 		return
 	end
-	
+
 	-- 选中时记录选中索引
 	if check then
 		self.__cur_check_index = virtual_index
 	end
-	
+
 	-- 上层回调
 	local wrap_component = nil
-	if  virtual_index >= 0 then
+	if virtual_index >= 0 then
 		wrap_component = self:GetComponent(toggle_btn:GetName())
 		wrap_component:OnClick(toggle_btn, virtual_index, check)
 	end
@@ -251,9 +257,9 @@ local function AddButton(self, togglebtn_class, var_arg, virtual_index, ...)
 	-- 调试模式下检测virtual_index是否存在，避免手误
 	local found_cmp = CheckVirtualIndexExists(self, virtual_index)
 	if Config.Debug and found_cmp then
-		error("Aready exists virtual index : "..tostring(virtual_index))
+		error("Aready exists virtual index : " .. tostring(virtual_index))
 	end
-	
+
 	togglebtn:SetBindData(virtual_index)
 	return togglebtn
 end
@@ -263,23 +269,26 @@ local function SetOriginal(self, original_index)
 	assert(self.__btngroup ~= nil, "You should add button group first!")
 	assert(original_index == nil or type(original_index) == "number", "Original index must be nil or number!")
 	-- 只有在初始选中外部按钮时，才需要在这里设置初始按钮，列表中的按钮在复用检测中会自定虚拟点击
-	if original_index ~= nil and original_index < 0 then	
+	if original_index ~= nil and original_index < 0 then
 		local found_cmp = nil
 		found_cmp = CheckVirtualIndexExists(self, original_index)
 		self.__btngroup:SetOriginal(found_cmp and found_cmp:GetName())
 	else
 		self.__btngroup:SetOriginal(nil)
 	end
-	
+
 	self.__cur_check_index = original_index
 end
 
 -- 子节点复位
-local function ResetChildPositions(self)
+local function ResetChildPositions(self, _index)
 	local index = 0
+	if type(_index) == "number" and _index > 0 then
+		index = _index
+	end
 	self:Walk(function(component)
-		GetLocalPosition(self, index, self.tmp_vec3)
-		component.rectTransform.localPosition = self.tmp_vec3
+		self.tmp_vec3 = GetLocalPosition(self, index, self.tmp_vec3)
+		component.rectTransform.anchoredPosition = self.tmp_vec3
 		index = index + 1
 	end)
 end
@@ -289,7 +298,7 @@ local function ResetChildBindData(self)
 	if self.__btngroup == nil then
 		return
 	end
-	
+
 	self:Walk(function(component)
 		component:SetBindData(nil)
 	end)
@@ -305,7 +314,7 @@ end
 -- 复位
 local function ResetToBeginning(self)
 	self.rectTransform.anchoredPosition = Vector2.zero
-	ResetChildPositions(self)
+	ResetChildPositions(self, 0)
 	ResetChildBindData(self)
 	-- 如果初始按钮为外部按钮，这里会选中，如果不是，则全部切换到非选中（包括列表按钮）
 	ResetButtonGroup(self)
@@ -318,13 +327,13 @@ local function CheckAndUpdateItemIfNeeded(self, component, local_position)
 	local real_index = GetRealIndex(self, local_position)
 	if self.min_index <= real_index and real_index <= self.max_index then
 		-- 调试用
-		if Config.Debug then
-			component.gameObject.name = tostring(real_index)
-		end
-		
+		-- if Config.Debug then
+		component.gameObject.name = tostring(real_index)
+		-- end
+
 		-- 重置位置
-		component.transform.localPosition = local_position
-		
+		component.transform.anchoredPosition = local_position
+
 		local check = real_index == self.__cur_check_index
 		-- 如果有按钮组则更新
 		if self.__btngroup ~= nil then
@@ -345,14 +354,20 @@ local function CheckAndUpdateItemIfNeeded(self, component, local_position)
 				end
 			end
 		end
-		
+
 		-- 刷新回调
 		component:OnRefresh(real_index, check)
 		if self.__onrefresh ~= nil then
 			self.__onrefresh(component, real_index, check)
 		end
-	
+
 	end
+end
+
+local function OnInit(self,index)
+	self:Walk(function(component)
+		component:OnInit(index)
+	end)
 end
 
 -- 检测复用
@@ -360,17 +375,17 @@ local function WrapContent(self, force_reset)
 	if self:GetComponentsCount() > self.max_index and not force_reset then
 		return
 	end
-	
+
 	-- 更新scroll_rect中心点在局部坐标系中的坐标
 	local anchored_position = self.rectTransform.anchoredPosition
 	self.center.x = self.center_original.x - anchored_position.x
 	self.center.y = self.center_original.y - anchored_position.y
-	
+
 	self:Walk(function(component)
-		local unity_position = component.transform.localPosition
+		local unity_position = component.transform.anchoredPosition
 		self.tmp_vec3:Set(unity_position.x, unity_position.y, 0)
 		local distance = self.horizontal and (self.tmp_vec3.x - self.center.x) or (self.tmp_vec3.y - self.center.y)
-		
+
 		if force_reset then
 			-- update all
 			CheckAndUpdateItemIfNeeded(self, component, self.tmp_vec3)
@@ -383,9 +398,91 @@ local function WrapContent(self, force_reset)
 			end
 			CheckAndUpdateItemIfNeeded(self, component, self.tmp_vec3)
 		end
+		if component.OnUpdate~=nil then
+			-- body
+			component:OnUpdate(self.tmp_vec3.y+anchored_position.y)
+		end
 	end)
 end
+-- 根据索引定位位置
+local function SetGridPositionByIndex(self, real_index)
+	self.tmp_vec3 = GetLocalPosition(self, real_index, self.tmp_vec3)
+	--临时
+	if self.topleft_offset.y < 0 then
+		self.tmp_vec3 = self.tmp_vec3 - self.topleft_offset
+	end
 
+	self.rectTransform.anchoredPosition = Vector3(0, -self.cell_size.y / 2 - self.tmp_vec3.y, 0)
+	local startIndex = 0
+	if self.max_index - self.child_active_count + self.constraint_count < real_index then
+		startIndex = math.max( self.max_index - self.child_active_count + 1,0)
+	else
+		startIndex = real_index - real_index % self.constraint_count
+	end
+	ResetChildPositions(self, startIndex)
+	self:WrapContent(true)
+end
+-- 根据索引定位Item
+local function GetComponentByIndex(self, real_index)
+	local cmp = nil
+	for _, components in pairs(self.components) do
+		for cmp_class, component in pairs(components) do
+			if component.gameObject.name == tostring(real_index) then
+				cmp = component
+				return cmp
+			end
+		end
+	end
+	--self:Walk(function(component)
+	--    if component.gameObject.name == tostring(real_index) then
+	--        cmp = component
+	--    end
+	--end)
+	--return cmp
+end
+
+
+-- 设置物品的显示
+local function SetComponentItemActive(self,isActive,real_index)
+	for _, components in pairs(self.components) do
+		for cmp_class, component in pairs(components) do
+			if isActive then
+				if component.gameObject.name == tostring(real_index) then
+					component.gameObject:SetActive(true)
+				end
+			else
+				component.gameObject:SetActive(false)
+			end
+		end
+	end
+end
+
+local function SetChildAlignment(self , anchorTypeId)
+	assert(type(anchorTypeId) == "number")
+	local anchorType = CS.UnityEngine.TextAnchor.UpperLeft
+	if anchorTypeId == 1 then
+		anchorType = CS.UnityEngine.TextAnchor.UpperCenter
+	elseif anchorTypeId == 2 then
+		anchorType = CS.UnityEngine.TextAnchor.UpperRight
+	elseif anchorTypeId == 3 then
+		anchorType = CS.UnityEngine.TextAnchor.MiddleLeft
+	elseif anchorTypeId == 4 then
+		anchorType = CS.UnityEngine.TextAnchor.MiddleCenter
+	elseif anchorTypeId == 5 then
+		anchorType = CS.UnityEngine.TextAnchor.MiddleRight
+	elseif anchorTypeId == 6 then
+		anchorType = CS.UnityEngine.TextAnchor.LowerLeft
+	elseif anchorTypeId == 7 then
+		anchorType = CS.UnityEngine.TextAnchor.LowerCenter
+	elseif anchorTypeId == 8 then
+		anchorType = CS.UnityEngine.TextAnchor.LowerRight
+	end
+	self.unity_grid.childAlignment = anchorType
+end
+local function  RefreshGrid(self )
+	self.unity_grid.enabled =false
+	self.unity_grid.enabled =true
+end
 -- 销毁
 local function OnDestroy(self)
 	if self.__onmove ~= nil then
@@ -403,7 +500,7 @@ local function OnDestroy(self)
 	self.__onclick = nil
 	base.OnDestroy(self)
 end
-
+UIWrapGroup.OnInit = OnInit
 UIWrapGroup.OnCreate = OnCreate
 UIWrapGroup.SetOnRefresh = SetOnRefresh
 UIWrapGroup.SetOnClick = SetOnClick
@@ -415,5 +512,11 @@ UIWrapGroup.SetOriginal = SetOriginal
 UIWrapGroup.ResetToBeginning = ResetToBeginning
 UIWrapGroup.WrapContent = WrapContent
 UIWrapGroup.OnDestroy = OnDestroy
-
+UIWrapGroup.SetGridPositionByIndex = SetGridPositionByIndex
+UIWrapGroup.GetComponentByIndex = GetComponentByIndex
+UIWrapGroup.SetChildAlignment = SetChildAlignment
+UIWrapGroup.RefreshGrid = RefreshGrid
+UIWrapGroup.GetRealIndex = GetRealIndex
+UIWrapGroup.SetComponentItemActive = SetComponentItemActive
+UIWrapGroup.GetLocalPosition = GetLocalPosition
 return UIWrapGroup
