@@ -15,10 +15,12 @@ local function OnCreate(self)
 	-- 控制角色
 	self.chara = nil
 	-- 退出按钮
-	self.back_btn = self:AddComponent(UIButton, back_btn_path)
-	self.back_btn:SetOnClick(function()
-		self.ctrl:Back()
-	end)
+	self.back_btn = self:AddComponent(UIButton, back_btn_path, self.Binder, "back_btn")
+
+
+	-- 调用父类Bind所有属性
+	base.BindAll(self)
+
 end
 
 local function OnEnable(self)
