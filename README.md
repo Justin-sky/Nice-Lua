@@ -16,4 +16,6 @@ Road Map ：
 
 请在Unity2019.3以上环境运行
 
+首次打开若addressable报错，请执行菜单： NICELua/Marked AssetPackage Addressable
+
 QQ群：346340389
