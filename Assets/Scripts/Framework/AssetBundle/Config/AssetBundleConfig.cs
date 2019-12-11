@@ -20,8 +20,6 @@ namespace AssetBundles
         public const string AssetsFolderName = "AssetsPackage";
         public const string ChannelFolderName = "Channel";
         public const string AssetsPathMapFileName = "AssetsMap.bytes";
-        public const string VariantsMapFileName = "VariantsMap.bytes";
-        public const string AssetBundleServerUrlFileName = "AssetBundleServerUrl.bytes";
         public const string VariantMapParttren = "Variant";
         public const string CommonMapPattren = ",";
 
