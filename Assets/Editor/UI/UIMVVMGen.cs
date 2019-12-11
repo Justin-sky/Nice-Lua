@@ -28,7 +28,7 @@ public class ComItem
 /// 3,  支持的组件请查看UIMVCGen下的comTypes 数组
 /// 
 /// </summary>
-public class UIMVCGen
+public class UIMVVMGen
 {
     public static string output_dir = Application.dataPath + "/LuaScripts/UI/";
 

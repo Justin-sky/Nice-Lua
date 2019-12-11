@@ -22,7 +22,7 @@ public class ConfigTools : EditorWindow
         ReadPath();
     }
 
-    [MenuItem("Tools/LuaConfig")]
+    [MenuItem("NICELua/LuaConfig", false, 55)]
     static void Init()
     {
         GetWindow(typeof(ConfigTools));

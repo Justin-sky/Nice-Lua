@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class UIMVCGenEditor : EditorWindow
+public class UIMVVMGenEditor : EditorWindow
 {
     public enum UILayers_TYPE
     {
@@ -25,10 +25,10 @@ public class UIMVCGenEditor : EditorWindow
     private static bool horizontal = true;
     private static bool vertical = false;
 
-    [MenuItem("Tools/MVC")]
+    [MenuItem("NICELua/MVVM")]
     static void Init()
     {
-        EditorWindow window =  GetWindow(typeof(UIMVCGenEditor));
+        EditorWindow window =  GetWindow(typeof(UIMVVMGenEditor));
         window.position = new Rect(100, 100, 400, 500);
         
     }
@@ -72,7 +72,7 @@ public class UIMVCGenEditor : EditorWindow
                 return;
             }
 
-            string pagePath = UIMVCGen.output_dir + modulePathObj.name + "/Model";
+            string pagePath = UIMVVMGen.output_dir + modulePathObj.name + "/Model";
             if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
 
             string modelPath = pagePath + "/" + trans.name + "Model.lua";
@@ -81,7 +81,7 @@ public class UIMVCGenEditor : EditorWindow
                 EditorUtility.DisplayDialog("错误", "文件已存在："+pagePath, "确定");
                 return;
             }
-            UIMVCGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVCGen.tpl_model, modelPath);
+            UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_model, modelPath);
 
         }
         if(GUILayout.Button("生成 V", GUILayout.ExpandWidth(true)))
@@ -98,7 +98,7 @@ public class UIMVCGenEditor : EditorWindow
                 return;
             }
 
-            string pagePath = UIMVCGen.output_dir + modulePathObj.name + "/View";
+            string pagePath = UIMVVMGen.output_dir + modulePathObj.name + "/View";
             if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
 
             string modelPath = pagePath + "/" + trans.name + "View.lua";
@@ -107,7 +107,7 @@ public class UIMVCGenEditor : EditorWindow
                 EditorUtility.DisplayDialog("错误", "文件已存在：" + pagePath, "确定");
                 return;
             }
-            UIMVCGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVCGen.tpl_view, modelPath);
+            UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_view, modelPath);
         }
         if(GUILayout.Button("生成 C", GUILayout.ExpandWidth(true)))
         {
@@ -123,7 +123,7 @@ public class UIMVCGenEditor : EditorWindow
                 return;
             }
 
-            string pagePath = UIMVCGen.output_dir + modulePathObj.name + "/Controller";
+            string pagePath = UIMVVMGen.output_dir + modulePathObj.name + "/Controller";
             if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
 
             string modelPath = pagePath + "/" + trans.name + "Ctrl.lua";
@@ -132,7 +132,7 @@ public class UIMVCGenEditor : EditorWindow
                 EditorUtility.DisplayDialog("错误", "文件已存在：" + pagePath, "确定");
                 return;
             }
-            UIMVCGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVCGen.tpl_controller, modelPath);
+            UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_controller, modelPath);
         }
 
         if (GUILayout.Button("生成 Config", GUILayout.ExpandWidth(true)))
@@ -149,7 +149,7 @@ public class UIMVCGenEditor : EditorWindow
                 return;
             }
 
-            string pagePath = UIMVCGen.output_dir + modulePathObj.name ;
+            string pagePath = UIMVVMGen.output_dir + modulePathObj.name ;
             if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
 
 
@@ -160,7 +160,7 @@ public class UIMVCGenEditor : EditorWindow
                 return;
             }
 
-            UIMVCGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVCGen.tpl_config, configPath);
+            UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_config, configPath);
         }
 
         GUILayout.EndHorizontal();

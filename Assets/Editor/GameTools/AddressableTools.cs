@@ -13,7 +13,7 @@ public class AddressableTools
 {
 
 
-    [MenuItem("Tools/Marked AssetsPackage Addressable", false, 52)]
+    [MenuItem("NICELua/Marked AssetsPackage Addressable", false, 52)]
     public static void RunCheckAssetBundle()
     {
         var start = DateTime.Now;

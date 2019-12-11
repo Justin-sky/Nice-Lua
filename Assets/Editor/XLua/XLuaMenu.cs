@@ -10,7 +10,7 @@ using System;
 public static class XLuaMenu
 {
 
-    [MenuItem("XLua/Copy Lua Files To AssetsPackage", false, 51)]
+    [MenuItem("NICELua/Copy Lua Files To AssetsPackage", false, 51)]
     public static void CopyLuaFilesToAssetsPackage()
     {
         bool encodeLua = true;  //对lua 编译
