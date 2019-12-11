@@ -30,6 +30,19 @@ local function OnCreate(self)
             SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
         end
     }
+    self.noticetip_btn = {
+        OnClick = function()
+            --UIManager:GetInstance():OpenOneButtonTip("title", "content", "OK", function ()
+            --
+            --end)
+            UIManager:GetInstance():OpenTwoButtonTip("title", "content", "OK","Cancel",
+                    function ()
+                        print("OK click")
+                    end,function()
+                        print("Cancel click")
+                    end)
+        end
+    }
 end
 
 -- ´ò¿ª

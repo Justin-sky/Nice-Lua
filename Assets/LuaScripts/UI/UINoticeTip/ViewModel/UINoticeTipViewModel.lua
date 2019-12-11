@@ -26,6 +26,13 @@ local function OnEnable(self, cs_func, ...)
 	self.__co = nil
 end
 
+--显示
+local function OnShow(self)
+	if self.cs_func~= nil then
+		self.cs_func(self.cs_obj, SafeUnpack(self.args))
+	end
+end
+
 -- 等待响应
 local function WaitForResponse(self)
 	self.__co = coroutine.running()
@@ -50,5 +57,6 @@ UILNoticeTip.OnCreate = OnCreate
 UILNoticeTip.OnEnable = OnEnable
 UILNoticeTip.WaitForResponse = WaitForResponse
 UILNoticeTip.OnDisable = OnDisable
+UILNoticeTip.OnShow = OnShow
 
 return UILNoticeTip

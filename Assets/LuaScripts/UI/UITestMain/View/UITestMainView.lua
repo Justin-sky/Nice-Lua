@@ -9,6 +9,7 @@ local base = UIBaseView
 -- 各个组件路径
 local fighting_btn_path = "ContentRoot/BtnGrid/FightingBtn"
 local logout_btn_path = "ContentRoot/BtnGrid/LogoutBtn"
+local noticetip_btn_path = "ContentRoot/BtnGrid/NoticetipBtn"
 
 local hp_text_path = "ContentRoot/Top/HP/Text"
 local mp_text_path = "ContentRoot/Top/MP/Text"
@@ -23,6 +24,7 @@ local function OnCreate(self)
 	-- 初始化各个组件
 	self.fighting_btn = self:AddComponent(UIButton, fighting_btn_path, self.Binder, "fighting_btn")
 	self.logout_btn = self:AddComponent(UIButton, logout_btn_path, self.Binder, "logout_btn")
+	self.noticetip_btn = self:AddComponent(UIButton, noticetip_btn_path, self.Binder, "noticetip_btn")
 
 	self.hp_text = self:AddComponent(UIText, hp_text_path, self.Binder, "hp_text")
 	self.mp_text = self:AddComponent(UIText, mp_text_path, self.Binder, "mp_text")

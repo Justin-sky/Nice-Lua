@@ -15,8 +15,8 @@ end
 
 local function OnEnable(self)
 	base.OnEnable(self)
-	
-	self.model.cs_func(self.cs_obj, SafeUnpack(self.model.args))
+	self.viewModelProperty.Value:OnShow()
+	--self.viewModelProperty.Value['cs_func'](self.cs_obj, SafeUnpack(self.model.args))
 end
 
 local function OnDestroy(self)
