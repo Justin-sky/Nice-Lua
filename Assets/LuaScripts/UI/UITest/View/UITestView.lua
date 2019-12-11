@@ -1,6 +1,4 @@
-<%
-require "TemplateCommon"
-%>
+
 --[[
 -- 视图层
 -- 注意：
@@ -9,7 +7,7 @@ require "TemplateCommon"
 -- 3、组件命名参考代码规范
 --]]
 
-local <%=view_class_name%> = BaseClass("<%=view_class_name%>", UIBaseView)
+local UITestView = BaseClass("UITestView", UIBaseView)
 local base = UIBaseView
 
 --local app_version_text_path = "ContentRoot/AppVersionText"
@@ -18,9 +16,7 @@ local function OnCreate(self)
 	base.OnCreate(self)
 	-- 初始化各个组件
 	-- self.app_version_text = self:AddComponent(UIText, app_version_text_path, self.Binder, "app_version_text")
-	<%ForEachCsList(com_list, function(item)%>
-	self.<%=item.com_var_name%><%=item.com_type_name%> = self:AddComponent(<%=item.com_type_name%>, "<%=item.com_path_name%>")
-    <%end)%>
+	
 
 end
 
@@ -53,11 +49,11 @@ local function OnDestroy(self)
 	base.OnDestroy(self)
 end
 
-<%=view_class_name%>.OnCreate = OnCreate
-<%=view_class_name%>.OnEnable = OnEnable
-<%=view_class_name%>.OnRefresh = OnRefresh
-<%=view_class_name%>.OnAddListener = OnAddListener
-<%=view_class_name%>.OnRemoveListener = OnRemoveListener
-<%=view_class_name%>.OnDestroy = OnDestroy
+UITestView.OnCreate = OnCreate
+UITestView.OnEnable = OnEnable
+UITestView.OnRefresh = OnRefresh
+UITestView.OnAddListener = OnAddListener
+UITestView.OnRemoveListener = OnRemoveListener
+UITestView.OnDestroy = OnDestroy
 
-return <%=view_class_name%>
+return UITestView

@@ -1,0 +1,43 @@
+<%
+require "TemplateCommon"
+%>
+--[[
+-- ScrollView Item组件
+-- 注意：
+-- 1、成员变量预先在OnCreate、OnEnable函数声明，提高代码可读性
+-- 2、OnCreate内放窗口生命周期内保持的成员变量，窗口销毁时才会清理
+-- 3、OnEnable内放窗口打开时才需要的成员变量，窗口关闭后及时清理
+--]]
+
+
+local <%=compontent_class_name%> = BaseClass("<%=compontent_class_name%>", UIWrapComponent)
+local base = UIWrapComponent
+
+-- 创建
+local function OnCreate(self)
+    base.OnCreate(self)
+    -- 组件初始化
+    --self.area_btn_text = self:AddComponent(UIText, "Text")
+
+end
+
+-- 组件被复用时回调该函数，执行组件的刷新
+local function OnRefresh(self, real_index, check)
+    --local area_id = self.view.area_ids[real_index + 1]
+    --local btn_name = LangUtil.GetServerAreaName(area_id)
+    --self.area_btn_text:SetText(btn_name)
+end
+
+-- 组件添加了按钮组，则按钮被点击时回调该函数
+local function OnClick(self, toggle_btn, real_index, check)
+    --if check then
+    --    self.view:SetSelectedArea(real_index)
+    --end
+end
+
+
+<%=compontent_class_name%>.OnCreate = OnCreate
+<%=compontent_class_name%>.OnRefresh = OnRefresh
+<%=compontent_class_name%>.OnClick = OnClick
+
+return <%=controller_class_name%>

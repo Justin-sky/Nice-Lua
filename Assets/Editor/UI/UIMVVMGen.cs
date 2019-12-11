@@ -32,10 +32,10 @@ public class UIMVVMGen
 {
     public static string output_dir = Application.dataPath + "/LuaScripts/UI/";
 
-    public static string tpl_model = "Assets/Editor/UI/Template/UIModelGen.tpl.txt";
-    public static string tpl_view = "Assets/Editor/UI/Template/UIViewGen.tpl.txt";
-    public static string tpl_controller = "Assets/Editor/UI/Template/UIControllerGen.tpl.txt";
-    public static string tpl_config = "Assets/Editor/UI/Template/UIConfigGen.tpl.txt";
+    public static string tpl_viewmodel = "Assets/Editor/UI/Template/UIViewModelGen.tpl.txt";
+    public static string tpl_view      = "Assets/Editor/UI/Template/UIViewGen.tpl.txt";
+    public static string tpl_component = "Assets/Editor/UI/Template/UICompontGen.tpl.txt";
+    public static string tpl_config    = "Assets/Editor/UI/Template/UIConfigGen.tpl.txt";
 
     public static string default_layer = "NormalLayer";
 
@@ -43,6 +43,8 @@ public class UIMVVMGen
         "UIButton","UIButtonGroup","UICanvas","UIImage","UIInput","UILayer",
         "UISlider","UITabGroup","UIText","UIToggleButton","UIWrapComponent"
     };
+
+    #region 工具方法
     public static bool checkComType(string comType)
     {
         return comType.Contains(comType);
@@ -90,6 +92,8 @@ public class UIMVVMGen
             FindChild(rootName, trans.GetChild(i), list);
         }
     }
+    #endregion
+
     /// <summary>
     /// 生成UI模板
     /// </summary>
@@ -110,6 +114,7 @@ public class UIMVVMGen
         else
         {
             Logger.LogError("prefab 名字为空或名字中带下划线，请规范命名！");
+            //return;
         }
 
         tasks += (lua_env, user_cfg) =>
@@ -118,11 +123,12 @@ public class UIMVVMGen
             LuaTable data = lua_env.NewTable();
             data.Set("module_name", moduleName);
             data.Set("module_layer", layerName);
-            data.Set("model_class_name", moduleName + "Model");
+            data.Set("viewmodel_class_name", moduleName + "ViewModel");
+            data.Set("compontent_class_name", moduleName + "WrapItem");
             data.Set("view_class_name", moduleName + "View");
-            data.Set("controller_class_name", moduleName + "Ctrl");
             data.Set("config_class_name", moduleName + "Config");
 
+            //不再自动生成控件
             data.Set("com_list", comList);
 
 
@@ -144,36 +150,35 @@ public class UIMVVMGen
     }
 
 
-    [MenuItem("GameObject/MVC/Gen MVC", priority = 10)]
-    public static void GenUIMVC()
+    [MenuItem("GameObject/MVVM/Gen MVVM", priority = 10)]
+    public static void GenUIMVVM()
     {
-        GenUIModel();
+        GenUIViewModel();
         GenUIView();
-        GenUIController();
         GenUIConfig();
 
     }
 
-    [MenuItem("GameObject/MVC/Gen M", priority = 11)]
-    public static void GenUIModel()
+    [MenuItem("GameObject/MVVM/Gen ViewModel", priority = 11)]
+    public static void GenUIViewModel()
     {
         Transform trans = Selection.activeTransform;
         if (trans == null) return;
 
-        string pagePath = output_dir + trans.name + "/Model";
+        string pagePath = output_dir + trans.name + "/ViewModel";
         if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
 
-        string modelPath = pagePath + "/" + trans.name + "Model.lua";
+        string modelPath = pagePath + "/" + trans.name + "ViewModel.lua";
         if (File.Exists(modelPath))
         {
             Logger.LogError("lua file in path:{0} is existed.", modelPath);
             return;
         }
 
-        GenUITemplate(trans.name,default_layer,tpl_model, modelPath);
+        GenUITemplate(trans.name,default_layer,tpl_viewmodel, modelPath);
     }
 
-    [MenuItem("GameObject/MVC/Gen V", priority = 12)]
+    [MenuItem("GameObject/MVVM/Gen View", priority = 12)]
     public static void GenUIView()
     {
         Transform trans = Selection.activeTransform;
@@ -192,26 +197,26 @@ public class UIMVVMGen
         GenUITemplate(trans.name, default_layer, tpl_view, viewPath);
     }
 
-    [MenuItem("GameObject/MVC/Gen C", priority = 13)]
-    public static void GenUIController()
+    [MenuItem("GameObject/MVVM/Gen Component", priority = 13)]
+    public static void GenUIComponent()
     {
         Transform trans = Selection.activeTransform;
         if (trans == null) return;
 
-        string pagePath = output_dir + trans.name + "/Controller";
+        string pagePath = output_dir + trans.name + "/Component";
         if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
 
-        string ctrlPath = pagePath + "/" + trans.name + "Ctrl.lua";
-        if (File.Exists(ctrlPath))
+        string componentPath = pagePath + "/" + trans.name + "WrapItem.lua";
+        if (File.Exists(componentPath))
         {
-            Logger.LogError("lua file in path:{0} is existed.", ctrlPath);
+            Logger.LogError("lua file in path:{0} is existed.", componentPath);
             return;
         }
 
-        GenUITemplate(trans.name, default_layer, tpl_controller, ctrlPath);
+        GenUITemplate(trans.name, default_layer, tpl_component, componentPath);
     }
 
-    [MenuItem("GameObject/MVC/Gen Config", priority = 14)]
+    [MenuItem("GameObject/MVVM/Gen Config", priority = 14)]
     public static void GenUIConfig()
     {
         Transform trans = Selection.activeTransform;

@@ -8,8 +8,7 @@ require "TemplateCommon"
 -- 窗口配置表 ={
 --		名字Name
 --		UI层级Layer
--- 		控制器类Controller
---		模型类Model
+--		视图模型类ViewModel
 --		视图类View
 --		资源加载路径PrefabPath
 -- } 
@@ -19,8 +18,7 @@ require "TemplateCommon"
 local <%=module_name%> = {
 	Name = UIWindowNames.<%=module_name%>,
 	Layer = UILayers.<%=module_layer%>,
-	Model = require "UI.<%=module_name%>.Model.<%=model_class_name%>",
-	Ctrl = require "UI.<%=module_name%>.Controller.<%=controller_class_name%>",
+	ViewModel = require "UI.<%=module_name%>.ViewModel.<%=model_class_name%>",
 	View = require "UI.<%=module_name%>.View.<%=view_class_name%>",
 	PrefabPath = "UI/Prefabs/View/<%=module_name%>.prefab",
 }

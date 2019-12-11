@@ -35,6 +35,7 @@ public class UIMVVMGenEditor : EditorWindow
 
     private void OnGUI()
     {
+        #region 生成MVVM
         //标题
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
@@ -58,7 +59,7 @@ public class UIMVVMGenEditor : EditorWindow
         //操作按钮
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
-        if(GUILayout.Button("生成 M", GUILayout.ExpandWidth(true)))
+        if(GUILayout.Button("生成 ViewModel", GUILayout.ExpandWidth(true)))
         {
             Transform trans = Selection.activeTransform;
             if (trans == null)
@@ -81,10 +82,10 @@ public class UIMVVMGenEditor : EditorWindow
                 EditorUtility.DisplayDialog("错误", "文件已存在："+pagePath, "确定");
                 return;
             }
-            UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_model, modelPath);
+            UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_viewmodel, modelPath);
 
         }
-        if(GUILayout.Button("生成 V", GUILayout.ExpandWidth(true)))
+        if(GUILayout.Button("生成 View", GUILayout.ExpandWidth(true)))
         {
             Transform trans = Selection.activeTransform;
             if (trans == null)
@@ -109,31 +110,7 @@ public class UIMVVMGenEditor : EditorWindow
             }
             UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_view, modelPath);
         }
-        if(GUILayout.Button("生成 C", GUILayout.ExpandWidth(true)))
-        {
-            Transform trans = Selection.activeTransform;
-            if (trans == null)
-            {
-                EditorUtility.DisplayDialog("错误", "请选择需要生成模板的UI对象!", "确定");
-                return;
-            }
-            if (modulePathObj == null)
-            {
-                EditorUtility.DisplayDialog("错误", "请选择目标目录!", "确定");
-                return;
-            }
-
-            string pagePath = UIMVVMGen.output_dir + modulePathObj.name + "/Controller";
-            if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
-
-            string modelPath = pagePath + "/" + trans.name + "Ctrl.lua";
-            if (File.Exists(modelPath))
-            {
-                EditorUtility.DisplayDialog("错误", "文件已存在：" + pagePath, "确定");
-                return;
-            }
-            UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_controller, modelPath);
-        }
+       
 
         if (GUILayout.Button("生成 Config", GUILayout.ExpandWidth(true)))
         {
@@ -164,7 +141,7 @@ public class UIMVVMGenEditor : EditorWindow
         }
 
         GUILayout.EndHorizontal();
-
+        #endregion
 
         #region 生成 ScrollView
         GUILayout.Space(30);
@@ -185,9 +162,9 @@ public class UIMVVMGenEditor : EditorWindow
 
         GUILayout.EndVertical();
 
-        GUILayout.Space(30);
+        GUILayout.Space(10);
         GUILayout.BeginVertical();
-        if (GUILayout.Button("创建 ScrollView", GUILayout.ExpandWidth(true)))
+        if (GUILayout.Button("Hierarchy中创建ScrollView GameObject", GUILayout.ExpandWidth(true)))
         {
             Transform trans = Selection.activeTransform;
             if (trans == null)
@@ -196,7 +173,38 @@ public class UIMVVMGenEditor : EditorWindow
                 return;
             }
 
+            if (scrollViewName.Equals(""))
+            {
+                EditorUtility.DisplayDialog("错误", "请输入Name Prefix !", "确定");
+                return;
+            }
             UIGOGen.GenScrollView(trans, scrollViewName, widthHeight.x, widthHeight.y, cellWH.x, cellWH.y, horizontal, vertical);
+        }
+        GUILayout.Space(10);
+        if (GUILayout.Button("生成 ScrollView Item", GUILayout.ExpandWidth(true)))
+        {
+            Transform trans = Selection.activeTransform;
+            if (trans == null)
+            {
+                EditorUtility.DisplayDialog("错误", "请选择需要生成模板的UI对象!", "确定");
+                return;
+            }
+            if (modulePathObj == null)
+            {
+                EditorUtility.DisplayDialog("错误", "请选择目标目录!", "确定");
+                return;
+            }
+
+            string pagePath = UIMVVMGen.output_dir + modulePathObj.name + "/Component";
+            if (!Directory.Exists(pagePath)) Directory.CreateDirectory(pagePath);
+
+            string modelPath = pagePath + "/" + trans.name + "WrapItem.lua";
+            if (File.Exists(modelPath))
+            {
+                EditorUtility.DisplayDialog("错误", "文件已存在：" + pagePath, "确定");
+                return;
+            }
+            UIMVVMGen.GenUITemplate(trans.name, mLayerType.ToString(), UIMVVMGen.tpl_component, modelPath);
         }
         GUILayout.EndVertical();
         #endregion

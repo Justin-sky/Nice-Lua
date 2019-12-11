@@ -7,16 +7,16 @@ require "TemplateCommon"
 -- 1、成员变量预先在OnCreate、OnEnable函数声明，提高代码可读性
 -- 2、OnCreate内放窗口生命周期内保持的成员变量，窗口销毁时才会清理
 -- 3、OnEnable内放窗口打开时才需要的成员变量，窗口关闭后及时清理
--- 4、OnEnable函数每次在窗口打开时调用，可传递参数用来初始化Model
 --]]
 
-local <%=model_class_name%> = BaseClass("<%=model_class_name%>", UIBaseModel)
-local base = UIBaseModel
+local <%=viewmodel_class_name%> = BaseClass("<%=viewmodel_class_name%>", UIBaseViewModel)
+local base = UIBaseViewModel
 
 -- 创建
 local function OnCreate(self)
 	base.OnCreate(self)
 	-- 窗口生命周期内保持的成员变量放这
+	--self.app_version_text = BindableProperty.New("1.0.1")
 
 end
 
@@ -38,13 +38,13 @@ end
 local function OnAddListener(self)
 	base.OnAddListener(self)
 	--添加监听
-
+	--self:AddDataListener(DataMessageNames.ON_LOGIN_SERVER_ID_CHG, OnSelectedSvrChg)
 end
 
 local function OnRemoveListener(self)
 	base.OnRemoveListener(self)
 	-- 移除监听
-
+	--self:RemoveDataListener(DataMessageNames.ON_LOGIN_SERVER_ID_CHG, OnSelectedSvrChg)
 end
 
 -- 关闭
@@ -58,15 +58,15 @@ end
 local function OnDestroy(self)
 	base.OnDestroy(self)
 	-- 清理成员变量
-
+	--self.app_version_text = nil
 end
 
-<%=model_class_name%>.OnCreate = OnCreate
-<%=model_class_name%>.OnEnable = OnEnable
-<%=model_class_name%>.OnRefresh = OnRefresh
-<%=model_class_name%>.OnAddListener = OnAddListener
-<%=model_class_name%>.OnRemoveListener = OnRemoveListener
-<%=model_class_name%>.OnDisable = OnDisable
-<%=model_class_name%>.OnDestroy = OnDestroy
+<%=viewmodel_class_name%>.OnCreate = OnCreate
+<%=viewmodel_class_name%>.OnEnable = OnEnable
+<%=viewmodel_class_name%>.OnDisable = OnDisable
+<%=viewmodel_class_name%>.OnRefresh = OnRefresh
+<%=viewmodel_class_name%>.OnAddListener = OnAddListener
+<%=viewmodel_class_name%>.OnRemoveListener = OnRemoveListener
+<%=viewmodel_class_name%>.OnDestroy = OnDestroy
 
-return <%=model_class_name%>
+return <%=viewmodel_class_name%>

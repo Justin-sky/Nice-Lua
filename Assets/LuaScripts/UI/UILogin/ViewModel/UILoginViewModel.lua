@@ -154,7 +154,6 @@ UILoginViewModel.OnEnable = OnEnable
 UILoginViewModel.OnDisable = OnDisable
 UILoginViewModel.OnCreate = OnCreate
 UILoginViewModel.OnDistroy = OnDistroy
-UILoginViewModel.UpdateData = UpdateData
 UILoginViewModel.OnRefresh = OnRefresh
 UILoginViewModel.OnAddListener = OnAddListener
 UILoginViewModel.OnRemoveListener = OnRemoveListener
