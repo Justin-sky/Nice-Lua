@@ -19,11 +19,18 @@ public class UIMVCGenEditor : EditorWindow
     private static Object modulePathObj = null;
     private static UILayers_TYPE mLayerType;
 
+    private static string scrollViewName = "Test";
+    private static Vector2Int widthHeight = new Vector2Int(500, 200);
+    private static Vector2Int cellWH = new Vector2Int(100, 50);
+    private static bool horizontal = true;
+    private static bool vertical = false;
+
     [MenuItem("Tools/MVC")]
     static void Init()
     {
-        GetWindow(typeof(UIMVCGenEditor));
-    
+        EditorWindow window =  GetWindow(typeof(UIMVCGenEditor));
+        window.position = new Rect(100, 100, 400, 500);
+        
     }
 
     private void OnGUI()
@@ -51,7 +58,6 @@ public class UIMVCGenEditor : EditorWindow
         //操作按钮
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
-
         if(GUILayout.Button("生成 M", GUILayout.ExpandWidth(true)))
         {
             Transform trans = Selection.activeTransform;
@@ -160,7 +166,39 @@ public class UIMVCGenEditor : EditorWindow
         GUILayout.EndHorizontal();
 
 
+        #region 生成 ScrollView
+        GUILayout.Space(30);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("创建ScrollView GameObject");
+        GUILayout.EndHorizontal();
 
+        GUILayout.BeginVertical();
+        
+        scrollViewName = EditorGUILayout.TextField("ScrollView Name Prefix:", scrollViewName);  
+        widthHeight = EditorGUILayout.Vector2IntField("Scroll Size: ", widthHeight);
+        cellWH = EditorGUILayout.Vector2IntField("Cell Size:", cellWH);
 
+        GUILayout.BeginHorizontal();
+        horizontal = EditorGUILayout.Toggle("Horizontal: ", horizontal);
+        vertical = EditorGUILayout.Toggle("Vertical: ", vertical);
+        GUILayout.EndHorizontal();
+
+        GUILayout.EndVertical();
+
+        GUILayout.Space(30);
+        GUILayout.BeginVertical();
+        if (GUILayout.Button("创建 ScrollView", GUILayout.ExpandWidth(true)))
+        {
+            Transform trans = Selection.activeTransform;
+            if (trans == null)
+            {
+                EditorUtility.DisplayDialog("错误", "请选择ScrollView所在的父结点!", "确定");
+                return;
+            }
+
+            UIGOGen.GenScrollView(trans, scrollViewName, widthHeight.x, widthHeight.y, cellWH.x, cellWH.y, horizontal, vertical);
+        }
+        GUILayout.EndVertical();
+        #endregion
     }
 }
