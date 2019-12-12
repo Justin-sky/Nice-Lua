@@ -117,12 +117,7 @@ local function InitWindow(self, ui_name, window)
 	end
 
 	if config.View then
-		if config.ViewModel then
-			window.View = config.View.New(layer, window.Name, window.ViewModel)
-		else
-			window.View = config.View.New(layer, window.Name)
-		end
-
+		window.View = config.View.New(layer, window.Name, window.ViewModel)
 	end
 
 	window.Active = false
@@ -133,11 +128,18 @@ local function InitWindow(self, ui_name, window)
 	return window
 end
 
+local function SetBackGround(self,window)
+	if IsNull(window.View) or IsNull( window.View.gameObject)then
+		return
+	end
+	local uiGo = window.View.gameObject
+	uiGo:SetActive(false)
+end
+
 -- 激活窗口
 local function ActivateWindow(self, target, ...)
 	assert(target)
 	assert(target.IsLoading == false, "You can only activate window after prefab locaded!")
-
 	target.ViewModel:Activate(...)
 	target.View:SetActive(true)
 	self:Broadcast(UIMessageNames.UIFRAME_ON_WINDOW_OPEN, target)
@@ -352,6 +354,7 @@ end
 local function SetKeepModel(self, ui_name, keep)
 	local target = self:GetWindow(ui_name)
 	assert(target, "Try to keep a model that window does not exist: "..ui_name)
+
 	if keep then
 		self.keep_model[target.Name] = target.ViewModel
 	else
@@ -481,6 +484,39 @@ local function WaitForTipResponse(self)
 	return window.ViewModel:WaitForResponse()
 end
 
+-- 获取层级
+local function GetLayer(self,layer)
+	return self.layers[layer]
+end
+
+local function LeaveSceneSave(self,scene_name)
+	if self.scene_window_stack == nil then
+		self.scene_window_stack = {}
+	end
+	self.scene_window_stack[scene_name] = GetLastBgWindowIndexInWindowStack(self)
+end
+
+-- 打开最后一个场景对应界面
+local function OpenLastLeaveSceneWindow(self,scene_name)
+	if self.scene_window_stack ~= nil and self.scene_window_stack[scene_name] ~= nil then
+		local index = self.scene_window_stack[scene_name]
+		if index > 0 then
+			UIManager:GetInstance():OpenWindow(self.__window_stack[index])
+			return true
+		end
+	end
+	return false
+end
+
+--是否是Top窗口
+local function CheckWindowTop(self,name)
+	if GetWindow(self,name,true,true) ~= nil then
+		return self.__window_stack[#self.__window_stack] == name
+	else
+		return false
+	end
+end
+
 -- 析构函数
 local function __delete(self)
 	self.ui_message_center = nil
@@ -519,7 +555,11 @@ UIManager.OpenThreeButtonTip = OpenThreeButtonTip
 UIManager.CloseTip = CloseTip
 UIManager.WaitForViewCreated = WaitForViewCreated
 UIManager.WaitForTipResponse = WaitForTipResponse
-UIManager.GetTipLastClickIndex = GetTipLastClickIndex
+UIManager.OpenLastLeaveSceneWindow = OpenLastLeaveSceneWindow
+UIManager.GetLayer = GetLayer
+UIManager.LeaveSceneSave = LeaveSceneSave
+UIManager.SetBackGround = SetBackGround
+UIManager.CheckWindowTop = CheckWindowTop
 UIManager.__delete = __delete
 
 return UIManager;

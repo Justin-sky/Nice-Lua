@@ -3,20 +3,24 @@
 -- UILNoticeTip模型层
 --]]
 
-local UILNoticeTip = BaseClass("UILNoticeTip", UIBaseViewModel)
+local UINoticeTipViewModel = BaseClass("UINoticeTipViewModel", UIBaseViewModel)
 local base = UIBaseViewModel
 
 -- 创建
 local function OnCreate(self)
 	base.OnCreate(self)
-	-- 保持Model
-	UIManager:GetInstance():SetKeepModel(self.__ui_name, true)
-	-- cs单例对象
-	self.cs_obj = CS.UINoticeTip.Instance
+
+	self.keep_model = false
+
 end
 
 -- 打开
 local function OnEnable(self, cs_func, ...)
+	if(self.keep_model == false) then
+		UIManager:GetInstance():SetKeepModel(self.__ui_name, true)
+		self.keep_model = true
+	end
+
 	base.OnEnable(self)
 	-- 对应的CS脚本函数
 	self.cs_func = cs_func
@@ -24,13 +28,18 @@ local function OnEnable(self, cs_func, ...)
 	self.args = SafePack(...)
 	-- 当前等待协程
 	self.__co = nil
+
+	-- cs单例对象
+	self.cs_obj = CS.UINoticeTip.Instance
+
+	if self.cs_func~= nil then
+		self.cs_func(self.cs_obj, SafeUnpack(self.args))
+	end
 end
 
 --显示
 local function OnShow(self)
-	if self.cs_func~= nil then
-		self.cs_func(self.cs_obj, SafeUnpack(self.args))
-	end
+
 end
 
 -- 等待响应
@@ -53,10 +62,10 @@ local function OnDisable(self)
 	self.__co = nil
 end
 
-UILNoticeTip.OnCreate = OnCreate
-UILNoticeTip.OnEnable = OnEnable
-UILNoticeTip.WaitForResponse = WaitForResponse
-UILNoticeTip.OnDisable = OnDisable
-UILNoticeTip.OnShow = OnShow
+UINoticeTipViewModel.OnCreate = OnCreate
+UINoticeTipViewModel.OnEnable = OnEnable
+UINoticeTipViewModel.WaitForResponse = WaitForResponse
+UINoticeTipViewModel.OnDisable = OnDisable
+UINoticeTipViewModel.OnShow = OnShow
 
-return UILNoticeTip
+return UINoticeTipViewModel

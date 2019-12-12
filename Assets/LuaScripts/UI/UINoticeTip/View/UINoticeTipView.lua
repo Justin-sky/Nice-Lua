@@ -3,19 +3,21 @@
 -- UILNoticeTip视图层
 --]]
 
-local UILNoticeTip = BaseClass("UILNoticeTip", UIBaseView)
+local UINoticeTipView = BaseClass("UINoticeTipView", UIBaseView)
 local base = UIBaseView
 
 local function OnCreate(self)
 	base.OnCreate(self)
-	
+
 	self.cs_obj = CS.UINoticeTip.Instance
 	self.cs_obj.UIGameObject = self.gameObject
+
+
 end
 
 local function OnEnable(self)
 	base.OnEnable(self)
-	self.viewModelProperty.Value:OnShow()
+
 end
 
 local function OnDestroy(self)
@@ -23,8 +25,8 @@ local function OnDestroy(self)
 	base.OnDestroy(self)
 end
 
-UILNoticeTip.OnCreate = OnCreate
-UILNoticeTip.OnEnable = OnEnable
-UILNoticeTip.OnDestroy = OnDestroy
+UINoticeTipView.OnCreate = OnCreate
+UINoticeTipView.OnEnable = OnEnable
+UINoticeTipView.OnDestroy = OnDestroy
 
-return UILNoticeTip
+return UINoticeTipView
