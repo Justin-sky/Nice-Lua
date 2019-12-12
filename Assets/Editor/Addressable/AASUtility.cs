@@ -36,6 +36,11 @@ public class AASUtility : UnityEditor.Editor
 
     public static void AddAssetToGroup(string assetGuid, string groupName)
     {
+        if (assetGuid.Equals(""))
+        {
+            Debug.Log($"assetGuid is empty, groupName: {groupName}");
+            return;
+        }
         var s = GetSettings();
         var g = CreateGroup(groupName);
         var entry = s.CreateOrMoveEntry(assetGuid, g);

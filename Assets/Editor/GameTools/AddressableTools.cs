@@ -26,19 +26,20 @@ public class AddressableTools
 
         string[] address = assets.Select(e => e.address).ToArray();
 
-        string assetPathMap = Path.Combine(Application.dataPath, AssetBundleConfig.AssetsFolderName);
-        assetPathMap = Path.Combine(assetPathMap, AssetBundleConfig.AssetsPathMapFileName);
+        string assetFolder = Path.Combine(Application.dataPath, AssetBundleConfig.AssetsFolderName);
+        
+        var assetPathMap = Path.Combine(assetFolder, AssetBundleConfig.AssetsPathMapFileName);
 
         GameUtility.SafeWriteAllLines(assetPathMap, address);
         AssetDatabase.Refresh();
 
 
         //特殊文件
-        string app_version = Path.Combine(assetPathMap, "app_version.bytes");
-        string assets_map = Path.Combine(assetPathMap, "AssetsMap.bytes");
-        string channel_name = Path.Combine(assetPathMap, "channel_name.bytes");
-        string notice_version = Path.Combine(assetPathMap, "notice_version.bytes");
-        string res_version = Path.Combine(assetPathMap, "res_version.bytes");
+        string app_version = Path.Combine(assetFolder, "app_version.bytes");
+        string assets_map = Path.Combine(assetFolder, "AssetsMap.bytes");
+        string channel_name = Path.Combine(assetFolder, "channel_name.bytes");
+        string notice_version = Path.Combine(assetFolder, "notice_version.bytes");
+        string res_version = Path.Combine(assetFolder, "res_version.bytes");
 
         SingleFileAddress("global", app_version);
         SingleFileAddress("global", assets_map);
@@ -52,7 +53,7 @@ public class AddressableTools
     public static void SingleFileAddress(string group, string path)
     {
         string relativePath = path.Substring(path.IndexOf("Assets\\") );
-        Logger.Log(relativePath);
+       
         AASUtility.AddAssetToGroup(AssetDatabase.AssetPathToGUID(relativePath), group);
     }
 }
