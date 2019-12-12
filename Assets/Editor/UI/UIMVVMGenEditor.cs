@@ -39,7 +39,7 @@ public class UIMVVMGenEditor : EditorWindow
         //标题
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
-        GUILayout.Label("此工具用于单独生成MVC相关模板到指定的模块中");
+        GUILayout.Label("此工具用于单独生成MVVM相关模板到指定的模块中");
         GUILayout.EndHorizontal();
 
         //选择层
