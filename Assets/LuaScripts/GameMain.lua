@@ -6,8 +6,8 @@ GameMain = {};
 
 -- 全局初始化
 local function Initilize()
-	local loadingAssetbundlePath = "UI/Prefabs/View/UILoading.prefab"
-	--ResourcesManager:GetInstance():CoLoadAssetBundleAsync(loadingAssetbundlePath)
+	--预加载 pb协议
+	LoadPB:GetInstance():LoadPB()
 end
 
 -- 进入游戏

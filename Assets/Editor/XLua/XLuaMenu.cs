@@ -46,7 +46,7 @@ public static class XLuaMenu
         GameUtility.SafeDeleteDir(destination);
         FileUtil.CopyFileOrDirectoryFollowSymlinks(source, destination);
         //清理非Lua文件
-        var notLuaFiles = GameUtility.GetSpecifyFilesInFolder(destination, new string[] { ".lua" }, true);
+        var notLuaFiles = GameUtility.GetSpecifyFilesInFolder(destination, new string[] { ".lua" ,".pb"}, true);
         if (notLuaFiles != null && notLuaFiles.Length > 0)
         {
             for (int i = 0; i < notLuaFiles.Length; i++)
@@ -55,7 +55,7 @@ public static class XLuaMenu
             }
         }
         //获取所有的lua文件准备编译
-        var luaFiles = GameUtility.GetSpecifyFilesInFolder(destination, new string[] { ".lua" }, false);
+        var luaFiles = GameUtility.GetSpecifyFilesInFolder(destination, new string[] { ".lua",".pb" }, false);
         if (luaFiles != null && luaFiles.Length > 0)
         {
             for (int i = 0; i < luaFiles.Length; i++)
@@ -64,9 +64,17 @@ public static class XLuaMenu
                 {
                     if (Application.platform == RuntimePlatform.WindowsEditor)
                     {
-                        // window 平台直接编译
-                        EncodeLuaFile(luaFiles[i], luaFiles[i] + ".bytes");
-                        GameUtility.SafeDeleteFile(luaFiles[i]);
+                        if (luaFiles[i].Contains(".lua")){
+                            // window 平台直接编译
+                            EncodeLuaFile(luaFiles[i], luaFiles[i] + ".bytes");
+                            GameUtility.SafeDeleteFile(luaFiles[i]);
+                        }
+                        else
+                        {
+                            //对pb文件直接重命名
+                            GameUtility.SafeRenameFile(luaFiles[i], luaFiles[i] + ".bytes");
+                        }
+                        
                     }
                     else if (Application.platform == RuntimePlatform.OSXEditor)
                     {

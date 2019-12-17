@@ -2,7 +2,7 @@ local pb = require "pb"
 
 function InitPB()
 	--初始化pb文件，路径采用绝对路径
-	assert(pb.loadfile "Assets/LuaScripts/Net/Protol/login.pb")
+	assert(pb.loadfile "Assets/LuaScripts/Net/pb/login.pb")
 end
 
 function Encoder()

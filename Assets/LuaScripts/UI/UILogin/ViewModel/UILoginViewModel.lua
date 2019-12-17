@@ -92,10 +92,8 @@ local function OnCreate(self)
     end
 
     self:OnRefresh()
-end
 
 -- ´ò¿ª
-local function OnEnable(self)
     base.OnEnable(self)
 end
 

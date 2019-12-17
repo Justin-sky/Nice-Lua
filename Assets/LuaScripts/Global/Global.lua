@@ -104,6 +104,8 @@ EffectManager = require "Framework.Resource.Effect.EffectManager"
 
 -- net
 HallConnector = require "Net.Connector.HallConnector"
+LoadPB = require "Net.Util.PBUtil"
+pb = require("pb");
 
 -- 单例类初始化
 UIManager:GetInstance()
@@ -114,3 +116,4 @@ SceneManager:GetInstance()
 AtlasManager:GetInstance()
 LogicUpdater:GetInstance()
 HallConnector:GetInstance()
+LoadPB:GetInstance()
