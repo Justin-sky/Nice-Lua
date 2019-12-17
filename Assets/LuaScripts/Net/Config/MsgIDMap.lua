@@ -13,5 +13,15 @@ local config = {
 	[30004] = "room.rsp_cancel_join_match",
 	[31001] = "room.ntf_join_match_result",
 	[31002] = "room.ntf_join_match_mateinfo",
+	[40001] = "Hotfix.C2R_Login",
+	[40002] = "Hotfix.R2C_Login",
+	[40003] = "Hotfix.C2G_LoginGate",
+	[40004] = "Hotfix.G2C_LoginGate",
+	[40005] = "Hotfix.G2C_TestHotfixMessage",
+	[40006] = "Hotfix.C2M_TestActorRequest",
+	[40007] = "Hotfix.M2C_TestActorResponse",
+	[40008] = "Hotfix.PlayerInfo",
+	[40009] = "Hotfix.C2G_PlayerInfo",
+	[400010] = "Hotfix.G2C_PlayerInfo",
 }
 return config

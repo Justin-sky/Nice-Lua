@@ -7,6 +7,7 @@ local function LoadPB(self)
         "Net/PB/login.pb",
         "Net/PB/room.pb",
         "Net/PB/user.pb",
+        "Net/PB/HotfixMessage.pb",
     }
 
     --编辑器下和移动端，加载位置不同
