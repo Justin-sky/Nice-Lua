@@ -6,7 +6,6 @@
 local NetUtil = {}
 local unpack = unpack or table.unpack
 local MsgIDMap = require "Net.Config.MsgIDMap"
-local ReceiveSinglePackage = require "Net.Config.ReceiveSinglePackage"
 local ReceiveMsgDefine = require "Net.Config.ReceiveMsgDefine"
 
 local function XOR(seq, msgid, data, start, length)
@@ -46,17 +45,16 @@ local function XOR(seq, msgid, data, start, length)
 	return output
 end
 
-local function SerializeMessage(msg_obj, global_seq)
+local function SerializeMessage(msg_obj)
 	local output = ""
-	local send_msg = msg_obj.MsgProto:SerializeToString()
-	
-	output = output..string.pack("=i4", msg_obj.MsgID)
-	output = output..string.pack("=I4", global_seq)
-	output = output..string.pack("=I4", msg_obj.RequestSeq)
-	output = output..XOR(global_seq, msg_obj.MsgID, send_msg)
-	output = string.pack("=I4", string.len(output))..output
-	
-	--print("send bytes:", string.byte(output, 1, #output))
+	local send_msg = pb.encode(MsgIDMap[msg_obj.MsgID], msg_obj.MsgProto)
+	output = output..string.pack(">i4", msg_obj.Seq);
+	output = output..string.pack(">i4", msg_obj.MsgID);
+	--output = output..XOR(global_seq, msg_obj.MsgID, send_msg)
+	output = output..send_msg
+	--output = string.pack(">I4", string.len(output))..output
+	print("bytes len: "..string.len(output))
+	print("send bytes:", string.byte(output, 1, #output))
 	return output
 end
 
@@ -67,35 +65,23 @@ local function DeserializeMessage(data, start, length)
 	--print("receive bytes:", string.byte(data, start, length))
 	
 	local index = start
-	local request_seq = string.unpack("=I4", data, index)
+	local request_seq = string.unpack(">I4", data, index)
+
 	index = index + 4
-	
-	local receive_msg = ReceiveMsgDefine.New(request_seq, {})
-	local packages = receive_msg.Packages
-	
-	repeat
-		local msg_id = string.unpack("=I4", data, index)
-		index = index + 4
-		if msg_id <= 0 then
-			break
-		end
-		
-		local pkg_length = string.unpack("=I4", data, index)
-		index = index + 4
-		
-		local msg_obj = (MsgIDMap[msg_id])()
-		if msg_obj == nil then
-			Logger.LogError("No proto type match msg id : "..msg_id)
-			break
-		end
-		
-		local pb_data = string.sub(data, index, index + pkg_length - 1)
-		msg_obj:ParseFromString(pb_data)
-		
-		local one_package = ReceiveSinglePackage.New(msg_id, msg_obj)
-		table.insert(packages, one_package)
-		index = index + pkg_length
-	until msg_id == 0 or index >= start + length
+	local msg_id = string.unpack(">I4", data, index)
+
+	local msg_name = MsgIDMap[tonumber(msg_id)]
+	if msg_name == nil then
+		Logger.LogError("No proto type match msg name : "..msg_name)
+		return
+	end
+
+	index = index + 4
+	local pb_data = string.sub(data, index)
+	local msgProto = pb.decode(msg_name, pb_data)
+
+	local receive_msg = ReceiveMsgDefine.New(request_seq, msg_id, msgProto)
+
 	return receive_msg
 end
 

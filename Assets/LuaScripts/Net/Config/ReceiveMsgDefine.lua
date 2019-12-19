@@ -5,18 +5,17 @@
 
 local ReceiveMsgDefine = {
 	RequestSeq = 0,
-	Packages = {},
+	MsgProto = {},
+	MsgId = 0,
 	
-	__init = function(self, request_seq, packages)
+	__init = function(self, request_seq,msg_id, msgProto)
 		self.RequestSeq = request_seq
-		self.Packages = packages
+		self.MsgProto = msgProto
+		self.MsgId = msg_id
 	end,
 	
 	__tostring = function(self)
-		local str = "RequestSeq = "..tostring(self.RequestSeq)..", "
-		for _,pakcage in ipairs(self.Packages) do
-			str = str..tostring(pakcage).."\n"
-		end
+		local str = "RequestSeq = "..tostring(self.RequestSeq).."MsgId = "..tostring(self.MsgId)
 		return str
 	end,
 }

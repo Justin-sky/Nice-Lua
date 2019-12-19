@@ -156,7 +156,10 @@ namespace Networks
                         break;
                     }
 
-                    int msgLen = BitConverter.ToInt32(data, start);
+                    var lenBytes = streamBuffer.ToArray(start, sizeof(int));
+                    Array.Reverse(lenBytes);
+                    int msgLen = BitConverter.ToInt32(lenBytes, 0);
+
                     if (bufferCurLen < msgLen + sizeof(int))
                     {
                         break;
@@ -202,7 +205,10 @@ namespace Networks
             Logger.Log("HjTcpNetwork send bytes : " + sb.ToString());
 #endif
             ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInt(msgObj.Length);
+            //包头4字节,转成大端格式
+            byte[] lenBytes = BitConverter.GetBytes(msgObj.Length);
+            Array.Reverse(lenBytes);
+            buffer.WriteBytes(lenBytes);
             buffer.WriteBytes(msgObj);
 
             mSendMsgQueue.Add(buffer.ToBytes());

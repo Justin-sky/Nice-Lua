@@ -4,21 +4,20 @@
 --]]
 
 local SendMsgDefine = {
-	MsgID = 0,
-	MsgProto = "",
-	RequestSeq = 0,
-	
-	__init = function(self, msg_id, msg_proto, request_seq)
-		self.MsgID = msg_id
-		self.MsgProto = msg_proto
-		self.RequestSeq = request_seq
+    MsgID = 0,
+    MsgProto = "",
+    Seq = 0,
+
+
+    __init = function(self, seq, msg_id, msg_proto)
+        self.Seq = seq
+        self.MsgID = msg_id
+        self.MsgProto = msg_proto
 	end,
 	
 	__tostring = function(self)
-		local full_name = getmetatable(self.MsgProto)._descriptor.full_name
-		local str = "MsgID = "..tostring(self.MsgID)..", RequestSeq = "..tostring(self.RequestSeq).."\n"
-		str = str..full_name..":{\n"..tostring(self.MsgProto).."}"
-		return str
+        local str = "MsgID = "..tostring(self.MsgID)..", Seq = "..tostring(self.Seq).."\n"
+        return str
 	end,
 }
 

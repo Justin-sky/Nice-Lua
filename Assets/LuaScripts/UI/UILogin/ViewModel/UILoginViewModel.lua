@@ -7,7 +7,6 @@
 -- 3、组件命名参考代码规范
 --]]
 
-
 local UILoginViewModel = BaseClass("UILoginViewModel",UIBaseViewModel)
 local base = UIBaseViewModel
 
@@ -93,8 +92,24 @@ local function OnCreate(self)
 
     self:OnRefresh()
 
+    HallConnector:GetInstance():Connect("127.0.0.1", 10002, self.on_connect, self.on_close)
 -- 打开
     base.OnEnable(self)
+end
+
+local function on_connect()
+    print("Connect success ===============================================")
+
+    local c2r_login = {
+        RpcId = 1,
+        Account = "justin",
+        Password = "123456"
+    }
+    HallConnector:GetInstance():SendMessage(MsgIDDefine.LOGIN_REQ_LOGIN, c2r_login, true, true)
+end
+
+local function on_close()
+    print("Connect close ===============================================")
 end
 
 local function SetServerInfo(self, select_svr_id)
@@ -155,6 +170,8 @@ UILoginViewModel.OnDistroy = OnDistroy
 UILoginViewModel.OnRefresh = OnRefresh
 UILoginViewModel.OnAddListener = OnAddListener
 UILoginViewModel.OnRemoveListener = OnRemoveListener
+UILoginViewModel.on_connect = on_connect
+UILoginViewModel.on_close = on_close
 
 
 return UILoginViewModel

@@ -106,6 +106,8 @@ EffectManager = require "Framework.Resource.Effect.EffectManager"
 HallConnector = require "Net.Connector.HallConnector"
 LoadPB = require "Net.Util.PBUtil"
 pb = require("pb");
+MsgIDDefine = require "Net.Config.MsgIDDefine"
+MsgIDMap = require "Net.Config.MsgIDMap"
 
 -- 单例类初始化
 UIManager:GetInstance()

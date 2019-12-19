@@ -20,8 +20,10 @@ local function __init(self)
 end
 
 local function OnReceivePackage(self, receive_bytes)
-	local receive_msg = NetUtil.DeserializeMessage(receive_bytes)
-	Logger.Log(tostring(receive_msg))
+	local  receiveMessage = NetUtil.DeserializeMessage(receive_bytes)
+
+	print("receive message==========================================")
+	print(receiveMessage.MsgId)
 end
 
 local function Connect(self, host_ip, host_port, on_connect, on_close)
@@ -42,8 +44,8 @@ local function SendMessage(self, msg_id, msg_obj, show_mask, need_resend)
 	need_resend = need_resend == nil and true or need_resend
 	
 	local request_seq = 0
-	local send_msg = SendMsgDefine.New(msg_id, msg_obj, request_seq)
-	local msg_bytes = NetUtil.SerializeMessage(send_msg, self.globalSeq)
+	local send_msg = SendMsgDefine.New(self.globalSeq, msg_id, msg_obj)
+	local msg_bytes = NetUtil.SerializeMessage(send_msg)
 	Logger.Log(tostring(send_msg))
 	self.hallSocket:SendMessage(msg_bytes)
 	self.globalSeq = self.globalSeq + 1
