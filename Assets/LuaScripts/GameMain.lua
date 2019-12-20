@@ -63,7 +63,7 @@ local function OnApplicationQuit()
 	UpdateManager:GetInstance():Dispose()
 	TimerManager:GetInstance():Dispose()
 	LogicUpdater:GetInstance():Dispose()
-	-- HallConnector:GetInstance():Dispose()
+	NetManager:GetInstance():Dispose()
 end
 
 -- GameMain公共接口，其它的一律为私有接口，只能在本模块访问

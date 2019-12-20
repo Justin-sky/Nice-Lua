@@ -50,7 +50,8 @@ local function OnCreate(self)
 
             -- TODO start socket
             --ConnectServer(self)
-            SceneManager:GetInstance():SwitchScene(SceneConfig.HomeScene)
+            NetManager:GetInstance():ConnectGameServer("127.0.0.1", 10002, self.OnGameServerConnected)
+            --SceneManager:GetInstance():SwitchScene(SceneConfig.HomeScene)
         end
     }
     self.server_select_btn = {
@@ -92,25 +93,34 @@ local function OnCreate(self)
 
     self:OnRefresh()
 
-    HallConnector:GetInstance():Connect("127.0.0.1", 10002, self.on_connect, self.on_close)
+
 -- 打开
     base.OnEnable(self)
 end
 
-local function on_connect()
-    print("Connect success ===============================================")
+local function OnLoginRsp(receiveMessage)
+    NetManager:GetInstance():RemoveListener(MsgIDDefine.LOGIN_RSP_LOGIN, OnLoginRsp)
+
+    Logger.Log(tostring(receiveMessage))
+    print("receive message=====Login Success=============")
+    print(receiveMessage.RequestSeq)
+    print(receiveMessage.MsgId)
+
+    SceneManager:GetInstance():SwitchScene(SceneConfig.HomeScene)
+end
+
+local function OnGameServerConnected(self)
+    --游戏服连接成功
 
     local c2r_login = {
-        RpcId = 1,
-        Account = "justin",
-        Password = "123456"
+        flag = 9981,
     }
-    HallConnector:GetInstance():SendMessage(MsgIDDefine.LOGIN_REQ_LOGIN, c2r_login, true, true)
+    NetManager:GetInstance():SendGameMsg(MsgIDDefine.LOGIN_REQ_LOGIN, c2r_login, true, true)
+    --添加消息处理
+    NetManager:GetInstance():AddListener(MsgIDDefine.LOGIN_RSP_LOGIN, OnLoginRsp)
 end
 
-local function on_close()
-    print("Connect close ===============================================")
-end
+
 
 local function SetServerInfo(self, select_svr_id)
     local server_data = ServerData:GetInstance()
@@ -172,6 +182,7 @@ UILoginViewModel.OnAddListener = OnAddListener
 UILoginViewModel.OnRemoveListener = OnRemoveListener
 UILoginViewModel.on_connect = on_connect
 UILoginViewModel.on_close = on_close
+UILoginViewModel.OnGameServerConnected = OnGameServerConnected
 
 
 return UILoginViewModel

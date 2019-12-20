@@ -103,7 +103,7 @@ BaseEffect = require "Framework.Resource.Effect.Base.BaseEffect"
 EffectManager = require "Framework.Resource.Effect.EffectManager"
 
 -- net
-HallConnector = require "Net.Connector.HallConnector"
+NetManager = require "Net.Connector.NetManager"
 LoadPB = require "Net.Util.PBUtil"
 pb = require("pb");
 MsgIDDefine = require "Net.Config.MsgIDDefine"
@@ -117,5 +117,5 @@ UpdateManager:GetInstance()
 SceneManager:GetInstance()
 AtlasManager:GetInstance()
 LogicUpdater:GetInstance()
-HallConnector:GetInstance()
+NetManager:GetInstance()
 LoadPB:GetInstance()

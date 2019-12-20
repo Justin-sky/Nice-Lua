@@ -3,44 +3,53 @@
 -- 大厅网络连接器
 --]]
 
-local HallConnector = BaseClass("HallConnector", Singleton)
+local HallConnector = BaseClass("HallConnector")
 local SendMsgDefine = require "Net.Config.SendMsgDefine"
 local NetUtil = require "Net.Util.NetUtil"
 
 local ConnStatus = {
 	Init = 0,
 	Connecting = 1,
-	WaitLogin = 2,
+	Closed = 2,
 	Done = 3,
 }
 
 local function __init(self)
 	self.hallSocket = nil
 	self.globalSeq = 0
+	self.connStatus = ConnStatus.Init
 end
 
 local function OnReceivePackage(self, receive_bytes)
 	local  receiveMessage = NetUtil.DeserializeMessage(receive_bytes)
 
-	print("receive message==========================================")
-	print(receiveMessage.MsgId)
+	NetManager:GetInstance():Broadcast(tonumber(receiveMessage.MsgId), receiveMessage)
 end
 
-local function Connect(self, host_ip, host_port, on_connect, on_close)
+local function _on_close(self, socket, code, msg)
+	self.connStatus = ConnStatus.Closed
+
+	print("Connect close ===============================================")
+	--处理重连
+
+end
+
+local function Connect(self, host_ip, host_port,callback)
 	if not self.hallSocket then
 		self.hallSocket = CS.Networks.HjTcpNetwork()
 		self.hallSocket.ReceivePkgHandle = Bind(self, OnReceivePackage)
 	end
-	self.hallSocket.OnConnect = on_connect
-	self.hallSocket.OnClosed = on_close
+	self.hallSocket.OnConnect = callback
+	self.hallSocket.OnClosed = Bind(self, _on_close)
 	self.hallSocket:SetHostPort(host_ip, host_port)
 	self.hallSocket:Connect()
+	self.connStatus = ConnStatus.Connecting
 	Logger.Log("Connect to "..host_ip..", port : "..host_port)
 	return self.hallSocket
 end
 
-local function SendMessage(self, msg_id, msg_obj, show_mask, need_resend)
-	show_mask = show_mask == nil and true or show_mask
+local function SendMessage(self, msg_id, msg_obj, need_resend)
+	--处理消息重发
 	need_resend = need_resend == nil and true or need_resend
 	
 	local request_seq = 0

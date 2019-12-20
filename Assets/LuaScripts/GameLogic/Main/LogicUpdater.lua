@@ -8,10 +8,11 @@ local traceback = debug.traceback
 
 local function Update(self)
 	local delta_time = Time.deltaTime
-	local hallConnector = HallConnector:GetInstance()
-	local status,err = pcall(hallConnector.Update, hallConnector)
+	local netManager = NetManager:GetInstance()
+	local status,err = pcall(netManager.Update, netManager)
+
 	if not status then
-		Logger.LogError("hallConnector update err : "..err.."\n"..traceback())
+		Logger.LogError("netManager update err : "..err.."\n"..traceback())
 	end
 end
 
