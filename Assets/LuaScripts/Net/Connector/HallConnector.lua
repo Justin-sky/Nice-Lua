@@ -15,11 +15,22 @@ local ConnStatus = {
 	Disconnected = 4   --客户端断开连接，跳到登录页面时
 }
 
+local ESocketErr = {
+	NORMAL = 0, 	 --正常关闭，在连接前也会关一下
+	ERROR_1 = -1,
+	ERROR_2 = -2,
+	ERROR_3 = -3,	--对方已经关闭链接了
+	ERROR_4 = -4,	--发生了未知错误
+	ERROR_5 = -5	--主动断开连接
+}
+
 local function __init(self)
 	self.hallSocket = nil
 	self.globalSeq = 0
 	self.connStatus = ConnStatus.Init
-	self.reconnTimes = 0  --重连次数
+	self.retryTimes = 0  --重连次数
+	self.heartBeatInterval = 15 --心跳间隔
+	self.maxRetryTimes = 3  --最大重连次数
 
 	--开启心跳包发送器
 	self.timer_action = function(self)
@@ -28,7 +39,7 @@ local function __init(self)
 			self:SendMessage(MsgIDDefine.COMMON_HEART_BEAT, {uid=1}, false)
 		end
 	end
-	self.timer = TimerManager:GetInstance():GetTimer(15, self.timer_action , self, false)
+	self.timer = TimerManager:GetInstance():GetTimer(self.heartBeatInterval, self.timer_action , self, false)
 	-- 启动定时器
 	self.timer:Start()
 end
@@ -42,13 +53,12 @@ end
 local function _on_close(self, socket, code, msg)
 
 	--处理重连
-	if code ~= -5 and self.connStatus ~= ConnStatus.Disconnected then
+	if code ~= ESocketErr.ERROR_5 and self.connStatus ~= ConnStatus.Disconnected then
 		self.connStatus = ConnStatus.Closed
-		self.reconnTimes = self.reconnTimes+1
+		self.retryTimes = self.retryTimes+1
 
-		if self.reconnTimes >3 then
+		if self.retryTimes >self.maxRetryTimes then
 			UIManager:GetInstance():OpenOneButtonTip("网络错误", "无法连接服务器", "确定", function ()
-				-- 重试3次
 				SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
 			end)
 		else

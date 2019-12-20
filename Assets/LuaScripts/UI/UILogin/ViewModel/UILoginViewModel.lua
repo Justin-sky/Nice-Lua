@@ -105,7 +105,7 @@ local function OnLoginRsp(receiveMessage)
     print("receive message=====Login Success=============")
     print(receiveMessage.RequestSeq)
     print(receiveMessage.MsgId)
-
+    print(os.time())
     SceneManager:GetInstance():SwitchScene(SceneConfig.HomeScene)
 end
 
