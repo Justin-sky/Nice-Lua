@@ -33,6 +33,7 @@ UserData = require "DataCenter.UserData.UserData"
 
 -- game config
 LangUtil = require "Config.LangUtil"
+TimeUtil = require "Framework.Util.TimeUtil"
 
 -- MVVM
 require "Framework.UI.MVVM.Bindable.BindableProperty"
