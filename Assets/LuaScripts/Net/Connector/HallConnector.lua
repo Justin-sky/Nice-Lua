@@ -20,6 +20,17 @@ local function __init(self)
 	self.globalSeq = 0
 	self.connStatus = ConnStatus.Init
 	self.reconnTimes = 0  --重连次数
+
+	--开启心跳包发送器
+	self.timer_action = function(self)
+		if self.connStatus == ConnStatus.Done then
+			print("send heart beat")
+			self:SendMessage(MsgIDDefine.COMMON_HEART_BEAT, {uid=1}, false)
+		end
+	end
+	self.timer = TimerManager:GetInstance():GetTimer(15, self.timer_action , self, false)
+	-- 启动定时器
+	self.timer:Start()
 end
 
 local function OnReceivePackage(self, receive_bytes)
@@ -61,7 +72,12 @@ local function Connect(self, host_ip, host_port,callback)
 	self.hostIP = host_ip
 	self.hostPort = host_port
 
-	self.hallSocket.OnConnect = callback
+	self.hallSocket.OnConnect = function(socket, code, msg)
+		self.connStatus = ConnStatus.Done
+		if(callback ~= nil) then
+			callback(socket, code, msg)
+		end
+	end
 	self.hallSocket.OnClosed = Bind(self, _on_close)
 	self.hallSocket:SetHostPort(host_ip, host_port)
 	self.hallSocket:Connect()
@@ -73,8 +89,7 @@ end
 local function ReConnect(self)
 	self:Connect(self.hostIP, self.hostPort, function (socket, code, msg)
 		--重连成功
-		print("reconnect success")
-		print(msg)
+		Logger.Log("Reconnect success  "..host_ip..", port : "..host_port)
 		self.connStatus = ConnStatus.Done
 		self.reconnTimes = 0
 	end)

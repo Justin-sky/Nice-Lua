@@ -25,4 +25,4 @@ battleType"
 req_cancel_join_match"/
 rsp_cancel_join_match
 result (RresultB
-Net.Protol.roombproto3
+net.protol.roombproto3

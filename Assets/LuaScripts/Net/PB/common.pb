@@ -1,5 +1,5 @@
 
-Œ
+¬
 common.protocommon"B
 test4
 f (Rf
@@ -18,5 +18,8 @@
 icon (Ricon
 race (Rrace
 
-race_level (R	raceLevelB
-Net.Protol.commonbproto3
+race_level (R	raceLevel"
+
+heart_beat
+uid (RuidB
+net.protol.commonbproto3

@@ -13,4 +13,4 @@ user.protouser"%
 rsp_change_name
 result (Rresult
 name (	RnameB
-Net.Protol.userbproto3
+net.protol.userbproto3

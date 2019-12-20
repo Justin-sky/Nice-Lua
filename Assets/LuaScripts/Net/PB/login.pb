@@ -19,4 +19,4 @@ clientInfo
 
 ntf_logout
 reason (RreasonB
-Net.Protol.loginbproto3
+net.protol.loginbproto3
