@@ -269,10 +269,10 @@ namespace Networks
                 }
                 finally
                 {
-                    for (int i = 0; i < mTempMsgList.Count; ++i)
-                    {
-                        StreamBufferPool.RecycleBuffer(mTempMsgList[i]);
-                    }
+                    //for (int i = 0; i < mTempMsgList.Count; ++i)
+                    //{
+                    //    StreamBufferPool.RecycleBuffer(mTempMsgList[i]);
+                    //}
                     mTempMsgList.Clear();
                 }
             }

@@ -24,6 +24,18 @@ local function ConnectChatServer(self, host_ip, host_port,callback)
     end
 end
 
+local function CloseGameServer(self)
+    if self.gameConnector then
+        self.gameConnector:Close()
+    end
+end
+
+local function CloseChatServer(self)
+    if self.chatConnector then
+        self.chatConnector:Close()
+    end
+end
+
 local function SendGameMsg(self, msg_id, msg_obj, show_mask, need_resend)
     show_mask = show_mask == nil and true or show_mask
     --¥¶¿Ì mask
@@ -86,6 +98,8 @@ end
 NetManager.__init = __init
 NetManager.ConnectGameServer = ConnectGameServer
 NetManager.ConnectChatServer = ConnectChatServer
+NetManager.CloseGameServer = CloseGameServer
+NetManager.CloseChatServer = CloseChatServer
 NetManager.SendGameMsg = SendGameMsg
 NetManager.SendChatMsg = SendChatMsg
 NetManager.Update = Update

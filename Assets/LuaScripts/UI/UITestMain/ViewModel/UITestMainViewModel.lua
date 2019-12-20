@@ -27,6 +27,7 @@ local function OnCreate(self)
     }
     self.logout_btn = {
         OnClick = function()
+            NetManager:GetInstance():CloseGameServer()
             SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
         end
     }
