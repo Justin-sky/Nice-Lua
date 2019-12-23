@@ -25,6 +25,8 @@ local ESocketErr = {
 }
 
 local function __init(self)
+	self.hostIP = ""
+	self.hostPort = 0
 	self.hallSocket = nil
 	self.globalSeq = 0
 	self.connStatus = ConnStatus.Init
@@ -105,7 +107,7 @@ end
 local function ReConnect(self)
 	self:Connect(self.hostIP, self.hostPort, function (socket, code, msg)
 		--重连成功
-		Logger.Log("Reconnect success  "..host_ip..", port : "..host_port)
+		Logger.Log("Reconnect success  "..self.hostIP..", port : "..self.hostPort)
 		self.connStatus = ConnStatus.Done
 		self.reconnTimes = 0
 	end)
