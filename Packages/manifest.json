@@ -8,7 +8,7 @@
     "com.unity.recorder": "2.0.3-preview.1",
     "com.unity.render-pipelines.core": "file:../PackageSources/com.unity.render-pipelines.core",
     "com.unity.render-pipelines.universal": "file:../PackageSources/com.unity.render-pipelines.universal",
-    "com.unity.shadergraph": "7.1.5",
+    "com.unity.shadergraph": "7.1.6",
     "com.unity.test-framework": "1.1.5",
     "com.unity.textmeshpro": "2.0.1",
     "com.unity.modules.ai": "1.0.0",
