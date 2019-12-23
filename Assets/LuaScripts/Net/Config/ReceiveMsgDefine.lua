@@ -4,18 +4,18 @@
 --]]
 
 local ReceiveMsgDefine = {
-	RequestSeq = 0,
+	Seq = 0,
 	MsgProto = {},
 	MsgId = 0,
 	
-	__init = function(self, request_seq,msg_id, msgProto)
-		self.RequestSeq = request_seq
+	__init = function(self, seq, msg_id, msgProto)
+		self.Seq = seq
 		self.MsgProto = msgProto
 		self.MsgId = msg_id
 	end,
 	
 	__tostring = function(self)
-		local str = "RequestSeq = "..tostring(self.RequestSeq).."MsgId = "..tostring(self.MsgId)
+		local str = "seq = "..tostring(self.Seq).."MsgId = "..tostring(self.MsgId)
 		return str
 	end,
 }
