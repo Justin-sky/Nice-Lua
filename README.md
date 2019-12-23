@@ -1,5 +1,7 @@
 # NICE-Lua
 
+[中文文档](https://justin-sky.github.io/Nice-Lua)
+
 Road Map ：
 
 * 资源管理修改为Addressables（完成）
