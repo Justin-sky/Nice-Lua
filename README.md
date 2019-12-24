@@ -19,6 +19,8 @@ Road Map ：
 
 请在Unity2019.3以上环境运行
 
-首次打开若addressable报错，请执行菜单： NICELua/Marked AssetPackage Addressable
+[服务器](https://github.com/Justin-sky/Nice-Server) ： 本地安装JDK1.8, 下载[IntelliJ IDEA Community](https://www.jetbrains.com/idea/)导入项目运行即可。
+
+首次打开若addressable报错，请执行菜单： NICELua/Marked AssetPackage Addressable。
 
 QQ群：346340389
