@@ -124,7 +124,7 @@ local function GetComponents(self, component_target)
 	local components = {}
 	if type(component_target) == "table" then
 		self:Walk(function(component)
-			table.insert(component)
+			table.insert(components, component)
 		end, component_target)
 	elseif type(component_target) == "string" then
 		components = self.components[component_target]
