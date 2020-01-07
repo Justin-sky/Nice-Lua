@@ -47,7 +47,7 @@ local function OnCreate(self,binder,property_name, relative_path)
 			self.unity_uibutton.onLongPress:RemoveListener(self.__onPress)
 		end
 		if self.__onclick ~= nil then
-			self.unity_uibutton.onLongPress:RemoveListener(self.__onclick)
+			self.unity_uibutton.onClick:RemoveListener(self.__onclick)
 		end
 	end, property_name)
 
@@ -70,7 +70,7 @@ local function OnDestroy(self)
 		self.unity_uibutton.onClick:RemoveListener(self.__onclick)
 	end
 	if self.__onpress ~= nil then
-		self.unity_uibutton.onClick:RemoveListener(self.__onpress)
+		self.unity_uibutton.onLongPress:RemoveListener(self.__onpress)
 	end
 	self.unity_uibutton = nil
 	self.__onclick = nil
