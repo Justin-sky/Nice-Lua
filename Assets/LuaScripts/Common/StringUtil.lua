@@ -30,7 +30,7 @@ local function split(split_string, pattern, search_pos_begin, plain)
 		search_pos_begin = find_pos_end + 1
 	end
 
-	if search_pos_begin < string.len(split_string) then
+	if search_pos_begin <= string.len(split_string) then
 		split_result[#split_result + 1] = string.sub(split_string, search_pos_begin)
 	else
 		split_result[#split_result + 1] = ""
