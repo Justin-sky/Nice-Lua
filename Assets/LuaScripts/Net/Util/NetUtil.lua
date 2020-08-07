@@ -44,12 +44,12 @@ local function XOR(seq, msgid, data, start, length)
 	
 	return output
 end
-
+--  i4  Singned int ；   I4  unsigned int   <: sets little endian    >: sets big endian  =: sets native endian
 local function SerializeMessage(msg_obj)
 	local output = ""
 	local send_msg = pb.encode(MsgIDMap[msg_obj.MsgID], msg_obj.MsgProto)
-	output = output..string.pack(">i4", msg_obj.Seq);
-	output = output..string.pack(">i4", msg_obj.MsgID);
+	output = output..string.pack("<i4", msg_obj.Seq);
+	output = output..string.pack("<I2", msg_obj.MsgID);
 	--output = output..XOR(global_seq, msg_obj.MsgID, send_msg)
 	output = output..send_msg
 	--output = string.pack(">I4", string.len(output))..output
@@ -65,10 +65,12 @@ local function DeserializeMessage(data, start, length)
 	--print("receive bytes:", string.byte(data, start, length))
 	
 	local index = start
-	local request_seq = string.unpack(">I4", data, index)
+	local request_seq = string.unpack("<i4", data, index)
 
 	index = index + 4
-	local msg_id = string.unpack(">I4", data, index)
+	local msg_id = string.unpack("<I2", data, index)
+    print("seq:"..request_seq)
+    print("msgid:"..msg_id)
 
 	local msg_name = MsgIDMap[tonumber(msg_id)]
 	if msg_name == nil then

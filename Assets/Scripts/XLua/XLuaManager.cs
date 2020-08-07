@@ -1,12 +1,7 @@
 ﻿using AssetBundles;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using XLua;
 /// <summary>
 /// 说明：xLua管理类
@@ -90,7 +85,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
     // 最简单和安全的方式是另外创建一个虚拟器，所有东西一概重启
     public void Restart()
     {
-        StopHotfix();
+        //StopHotfix();
         Dispose();
         InitLuaEnv();
         OnInit();

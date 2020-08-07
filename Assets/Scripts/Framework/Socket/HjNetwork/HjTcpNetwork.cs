@@ -157,7 +157,7 @@ namespace Networks
                     }
 
                     var lenBytes = streamBuffer.ToArray(start, sizeof(int));
-                    Array.Reverse(lenBytes);
+                    //Array.Reverse(lenBytes);
                     int msgLen = BitConverter.ToInt32(lenBytes, 0);
 
                     if (bufferCurLen < msgLen + sizeof(int))
@@ -207,7 +207,7 @@ namespace Networks
             ByteBuffer buffer = new ByteBuffer();
             //包头4字节,转成大端格式
             byte[] lenBytes = BitConverter.GetBytes(msgObj.Length);
-            Array.Reverse(lenBytes);
+            //Array.Reverse(lenBytes);
             buffer.WriteBytes(lenBytes);
             buffer.WriteBytes(msgObj);
 

@@ -3,10 +3,7 @@ local PBUtil = BaseClass("PBUtil", Singleton)
 -- 加载所有PB
 local function LoadPB(self)
     local pbFiles = {
-        "Net/PB/common.pb",
-        "Net/PB/login.pb",
-        "Net/PB/room.pb",
-        "Net/PB/user.pb",
+        "Net/PB/OuterMessage.pb",
     }
 
     --编辑器下和移动端，加载位置不同

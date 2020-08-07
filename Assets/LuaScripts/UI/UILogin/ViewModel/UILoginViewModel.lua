@@ -23,6 +23,8 @@ local function OnCreate(self)
 
     self.login_btn_click = {
         OnClick = function()
+
+
             -- 合法性检验
             local name = self.account_input.Value
             local password = self.password_input.Value
@@ -99,7 +101,7 @@ local function OnCreate(self)
 end
 
 local function OnLoginRsp(receiveMessage)
-    NetManager:GetInstance():RemoveListener(MsgIDDefine.LOGIN_RSP_LOGIN, OnLoginRsp)
+    NetManager:GetInstance():RemoveListener(MsgIDDefine.R2C_LOGIN, OnLoginRsp)
 
     Logger.Log(tostring(receiveMessage))
     print("receive message=====Login Success=============")
@@ -113,11 +115,13 @@ local function OnGameServerConnected(self)
     --游戏服连接成功
 
     local c2r_login = {
-        flag = 9981,
+        RpcId = 9981,
+        Account = "Jusitn",
+        Password = "123456"
     }
-    NetManager:GetInstance():SendGameMsg(MsgIDDefine.LOGIN_REQ_LOGIN, c2r_login, true, true)
+    NetManager:GetInstance():SendGameMsg(MsgIDDefine.C2R_LOGIN, c2r_login, true, true)
     --添加消息处理
-    NetManager:GetInstance():AddListener(MsgIDDefine.LOGIN_RSP_LOGIN, OnLoginRsp)
+    NetManager:GetInstance():AddListener(MsgIDDefine.R2C_LOGIN, OnLoginRsp)
 end
 
 
