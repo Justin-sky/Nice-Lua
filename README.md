@@ -17,9 +17,9 @@ Road Map ：
 
 ## 运行环境
 
-请在Unity2019.3以上环境运行
+请在Unity2019.4以上环境运行
 
-Clone[服务器：https://github.com/Justin-sky/Nice-Server ](https://github.com/Justin-sky/Nice-Server)代码到本地， 安装JDK1.8, 下载[IntelliJ IDEA Community](https://www.jetbrains.com/idea/)导入项目运行即可。
+Clone[服务器：https://github.com/Justin-sky/Nice-ET ](https://github.com/Justin-sky/Nice-ET)代码到本地，VS安装.net core 3.0开发环境
 
 首次打开若addressable报错，请执行菜单： NICELua/Marked AssetPackage Addressable。
 
