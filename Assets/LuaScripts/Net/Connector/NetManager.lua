@@ -10,14 +10,14 @@ local function __init(self)
     self.net_message_center = Messenger.New()
 end
 
---Á¬½ÓÓÎÏ··ş
+--è¿æ¥æ¸¸æˆæœ
 local function ConnectGameServer(self, host_ip, host_port, callback)
     if self.gameConnector then
         self.gameConnector:Connect(host_ip, host_port,callback)
     end
 end
 
---Á¬½ÓÁÄÌì·ş
+--è¿æ¥èŠå¤©æœ
 local function ConnectChatServer(self, host_ip, host_port,callback)
     if self.chatConnector then
         self.chatConnector:Connect(host_ip, host_port,callback)
@@ -38,7 +38,7 @@ end
 
 local function SendGameMsg(self, msg_id, msg_obj, show_mask, need_resend)
     show_mask = show_mask == nil and true or show_mask
-    --´¦Àí mask
+    --å¤„ç† mask
 
     if(self.gameConnector) then
         self.gameConnector:SendMessage(msg_id, msg_obj,need_resend)
@@ -49,21 +49,21 @@ local function SendChatMsg(self, msg_id, msg_obj, show_mask, need_resend)
 
 end
 
--- ×¢²áÏûÏ¢
+-- æ³¨å†Œæ¶ˆæ¯
 local function AddListener(self, e_type, e_listener, ...)
     if(self.net_message_center) then
         self.net_message_center:AddListener(e_type, e_listener, ...)
     end
 end
 
--- ·¢ËÍÏûÏ¢
+-- å‘é€æ¶ˆæ¯
 local function Broadcast(self, e_type, ...)
     if(self.net_message_center) then
         self.net_message_center:Broadcast(e_type, ...)
     end
 end
 
--- ×¢ÏúÏûÏ¢
+-- æ³¨é”€æ¶ˆæ¯
 local function RemoveListener(self, e_type, e_listener)
     if(self.net_message_center) then
         self.net_message_center:RemoveListener(e_type, e_listener)

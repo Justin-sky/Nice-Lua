@@ -15,15 +15,15 @@ local function OnCreate(self)
     }
     self.confirm_btn = {
         OnClick = function()
-            -- ºÏ·¨ĞÔĞ£Ñé
+            -- åˆæ³•æ€§æ ¡éªŒ
             if self.selected_server_id == nil then
-                -- TODO£º´íÎóµ¯´°
+                -- TODOï¼šé”™è¯¯å¼¹çª—
                 Logger.LogError("svr_id nil")
                 return
             end
             local servers = ServerData:GetInstance().servers
             if servers[self.selected_server_id] == nil then
-                -- TODO£º´íÎóµ¯´°
+                -- TODOï¼šé”™è¯¯å¼¹çª—
                 Logger.LogError("no svr_id : "..tostring(self.selected_server_id))
                 return
             end
@@ -36,23 +36,23 @@ local function OnCreate(self)
 
 end
 
--- ´ò¿ª
+-- æ‰“å¼€
 local function OnEnable(self)
     base.OnEnable(self)
-    -- ´°¿Ú¹Ø±ÕÊ±¿ÉÒÔÇåÀíµÄ³ÉÔ±±äÁ¿·ÅÕâ
-    -- ÍÆ¼ö·şÎñÆ÷ÁĞ±í
+    -- çª—å£å…³é—­æ—¶å¯ä»¥æ¸…ç†çš„æˆå‘˜å˜é‡æ”¾è¿™
+    -- æ¨èæœåŠ¡å™¨åˆ—è¡¨
     self.recommend_servers.Value = nil
-    -- ÇøÓòidÁĞ±í
+    -- åŒºåŸŸidåˆ—è¡¨
     self.area_ids.Value = nil
-    -- ËùÓĞÇøÓòÏÂµÄ·şÎñÆ÷ÁĞ±í
+    -- æ‰€æœ‰åŒºåŸŸä¸‹çš„æœåŠ¡å™¨åˆ—è¡¨
     self.area_servers.Value = nil
-    -- µ±Ç°Ñ¡ÔñµÄµÇÂ½·şÎñÆ÷
+    -- å½“å‰é€‰æ‹©çš„ç™»é™†æœåŠ¡å™¨
     self.selected_server_id = 0
 
     self:OnRefresh()
 end
 
--- »ñÈ¡ÍÆ¼ö·şÎñÆ÷ÁĞ±í
+-- è·å–æ¨èæœåŠ¡å™¨åˆ—è¡¨
 local function FetchRecommendList(servers)
     local recommend_servers = {}
     for _,v in pairs(servers) do
@@ -67,7 +67,7 @@ local function FetchRecommendList(servers)
     return recommend_servers
 end
 
--- °´ÇøÓò»®·Ö·şÎñÆ÷ÁĞ±í
+-- æŒ‰åŒºåŸŸåˆ’åˆ†æœåŠ¡å™¨åˆ—è¡¨
 local function FetchAreaList(servers)
     local area_ids_record = {}
     local area_ids = {}
@@ -103,20 +103,20 @@ local function OnRefresh(self)
 
 end
 
--- ¹Ø±Õ
+-- å…³é—­
 local function OnDisable(self)
     base.OnDisable(self)
-    -- ÇåÀí³ÉÔ±±äÁ¿
+    -- æ¸…ç†æˆå‘˜å˜é‡
     self.recommend_servers.Value = nil
     self.area_ids.Value = nil
     self.area_servers.Value = nil
     self.selected_server_id = 0
 end
 
--- Ïú»Ù
+-- é”€æ¯
 local function OnDistroy(self)
     base.OnDistroy(self)
-    -- ÇåÀí³ÉÔ±±äÁ¿
+    -- æ¸…ç†æˆå‘˜å˜é‡
 end
 
 

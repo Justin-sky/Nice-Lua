@@ -1,10 +1,10 @@
 --[[
 -- added by wsh @ 2017-12-01
--- UILoginÊÓÍ¼²ã
--- ×¢Òâ£º
--- 1¡¢³ÉÔ±±äÁ¿×îºÃÔ¤ÏÈÔÚ__initº¯ÊıÉùÃ÷£¬Ìá¸ß´úÂë¿É¶ÁĞÔ
--- 2¡¢OnEnableº¯ÊıÃ¿´ÎÔÚ´°¿Ú´ò¿ªÊ±µ÷ÓÃ£¬Ö±½ÓË¢ĞÂ
--- 3¡¢×é¼şÃüÃû²Î¿¼´úÂë¹æ·¶
+-- UILoginè§†å›¾å±‚
+-- æ³¨æ„ï¼š
+-- 1ã€æˆå‘˜å˜é‡æœ€å¥½é¢„å…ˆåœ¨__initå‡½æ•°å£°æ˜ï¼Œæé«˜ä»£ç å¯è¯»æ€§
+-- 2ã€OnEnableå‡½æ•°æ¯æ¬¡åœ¨çª—å£æ‰“å¼€æ—¶è°ƒç”¨ï¼Œç›´æ¥åˆ·æ–°
+-- 3ã€ç»„ä»¶å‘½åå‚è€ƒä»£ç è§„èŒƒ
 --]]
 
 local UILoginViewModel = BaseClass("UILoginViewModel",UIBaseViewModel)
@@ -25,24 +25,24 @@ local function OnCreate(self)
         OnClick = function()
 
 
-            -- ºÏ·¨ĞÔ¼ìÑé
+            -- åˆæ³•æ€§æ£€éªŒ
             local name = self.account_input.Value
             local password = self.password_input.Value
             if string.len(name) > 20 or string.len(name) < 1 then
-                -- TODO£º´íÎóµ¯´°
+                -- TODOï¼šé”™è¯¯å¼¹çª—
                 Logger.LogError("name length err!")
                 return;
             end
             if string.len(password) > 20 or string.len(password) < 1 then
-                -- TODO£º´íÎóµ¯´°
+                -- TODOï¼šé”™è¯¯å¼¹çª—
                 Logger.LogError("password length err!")
                 return;
             end
-            -- ¼ì²âÊÇ·ñÓĞºº×Ö
+            -- æ£€æµ‹æ˜¯å¦æœ‰æ±‰å­—
             for i=1, string.len(name) do
                 local curByte = string.byte(name, i)
                 if curByte > 127 then
-                    -- TODO£º´íÎóµ¯´°
+                    -- TODOï¼šé”™è¯¯å¼¹çª—
                     Logger.LogError("name err : only ascii can be used!")
                     return;
                 end;
@@ -71,20 +71,20 @@ local function OnCreate(self)
     }
 
 
-    -- ÕâÀïÒ»¶¨Òª¶Ô»Øµ÷º¯Êı³ÖÓĞÒıÓÃ£¬·ñÔòËæÊ±¿ÉÄÜ±»GC£¬ÒıÆğ¶¨Ê±Æ÷Ê§Ğ§
-    -- »òÕßÊ¹ÓÃ³ÉÔ±º¯Êı£¬ËüµÄÉúÃüÖÜÆÚÊÇºÍ¶ÔÏó°ó¶¨ÔÚÒ»¿éµÄ
+    -- è¿™é‡Œä¸€å®šè¦å¯¹å›è°ƒå‡½æ•°æŒæœ‰å¼•ç”¨ï¼Œå¦åˆ™éšæ—¶å¯èƒ½è¢«GCï¼Œå¼•èµ·å®šæ—¶å™¨å¤±æ•ˆ
+    -- æˆ–è€…ä½¿ç”¨æˆå‘˜å‡½æ•°ï¼Œå®ƒçš„ç”Ÿå‘½å‘¨æœŸæ˜¯å’Œå¯¹è±¡ç»‘å®šåœ¨ä¸€å—çš„
     do
         self.timer_action = function(self)
             self.test_timer_text.Value = self.test_timer_text.Value + 1
         end
         self.timer = TimerManager:GetInstance():GetTimer(1, self.timer_action , self)
-        -- Æô¶¯¶¨Ê±Æ÷
+        -- å¯åŠ¨å®šæ—¶å™¨
         self.timer:Start()
-        -- Æô¶¯Ğ­³Ì
+        -- å¯åŠ¨åç¨‹
         coroutine.start(function()
-            -- ÏÂÃæµÄ´úÂë½ö½öÓÃÓÚ²âÊÔ£¬±ğÄ£·Â£¬ºÜÈİÒ×³öÏÖÎÊÌâ£º
-            -- 1¡¢Ê±¼äÍ³¼ÆÓĞÀÛ»ıÎó²î£¬ÆäÊµĞ­³ÌÓÃÔÚUIµ¹¼ÆÊ±Õ¹Ê¾Ê±Ò»°ãÎÊÌâ²»´ó£¬µ¹¼ÆÊ±»áÉÔÎ¢±ÈÕæÊµÊ±¼ä³¤£¬¾ßÌåÓ°Ïì×ÃÇé¿¼ÂÇ
-            -- 2¡¢Õâ¸öĞ­³ÌÒ»µ©ÆôÓÃÎŞ·¨±»»ØÊÕ£¬µ±È»£¬¿ÉÒÔ±ÜÃâÕâµã£¬Ê¹ÓÃÒ»¸ö¿ØÖÆ±äÁ¿£¬ÔÚ¶ÔÏóÏú»ÙµÄÊ±ºòÍË³öËÀÑ­»·¼´¿É
+            -- ä¸‹é¢çš„ä»£ç ä»…ä»…ç”¨äºæµ‹è¯•ï¼Œåˆ«æ¨¡ä»¿ï¼Œå¾ˆå®¹æ˜“å‡ºç°é—®é¢˜ï¼š
+            -- 1ã€æ—¶é—´ç»Ÿè®¡æœ‰ç´¯ç§¯è¯¯å·®ï¼Œå…¶å®åç¨‹ç”¨åœ¨UIå€’è®¡æ—¶å±•ç¤ºæ—¶ä¸€èˆ¬é—®é¢˜ä¸å¤§ï¼Œå€’è®¡æ—¶ä¼šç¨å¾®æ¯”çœŸå®æ—¶é—´é•¿ï¼Œå…·ä½“å½±å“é…Œæƒ…è€ƒè™‘
+            -- 2ã€è¿™ä¸ªåç¨‹ä¸€æ—¦å¯ç”¨æ— æ³•è¢«å›æ”¶ï¼Œå½“ç„¶ï¼Œå¯ä»¥é¿å…è¿™ç‚¹ï¼Œä½¿ç”¨ä¸€ä¸ªæ§åˆ¶å˜é‡ï¼Œåœ¨å¯¹è±¡é”€æ¯çš„æ—¶å€™é€€å‡ºæ­»å¾ªç¯å³å¯
             while true do
                 coroutine.waitforseconds(0.5)
                 self.test_coroutine_text.Value = self.test_coroutine_text.Value + 0.5
@@ -96,7 +96,7 @@ local function OnCreate(self)
     self:OnRefresh()
 
 
--- ´ò¿ª
+-- æ‰“å¼€
     base.OnEnable(self)
 end
 
@@ -112,7 +112,7 @@ local function OnLoginRsp(receiveMessage)
 end
 
 local function OnGameServerConnected(self)
-    --ÓÎÏ··şÁ¬½Ó³É¹¦
+    --æ¸¸æˆæœè¿æ¥æˆåŠŸ
 
     local c2r_login = {
         RpcId = 9981,
@@ -120,7 +120,7 @@ local function OnGameServerConnected(self)
         Password = "123456"
     }
     NetManager:GetInstance():SendGameMsg(MsgIDDefine.C2R_LOGIN, c2r_login, true, true)
-    --Ìí¼ÓÏûÏ¢´¦Àí
+    --æ·»åŠ æ¶ˆæ¯å¤„ç†
     NetManager:GetInstance():AddListener(MsgIDDefine.R2C_LOGIN, OnLoginRsp)
 end
 
@@ -139,7 +139,7 @@ local function SetServerInfo(self, select_svr_id)
     end
 end
 
--- Ë¢ĞÂÈ«²¿Êı¾İ
+-- åˆ·æ–°å…¨éƒ¨æ•°æ®
 local function OnRefresh(self)
     local client_data = ClientData:GetInstance()
     self.account_input.Value = client_data.account
@@ -154,7 +154,7 @@ local function OnSelectedSvrChg(self, id)
     SetServerInfo(self, id)
 end
 
--- ¼àÌıÑ¡·ş±ä¶¯
+-- ç›‘å¬é€‰æœå˜åŠ¨
 local function OnAddListener(self)
     base.OnAddListener(self)
     self:AddDataListener(DataMessageNames.ON_LOGIN_SERVER_ID_CHG, OnSelectedSvrChg)
@@ -165,16 +165,16 @@ local function OnRemoveListener(self)
     self:RemoveDataListener(DataMessageNames.ON_LOGIN_SERVER_ID_CHG, OnSelectedSvrChg)
 end
 
--- ¹Ø±Õ
+-- å…³é—­
 local function OnDisable(self)
     base.OnDisable(self)
-    -- ÇåÀí³ÉÔ±±äÁ¿
+    -- æ¸…ç†æˆå‘˜å˜é‡
 end
 
--- Ïú»Ù
+-- é”€æ¯
 local function OnDistroy(self)
     base.OnDistroy(self)
-    -- ÇåÀí³ÉÔ±±äÁ¿
+    -- æ¸…ç†æˆå‘˜å˜é‡
 end
 
 UILoginViewModel.OnEnable = OnEnable
