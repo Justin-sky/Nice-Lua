@@ -103,10 +103,9 @@ end
 local function OnLoginRsp(receiveMessage)
     NetManager:GetInstance():RemoveListener(MsgIDDefine.R2C_LOGIN, OnLoginRsp)
 
-    Logger.Log(tostring(receiveMessage))
+    table.dump(receiveMessage)
     print("receive message=====Login Success=============")
-    print(receiveMessage.Seq)
-    print(receiveMessage.MsgId)
+    print("add: "..receiveMessage.Address )
     print(os.time())
     SceneManager:GetInstance():SwitchScene(SceneConfig.HomeScene)
 end

@@ -8,10 +8,15 @@ local ReceiveMsgDefine = {
 	MsgProto = {},
 	MsgId = 0,
 	
-	__init = function(self, seq, msg_id, msgProto)
-		self.Seq = seq
+	__init = function(self, msg_id, msgProto)
 		self.MsgProto = msgProto
 		self.MsgId = msg_id
+
+		if(msgProto["RpcId"] ~= nil)then
+			self.Seq = msgProto["RpcId"]
+		else
+			self.Seq = -1
+		end
 	end,
 	
 	__tostring = function(self)

@@ -35,6 +35,7 @@ UserData = require "DataCenter.UserData.UserData"
 LangUtil = require "Config.LangUtil"
 TimeUtil = require "Framework.Util.TimeUtil"
 
+
 -- MVVM
 require "Framework.UI.MVVM.Bindable.BindableProperty"
 require "Framework.UI.MVVM.Bindable.ObservableList"

@@ -8,6 +8,7 @@ local unpack = unpack or table.unpack
 local MsgIDMap = require "Net.Config.MsgIDMap"
 local ReceiveMsgDefine = require "Net.Config.ReceiveMsgDefine"
 
+
 local function XOR(seq, msgid, data, start, length)
 	assert(data ~= nil and type(data) == "string")
 	assert(seq ~= nil and type(seq) == "number")
@@ -48,13 +49,10 @@ end
 local function SerializeMessage(msg_obj)
 	local output = ""
 	local send_msg = pb.encode(MsgIDMap[msg_obj.MsgID], msg_obj.MsgProto)
-	output = output..string.pack("<i4", msg_obj.Seq);
 	output = output..string.pack("<I2", msg_obj.MsgID);
 	--output = output..XOR(global_seq, msg_obj.MsgID, send_msg)
 	output = output..send_msg
-	--output = string.pack(">I4", string.len(output))..output
-	print("bytes len: "..string.len(output))
-	print("send bytes:", string.byte(output, 1, #output))
+	--print("send bytes:", string.byte(output, 1, #output))
 	return output
 end
 
@@ -62,27 +60,19 @@ local function DeserializeMessage(data, start, length)
 	assert(data ~= nil and type(data) == "string")
 	start = start or 1
 	length = length or string.len(data)
-	--print("receive bytes:", string.byte(data, start, length))
-	
-	local index = start
-	local request_seq = string.unpack("<i4", data, index)
+	--print("receive bytes1:", string.byte(data, start, length))
 
-	index = index + 4
 	local msg_id = string.unpack("<I2", data, index)
-    print("seq:"..request_seq)
-    print("msgid:"..msg_id)
-
+	--print("msgid:"..msg_id)
 	local msg_name = MsgIDMap[tonumber(msg_id)]
 	if msg_name == nil then
 		Logger.LogError("No proto type match msg name : "..msg_name)
 		return
 	end
 
-	index = index + 4
-	local pb_data = string.sub(data, index)
+	local pb_data = string.sub(data, 3)
 	local msgProto = pb.decode(msg_name, pb_data)
-
-	local receive_msg = ReceiveMsgDefine.New(request_seq, msg_id, msgProto)
+	local receive_msg = ReceiveMsgDefine.New(msg_id, msgProto)
 
 	return receive_msg
 end

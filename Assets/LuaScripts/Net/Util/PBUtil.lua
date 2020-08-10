@@ -1,12 +1,12 @@
 local PBUtil = BaseClass("PBUtil", Singleton)
 
--- ¼ÓÔØËùÓĞPB
+-- åŠ è½½æ‰€æœ‰PB
 local function LoadPB(self)
     local pbFiles = {
         "Net/PB/OuterMessage.pb",
     }
 
-    --±à¼­Æ÷ÏÂºÍÒÆ¶¯¶Ë£¬¼ÓÔØÎ»ÖÃ²»Í¬
+    --ç¼–è¾‘å™¨ä¸‹å’Œç§»åŠ¨ç«¯ï¼ŒåŠ è½½ä½ç½®ä¸åŒ
     if(CS.GameUtility.GetPlatform() == "WindowsEditor")then
         table.walk(pbFiles,function(i,path)
             print(path.." pb load success")

@@ -13,10 +13,11 @@ local SendMsgDefine = {
         self.Seq = seq
         self.MsgID = msg_id
         self.MsgProto = msg_proto
+        self.MsgProto["RpcId"] = seq;
 	end,
 	
 	__tostring = function(self)
-        local str = "MsgID = "..tostring(self.MsgID)..", Seq = "..tostring(self.Seq).."\n"
+        local str = "MsgID = "..tostring(self.MsgID)..", Seq = "..tostring(self.Seq).. ",RpcID=" .. self.MsgProto["RpcId"].."\n"
         return str
 	end,
 }

@@ -28,7 +28,7 @@ local function __init(self)
 	self.hostIP = ""
 	self.hostPort = 0
 	self.hallSocket = nil
-	self.globalSeq = 0
+	self.globalSeq = 1
 	self.connStatus = ConnStatus.Init
 	self.retryTimes = 0  --重连次数
 	self.heartBeatInterval = 15 --心跳间隔
@@ -36,6 +36,9 @@ local function __init(self)
     self.sendMsgCache = {}  --消息发送列表
 	self.sendMsgTimeout = 10 --消息超时时间
 
+end
+
+local function StartHeartBeat(self)
 	--开启心跳包发送器
 	self.timer_action = function(self)
 		if self.connStatus == ConnStatus.Done then
@@ -48,14 +51,30 @@ local function __init(self)
 	self.timer:Start()
 end
 
+local function SendMessage(self, msg_id, msg_obj, need_resend)
+	--处理消息重发
+	need_resend = need_resend == nil and true or need_resend
+
+	if need_resend and self.sendMsgCache[self.globalSeq] == nil then
+		local send_msg = SendMsgDefine.New(self.globalSeq, msg_id, msg_obj)
+		self.sendMsgCache[self.globalSeq] = {request_seq =0, request_time = os.time(), send_msg = send_msg}
+
+		local msg_bytes = NetUtil.SerializeMessage(send_msg)
+		Logger.Log("SendMessage: "..tostring(send_msg))
+		self.hallSocket:SendMessage(msg_bytes)
+		self.globalSeq = self.globalSeq + 1
+	end
+
+end
+
 local function OnReceivePackage(self, receive_bytes)
 	local  receiveMessage = NetUtil.DeserializeMessage(receive_bytes)
 	local seq = receiveMessage.Seq
 	if self.sendMsgCache[seq] ~= nil then
-		Logger.Log("On Receive package, seq = "..seq .. " request seq = "..self.sendMsgCache[seq].request_seq)
+		Logger.Log("ReveMessage: "..tostring(seq))
 		self.sendMsgCache[seq] = nil
 	end
-	NetManager:GetInstance():Broadcast(tonumber(receiveMessage.MsgId), receiveMessage)
+	NetManager:GetInstance():Broadcast(tonumber(receiveMessage.MsgId), receiveMessage.MsgProto)
 end
 
 local function _on_close(self, socket, code, msg)
@@ -113,21 +132,7 @@ local function ReConnect(self)
 	end)
 end
 
-local function SendMessage(self, msg_id, msg_obj, need_resend)
-	--处理消息重发
-	need_resend = need_resend == nil and true or need_resend
 
-	if need_resend and self.sendMsgCache[self.globalSeq] == nil then
-		local send_msg = SendMsgDefine.New(self.globalSeq, msg_id, msg_obj)
-		self.sendMsgCache[self.globalSeq] = {request_seq = 0, request_time = os.time(), send_msg = send_msg}
-
-		local msg_bytes = NetUtil.SerializeMessage(send_msg)
-		Logger.Log(tostring(send_msg))
-		self.hallSocket:SendMessage(msg_bytes)
-		self.globalSeq = self.globalSeq + 1
-	end
-
-end
 
 local function Update(self)
 	if self.hallSocket then
@@ -137,10 +142,11 @@ local function Update(self)
 	--消息重发
 	local remove_list = {}
 	for k,v in pairs(self.sendMsgCache) do
-		if v.request_time - os.time() > self.sendMsgTimeout then
+
+		if os.time() - v.request_time > self.sendMsgTimeout then
 			--重发超过5次丢弃消息
 			if(v.request_seq >5) then
-				Logger.Log("seq: "..k .. " , reequest_seq: "..v.request_seq)
+				Logger.Log("resend timeout: "..k .. " , reequest_seq: "..v.request_seq)
 				table.insert(remove_list, k)
 			else
 				Logger.Log("resend msg  seq: "..k .. " , reequest_seq: "..v.request_seq)
@@ -151,7 +157,6 @@ local function Update(self)
 				Logger.Log("resend msg: "..tostring(v.send_msg))
 				self.hallSocket:SendMessage(msg_bytes)
 			end
-
 		end
 	end
 	if #remove_list > 0 then
