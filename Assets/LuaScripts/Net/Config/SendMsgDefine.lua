@@ -12,8 +12,9 @@ local SendMsgDefine = {
     __init = function(self, seq, msg_id, msg_proto)
         self.Seq = seq
         self.MsgID = msg_id
+
+        msg_proto.RpcId = seq
         self.MsgProto = msg_proto
-        self.MsgProto["RpcId"] = seq;
 	end,
 	
 	__tostring = function(self)

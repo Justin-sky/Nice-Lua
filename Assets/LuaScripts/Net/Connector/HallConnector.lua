@@ -51,13 +51,17 @@ local function StartHeartBeat(self)
 	self.timer:Start()
 end
 
-local function SendMessage(self, msg_id, msg_obj, need_resend)
+local function SendMessage(self, msg_id, msg_obj, callback, need_resend)
 	--处理消息重发
 	need_resend = need_resend == nil and true or need_resend
 
 	if need_resend and self.sendMsgCache[self.globalSeq] == nil then
 		local send_msg = SendMsgDefine.New(self.globalSeq, msg_id, msg_obj)
-		self.sendMsgCache[self.globalSeq] = {request_seq =0, request_time = os.time(), send_msg = send_msg}
+		self.sendMsgCache[self.globalSeq] = {
+			request_seq =0,
+			request_time = os.time(),
+			send_msg = send_msg,
+			callback = callback }
 
 		local msg_bytes = NetUtil.SerializeMessage(send_msg)
 		Logger.Log("SendMessage: "..tostring(send_msg))
@@ -72,9 +76,15 @@ local function OnReceivePackage(self, receive_bytes)
 	local seq = receiveMessage.Seq
 	if self.sendMsgCache[seq] ~= nil then
 		Logger.Log("ReveMessage: "..tostring(seq))
+
+		local msgCache = self.sendMsgCache[seq]
+		local callbackFun = msgCache.callback
+		if( callbackFun ~= nil) then
+			callbackFun(receiveMessage.MsgProto)
+		end
 		self.sendMsgCache[seq] = nil
 	end
-	NetManager:GetInstance():Broadcast(tonumber(receiveMessage.MsgId), receiveMessage.MsgProto)
+	--NetManager:GetInstance():Broadcast(tonumber(receiveMessage.MsgId), receiveMessage.MsgProto)
 end
 
 local function _on_close(self, socket, code, msg)

@@ -4,16 +4,24 @@ local Messenger = require "Framework.Common.Messenger"
 local NetManager = BaseClass("NetManager", Singleton)
 
 local function __init(self)
-    self.gameConnector = HallConnector.New()
+    self.realmConnector = HallConnector.New();
+    self.gateConnector = HallConnector.New()
     self.chatConnector = HallConnector.New()
 
     self.net_message_center = Messenger.New()
 end
 
+--连接验证服
+local function ConnectRealmServer(self, host_ip, host_port, callback)
+    if self.realmConnector then
+        self.realmConnector:Connect(host_ip, host_port, callback)
+    end
+end
+
 --连接游戏服
-local function ConnectGameServer(self, host_ip, host_port, callback)
-    if self.gameConnector then
-        self.gameConnector:Connect(host_ip, host_port,callback)
+local function ConnectGateServer(self, host_ip, host_port, callback)
+    if self.gateConnector then
+        self.gateConnector:Connect(host_ip, host_port,callback)
     end
 end
 
@@ -24,9 +32,15 @@ local function ConnectChatServer(self, host_ip, host_port,callback)
     end
 end
 
-local function CloseGameServer(self)
-    if self.gameConnector then
-        self.gameConnector:Close()
+local function CloseRealmServer(self)
+    if self.realmConnector then
+        self.realmConnector:Close()
+    end
+end
+
+local function CloseGateServer(self)
+    if self.gateConnector then
+        self.gateConnector:Close()
     end
 end
 
@@ -36,17 +50,27 @@ local function CloseChatServer(self)
     end
 end
 
-local function SendGameMsg(self, msg_id, msg_obj, show_mask, need_resend)
-    show_mask = show_mask == nil and true or show_mask
-    --处理 mask
+local function SendRealmMsg(self, msg_id, msg_obj,callback,show_mask,need_resend)
 
-    if(self.gameConnector) then
-        self.gameConnector:SendMessage(msg_id, msg_obj,need_resend)
+    if self.realmConnector then
+        self.realmConnector:SendMessage(msg_id, msg_obj,callback,need_resend)
     end
 end
 
-local function SendChatMsg(self, msg_id, msg_obj, show_mask, need_resend)
+local function SendGameMsg(self, msg_id, msg_obj, callback,show_mask, need_resend)
+    show_mask = show_mask == nil and true or show_mask
+    --处理 mask
 
+    if(self.gateConnector) then
+        self.gateConnector:SendMessage(msg_id, msg_obj,callback,need_resend)
+    end
+end
+
+local function SendChatMsg(self, msg_id, msg_obj, callback, show_mask, need_resend)
+
+    if self.chatConnector then
+        self.chatConnector:SendMessage(msg_id, msg_obj,callback, need_resend)
+    end
 end
 
 -- 注册消息
@@ -64,15 +88,20 @@ local function Broadcast(self, e_type, ...)
 end
 
 -- 注销消息
-local function RemoveListener(self, e_type, e_listener)
+local function RemoveListener(self, e_type)
     if(self.net_message_center) then
-        self.net_message_center:RemoveListener(e_type, e_listener)
+        self.net_message_center:RemoveListenerByType(e_type)
     end
 end
 
 local function Update(self)
-    if self.gameConnector then
-        self.gameConnector:Update()
+
+    if self.realmConnector then
+        self.realmConnector:Update()
+    end
+
+    if self.gateConnector then
+        self.gateConnector:Update()
     end
 
     if self.chatConnector then
@@ -82,10 +111,15 @@ end
 
 
 local function Dispose(self)
-    if self.gameConnector then
-        self.gameConnector:Dispose()
+    if self.realmConnector then
+        self.realmConnector:Dispose()
     end
-    self.gameConnector = nil
+    self.gateConnector = nil;
+
+    if self.gateConnector then
+        self.gateConnector:Dispose()
+    end
+    self.gateConnector = nil
 
     if self.chatConnector then
         self.chatConnector:Dispose()
@@ -96,12 +130,18 @@ local function Dispose(self)
 end
 
 NetManager.__init = __init
-NetManager.ConnectGameServer = ConnectGameServer
+NetManager.ConnectRealmServer = ConnectRealmServer
+NetManager.ConnectGateServer = ConnectGateServer
 NetManager.ConnectChatServer = ConnectChatServer
-NetManager.CloseGameServer = CloseGameServer
+
+NetManager.CloseRealmServer = CloseRealmServer
+NetManager.CloseGateServer = CloseGateServer
 NetManager.CloseChatServer = CloseChatServer
+
+NetManager.SendRealmMsg = SendRealmMsg
 NetManager.SendGameMsg = SendGameMsg
 NetManager.SendChatMsg = SendChatMsg
+
 NetManager.Update = Update
 NetManager.Dispose = Dispose
 NetManager.AddListener = AddListener

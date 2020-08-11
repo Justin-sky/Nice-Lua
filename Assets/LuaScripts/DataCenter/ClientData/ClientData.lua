@@ -28,8 +28,19 @@ local function SetLoginServerID(self, id)
 	DataManager:GetInstance():Broadcast(DataMessageNames.ON_LOGIN_SERVER_ID_CHG, id)
 end
 
+local function SetGateInfo(self, gate_id, gate_key)
+	self.gate_id = gate_id
+	self.gate_key = gate_key
+end
+
+local function GetGateInfo(self)
+	return {gate_id = self.gate_id, gate_key = self.gate_key}
+end
+
 ClientData.__init = __init
 ClientData.SetAccountInfo = SetAccountInfo
 ClientData.SetLoginServerID = SetLoginServerID
+ClientData.GetGateInfo = GetGateInfo
+ClientData.SetGateInfo = SetGateInfo
 
 return ClientData

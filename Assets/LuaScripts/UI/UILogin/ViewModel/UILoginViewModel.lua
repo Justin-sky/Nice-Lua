@@ -10,6 +10,7 @@
 local UILoginViewModel = BaseClass("UILoginViewModel",UIBaseViewModel)
 local base = UIBaseViewModel
 
+
 local function OnCreate(self)
     self.app_version_text = BindableProperty.New("1.0.1")
     self.res_version_text = BindableProperty.New(8898)
@@ -50,9 +51,8 @@ local function OnCreate(self)
 
             ClientData:GetInstance():SetAccountInfo(name, password)
 
-            -- TODO start socket
-            --ConnectServer(self)
-            NetManager:GetInstance():ConnectGameServer("127.0.0.1", 10002, self.OnGameServerConnected)
+
+            NetManager:GetInstance():ConnectRealmServer("127.0.0.1", 10002, self.OnRealmServerConnected)
             --SceneManager:GetInstance():SwitchScene(SceneConfig.HomeScene)
         end
     }
@@ -100,29 +100,56 @@ local function OnCreate(self)
     base.OnEnable(self)
 end
 
-local function OnLoginRsp(receiveMessage)
-    NetManager:GetInstance():RemoveListener(MsgIDDefine.R2C_LOGIN, OnLoginRsp)
 
-    table.dump(receiveMessage)
-    print("receive message=====Login Success=============")
-    print("add: "..receiveMessage.Address )
-    print(os.time())
-    SceneManager:GetInstance():SwitchScene(SceneConfig.HomeScene)
+local function OnGateServerConnected()
+    Logger.Log("Gate Server connected success")
+
+    --Login Gate Server
+    local gateInfo = ClientData:GetInstance():GetGateInfo()
+    print("gate _id ： "..gateInfo.gate_id .. ", gate key:"..gateInfo.gate_key)
+
+    local c2g_loginGate = {
+        Key = gateInfo.gate_key,
+        GateId = gateInfo.gate_id
+    }
+    NetManager:GetInstance():SendGameMsg(MsgIDDefine.C2G_LOGINGATE, c2g_loginGate, function (msg)
+        Logger.Log("Login Gate Success")
+
+        Logger.Log("PlayerID: "..msg.PlayerId .. ",Message:"..msg.Message)
+
+        SceneManager:GetInstance():SwitchScene(SceneConfig.HomeScene)
+    end, true, true)
+
 end
 
-local function OnGameServerConnected(self)
-    --游戏服连接成功
+local function OnRealmServerConnected(self)
+    --验证服连接成功
 
     local c2r_login = {
-        RpcId = 9981,
         Account = "Jusitn",
         Password = "123456"
     }
-    NetManager:GetInstance():SendGameMsg(MsgIDDefine.C2R_LOGIN, c2r_login, true, true)
-    --添加消息处理
-    NetManager:GetInstance():AddListener(MsgIDDefine.R2C_LOGIN, OnLoginRsp)
-end
+    NetManager:GetInstance():SendRealmMsg(MsgIDDefine.C2R_LOGIN, c2r_login,function(msg)
+        Logger.Log("receive message=====Login Success=============")
 
+        --关闭验证服
+        NetManager:GetInstance():CloseRealmServer()
+
+        --连接登录服
+        local gateAddr = msg.Address
+        local gateId = msg.GateId
+        local key = msg.Key
+        local message = msg.Message
+
+        ClientData:GetInstance():SetGateInfo(gateId, key)
+
+        local addrs = string.split(gateAddr, ":")
+        Logger.Log("ip: "..addrs[1] .. ",port: "..addrs[2])
+        NetManager:GetInstance():ConnectGateServer(addrs[1], addrs[2], OnGateServerConnected)
+
+    end ,true, true)
+
+end
 
 
 local function SetServerInfo(self, select_svr_id)
@@ -183,9 +210,9 @@ UILoginViewModel.OnDistroy = OnDistroy
 UILoginViewModel.OnRefresh = OnRefresh
 UILoginViewModel.OnAddListener = OnAddListener
 UILoginViewModel.OnRemoveListener = OnRemoveListener
-UILoginViewModel.on_connect = on_connect
-UILoginViewModel.on_close = on_close
-UILoginViewModel.OnGameServerConnected = OnGameServerConnected
+UILoginViewModel.On_R2C_LOGIN = On_R2C_LOGIN
+UILoginViewModel.OnRealmServerConnected = OnRealmServerConnected
+UILoginViewModel.OnGateServerConnected = OnGateServerConnected
 
 
 return UILoginViewModel
