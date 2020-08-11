@@ -1,10 +1,10 @@
 --[[
 -- added by wsh @ 2017-12-01
--- UILoginÊÓÍ¼²ã
--- ×¢Òâ£º
--- 1¡¢³ÉÔ±±äÁ¿×îºÃÔ¤ÏÈÔÚ__initº¯ÊıÉùÃ÷£¬Ìá¸ß´úÂë¿É¶ÁĞÔ
--- 2¡¢OnEnableº¯ÊıÃ¿´ÎÔÚ´°¿Ú´ò¿ªÊ±µ÷ÓÃ£¬Ö±½ÓË¢ĞÂ
--- 3¡¢×é¼şÃüÃû²Î¿¼´úÂë¹æ·¶
+-- UILoginè§†å›¾å±‚
+-- æ³¨æ„ï¼š
+-- 1ã€æˆå‘˜å˜é‡æœ€å¥½é¢„å…ˆåœ¨__initå‡½æ•°å£°æ˜ï¼Œæé«˜ä»£ç å¯è¯»æ€§
+-- 2ã€OnEnableå‡½æ•°æ¯æ¬¡åœ¨çª—å£æ‰“å¼€æ—¶è°ƒç”¨ï¼Œç›´æ¥åˆ·æ–°
+-- 3ã€ç»„ä»¶å‘½åå‚è€ƒä»£ç è§„èŒƒ
 --]]
 
 
@@ -27,7 +27,7 @@ local function OnCreate(self)
     }
     self.logout_btn = {
         OnClick = function()
-            NetManager:GetInstance():CloseGameServer()
+            NetManager:GetInstance():CloseGateServer()
             SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
         end
     }
@@ -46,21 +46,21 @@ local function OnCreate(self)
     }
 end
 
--- ´ò¿ª
+-- æ‰“å¼€
 local function OnEnable(self)
     base.OnEnable(self)
 end
 
--- ¹Ø±Õ
+-- å…³é—­
 local function OnDisable(self)
     base.OnDisable(self)
-    -- ÇåÀí³ÉÔ±±äÁ¿
+    -- æ¸…ç†æˆå‘˜å˜é‡
 end
 
--- Ïú»Ù
+-- é”€æ¯
 local function OnDistroy(self)
     base.OnDistroy(self)
-    -- ÇåÀí³ÉÔ±±äÁ¿
+    -- æ¸…ç†æˆå‘˜å˜é‡
 end
 
 UITestMainViewModel.OnCreate = OnCreate
