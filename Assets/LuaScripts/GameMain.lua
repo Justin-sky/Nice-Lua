@@ -64,6 +64,8 @@ local function OnApplicationQuit()
 	TimerManager:GetInstance():Dispose()
 	LogicUpdater:GetInstance():Dispose()
 	NetManager:GetInstance():Dispose()
+
+	Logger.Log("Game OnApplicationQuit ...lua")
 end
 
 -- GameMain公共接口，其它的一律为私有接口，只能在本模块访问

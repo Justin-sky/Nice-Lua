@@ -112,16 +112,19 @@ end
 
 local function Dispose(self)
     if self.realmConnector then
+        self.realmConnector:Close()
         self.realmConnector:Dispose()
     end
-    self.gateConnector = nil;
+    self.realmConnector = nil;
 
     if self.gateConnector then
+        self.gateConnector:Close()
         self.gateConnector:Dispose()
     end
     self.gateConnector = nil
 
     if self.chatConnector then
+        self.chatConnector:Close()
         self.chatConnector:Dispose()
     end
     self.chatConnector = nil
