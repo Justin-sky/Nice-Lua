@@ -1,4 +1,4 @@
-﻿using AssetBundles;
+﻿using Addressable;
 using System.Collections.Generic;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
@@ -46,7 +46,7 @@ public class AASUtility : UnityEditor.Editor
         var s = GetSettings();
         var g = CreateGroup(groupName);
         var entry = s.CreateOrMoveEntry(assetGuid, g);
-        entry.address = entry.address.Replace("Assets/"+ AssetBundleConfig.AssetsFolderName + "/", "")
+        entry.address = entry.address.Replace("Assets/"+ AddressableConfig.AssetsFolderName + "/", "")
             .Replace(XLuaManager.luaAssetbundleAssetName+"/",""); ;
     }
     public static void SetLabelToAsset(List<string> assetGuidList, string label, bool flag)

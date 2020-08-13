@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Linq;
 
-namespace AssetBundles
+namespace Addressable
 {
     [LuaCallCSharp]
     public class AddressablesManager : MonoSingleton<AddressablesManager>

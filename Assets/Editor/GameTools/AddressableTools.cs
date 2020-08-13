@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using Addressable;
+using System;
 using System.Collections.Generic;
-using UnityEditor.AddressableAssets.Settings;
-using UnityEditor;
-using UnityEngine;
-using System.Linq;
 using System.IO;
-using AssetBundles;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEngine;
 
 [InitializeOnLoad]
 public class AddressableTools
@@ -38,9 +37,9 @@ public class AddressableTools
 
         string[] address = assets.Select(e => e.address).ToArray();
 
-        string assetFolder = Path.Combine(Application.dataPath, AssetBundleConfig.AssetsFolderName);
+        string assetFolder = Path.Combine(Application.dataPath, AddressableConfig.AssetsFolderName);
         
-        var assetPathMap = Path.Combine(assetFolder, AssetBundleConfig.AssetsPathMapFileName);
+        var assetPathMap = Path.Combine(assetFolder, AddressableConfig.AssetsPathMapFileName);
 
         GameUtility.SafeWriteAllLines(assetPathMap, address);
         AssetDatabase.Refresh();

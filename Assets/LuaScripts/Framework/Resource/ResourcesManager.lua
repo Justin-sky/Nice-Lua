@@ -10,8 +10,8 @@
 --]]
 
 local ResourcesManager = BaseClass("ResourcesManager", Singleton)
-local AddressablesManager = CS.AssetBundles.AddressablesManager.Instance
-local AssetBundleUtility = CS.AssetBundles.AssetBundleUtility
+local AddressablesManager = CS.Addressable.AddressablesManager.Instance
+local AssetBundleUtility = CS.Addressable.AssetBundleUtility
 
 -- 是否有加载任务正在进行
 local function IsProsessRunning(self)

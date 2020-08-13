@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.IO;
 using Debug = UnityEngine.Debug;
-using AssetBundles;
+using Addressable;
 using System.Diagnostics;
 using System;
 
@@ -16,7 +16,7 @@ public static class XLuaMenu
         bool encodeLua = true;  //对lua 编译
 
         //准备目标路径
-        string destination = Path.Combine(Application.dataPath, AssetBundleConfig.AssetsFolderName);
+        string destination = Path.Combine(Application.dataPath, AddressableConfig.AssetsFolderName);
         destination = Path.Combine(destination, XLuaManager.luaAssetbundleAssetName);
  
         //准备源目录

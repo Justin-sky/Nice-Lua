@@ -8,7 +8,7 @@ using UnityEngine;
 /// 注意：提供对协程操作的支持，但是异步操作的进行不依赖于协程，可以在Update等函数中查看进度值
 /// </summary>
 
-namespace AssetBundles
+namespace Addressable
 {
     public abstract class ResourceAsyncOperation : IEnumerator, IDisposable
     {

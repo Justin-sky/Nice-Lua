@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using XLua;
 
-namespace AssetBundles
+namespace Addressable
 {
     [LuaCallCSharp]
     public class AddressablesAsyncLoader : BaseAssetAsyncLoader

@@ -10,10 +10,15 @@ using System.IO;
 /// 1、所有ab路径中目录、文件名不能以下划线打头，否则出包时StreamingAssets中的资源不能打到真机上，很坑爹
 /// </summary>
 
-namespace AssetBundles
+namespace Addressable
 {
-    public class AssetBundleConfig
+    public class AddressableConfig
     {
+        public static string server_local_url = "localhost";
+        public static string server_android_url = "http://60.1.1.12/et/android";
+        public static string server_ios_url = "http://60.1.1.12/et/ios";
+
+
         public const string localSvrAppPath = "Editor/AssetBundle/LocalServer/AssetBundleServer.exe";
         public const string AssetBundlesFolderName = "AssetBundles";
         public const string AssetBundleSuffix = ".assetbundle";

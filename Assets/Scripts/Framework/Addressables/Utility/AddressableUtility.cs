@@ -10,7 +10,7 @@ using System.IO;
 /// 2、目前所有路径处理不支持variant，后续考虑是否支持
 /// </summary>
 
-namespace AssetBundles
+namespace Addressable
 {
     [Hotfix]
     [LuaCallCSharp]
@@ -33,7 +33,7 @@ namespace AssetBundles
         public static string GetStreamingAssetsFilePath(string assetPath = null)
         {
 #if UNITY_EDITOR
-            string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
+            string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AddressableConfig.AssetBundlesFolderName);
 #else
 #if UNITY_IPHONE || UNITY_IOS
                 string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
@@ -53,7 +53,7 @@ namespace AssetBundles
 
         public static string GetStreamingAssetsDataPath(string assetPath = null)
         {
-            string outputPath = Path.Combine(Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
+            string outputPath = Path.Combine(Application.streamingAssetsPath, AddressableConfig.AssetBundlesFolderName);
             if (!string.IsNullOrEmpty(assetPath))
             {
                 outputPath = Path.Combine(outputPath, assetPath);
@@ -68,7 +68,7 @@ namespace AssetBundles
 
         public static string GetPersistentDataPath(string assetPath = null)
         {
-            string outputPath = Path.Combine(Application.persistentDataPath, AssetBundleConfig.AssetBundlesFolderName);
+            string outputPath = Path.Combine(Application.persistentDataPath, AddressableConfig.AssetBundlesFolderName);
             if (!string.IsNullOrEmpty(assetPath))
             {
                 outputPath = Path.Combine(outputPath, assetPath);
@@ -113,7 +113,7 @@ namespace AssetBundles
                 //otherwise the variant handling in client may go wrong
                 assetPath = assetPath.Replace(".", "_");
                 //add after suffix ".assetbundle" to the end
-                assetPath = assetPath + AssetBundleConfig.AssetBundleSuffix;
+                assetPath = assetPath + AddressableConfig.AssetBundleSuffix;
                 return assetPath.ToLower();
             }
             return null;
@@ -121,18 +121,18 @@ namespace AssetBundles
         
         public static string PackagePathToAssetsPath(string assetPath)
         {
-            return "Assets/" + AssetBundleConfig.AssetsFolderName + "/" + assetPath;
+            return "Assets/" + AddressableConfig.AssetsFolderName + "/" + assetPath;
         }
 
         public static bool IsPackagePath(string assetPath)
         {
-            string path = "Assets/" + AssetBundleConfig.AssetsFolderName + "/";
+            string path = "Assets/" + AddressableConfig.AssetsFolderName + "/";
             return assetPath.StartsWith(path);
         }
         
         public static string AssetsPathToPackagePath(string assetPath)
         {
-            string path = "Assets/" + AssetBundleConfig.AssetsFolderName + "/";
+            string path = "Assets/" + AddressableConfig.AssetsFolderName + "/";
             if (assetPath.StartsWith(path))
             {
                 return assetPath.Substring(path.Length);

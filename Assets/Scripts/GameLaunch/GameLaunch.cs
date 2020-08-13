@@ -1,19 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using AssetBundles;
-using GameChannel;
+﻿using Addressable;
 using System;
-using XLua;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using XLua;
 
 [Hotfix]
 [LuaCallCSharp]
 public class GameLaunch : MonoBehaviour
 {
-    public static string server_local_url = "localhost";
-    public static string server_android_url = "http://60.1.1.12/et/android";
-    public static string server_ios_url = "http://60.1.1.12/et/ios";
  
     const string launchPrefabPath = "UI/Prefabs/View/UILaunch.prefab";
     const string noticeTipPrefabPath = "UI/Prefabs/Common/UINoticeTip.prefab";

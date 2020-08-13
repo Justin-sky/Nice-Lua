@@ -10,7 +10,7 @@ local GameObjectPool = BaseClass("GameObjectPool", Singleton)
 local __cacheTransRoot = nil
 local __goPool = {}
 local __instCache = {}
-local AddressablesManager = CS.AssetBundles.AddressablesManager.Instance
+local AddressablesManager = CS.Addressable.AddressablesManager.Instance
 
 local function __init(self)
 	local go = CS.UnityEngine.GameObject.Find("GameObjectCacheRoot")

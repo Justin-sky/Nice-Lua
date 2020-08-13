@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace AssetBundles
+namespace Addressable
 {
     public class LuaAsyncLoader : BaseAssetAsyncLoader
     {

@@ -1,4 +1,4 @@
-﻿using AssetBundles;
+﻿using Addressable;
 using GameChannel;
 using System;
 using System.Collections;
@@ -107,7 +107,7 @@ public class AddressableUpdater : MonoBehaviour
         //预加载Lua
         AddressablesManager.Instance.ReleaseLuas();
 
-        BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AssetBundleConfig.AssetsPathMapFileName, typeof(TextAsset));
+        BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AddressableConfig.AssetsPathMapFileName, typeof(TextAsset));
         yield return loader;
 
         TextAsset maptext = loader.asset as TextAsset;

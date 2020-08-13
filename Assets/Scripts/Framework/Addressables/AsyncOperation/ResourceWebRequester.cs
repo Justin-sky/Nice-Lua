@@ -17,7 +17,7 @@ using XLua;
 /// 4、另外，虽然LoadFromFile(Async)是加载ab最快的API，但是会延缓Asset加载的时间（读磁盘），如果ab尽量预加载，不考虑内存敏感问题，这个API意义就不大
 /// </summary>
 
-namespace AssetBundles
+namespace Addressable
 {
     public class MyCertificateHandler : CertificateHandler
     {

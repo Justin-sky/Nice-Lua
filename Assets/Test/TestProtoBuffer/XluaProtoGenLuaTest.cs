@@ -1,8 +1,5 @@
 ﻿//#define FOR_GC_TEST
-using AssetBundles;
-using System.IO;
 using UnityEngine;
-using XLua;
 
 /// <summary>
 /// Xlua集成proto-gen-lua插件测试：启用宏测试GC

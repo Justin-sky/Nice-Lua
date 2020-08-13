@@ -1,4 +1,4 @@
-﻿using AssetBundles;
+﻿using Addressable;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -172,7 +172,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         var luaPath = Path.Combine(scriptDir, scriptPath.ToString());
         // Logger.Log("Load lua script : " + luaPath);
         return GameUtility.SafeReadAllBytes(luaPath);
-#endif
+#else
 
         var luaAddress = scriptPath.Append(".bytes").ToString();
 
@@ -184,6 +184,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         }
         Logger.LogError("Load lua script failed : " + scriptPath + ", You should preload lua assetbundle first!!!");
         return null;
+#endif
     }
 
     private void Update()
