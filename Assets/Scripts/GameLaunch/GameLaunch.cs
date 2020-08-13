@@ -15,7 +15,7 @@ public class GameLaunch : MonoBehaviour
     const string noticeTipPrefabPath = "UI/Prefabs/Common/UINoticeTip.prefab";
     GameObject launchPrefab;
     GameObject noticeTipPrefab;
-    AddressableUpdater updater;
+    GameUpdater updater;
 
     IEnumerator Start ()
     {
@@ -122,7 +122,7 @@ public class GameLaunch : MonoBehaviour
             
             launchPrefab = handle.Result;
             var go = InstantiateGameObject(launchPrefab);
-            updater = go.AddComponent<AddressableUpdater>();
+            updater = go.AddComponent<GameUpdater>();
             yield break;
         }
         else

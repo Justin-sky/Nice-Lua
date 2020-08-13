@@ -9,7 +9,7 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
-public class AddressableUpdater : MonoBehaviour
+public class GameUpdater : MonoBehaviour
 {
     Text statusText;
     Slider slider;
