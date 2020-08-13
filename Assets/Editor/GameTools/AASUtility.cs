@@ -1,10 +1,12 @@
 ﻿using AssetBundles;
 using System.Collections.Generic;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEngine;
 
 public class AASUtility : UnityEditor.Editor
 {
-    public static UnityEditor.AddressableAssets.Settings.AddressableAssetSettings GetSettings()
+    public static AddressableAssetSettings GetSettings()
     {
         //アドレサブルアセットセッティング取得
         var d = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEditor.AddressableAssets.Settings.AddressableAssetSettings>(
@@ -14,14 +16,14 @@ public class AASUtility : UnityEditor.Editor
     }
 
 
-    public static UnityEditor.AddressableAssets.Settings.AddressableAssetGroup CreateGroup(string groupName)
+    public static AddressableAssetGroup CreateGroup(string groupName)
     {
         //アドレサブルアセットセッティング取得
         var s = GetSettings();
         //スキーマ生成
-        List<UnityEditor.AddressableAssets.Settings.AddressableAssetGroupSchema> schema = new List<UnityEditor.AddressableAssets.Settings.AddressableAssetGroupSchema>() {
-             ScriptableObject.CreateInstance<UnityEditor.AddressableAssets.Settings.GroupSchemas.BundledAssetGroupSchema>(),
-             ScriptableObject.CreateInstance<UnityEditor.AddressableAssets.Settings.GroupSchemas.ContentUpdateGroupSchema>(),
+        List<AddressableAssetGroupSchema> schema = new List<AddressableAssetGroupSchema>() {
+             CreateInstance<BundledAssetGroupSchema>(),
+             CreateInstance<ContentUpdateGroupSchema>(),
 
         };
         //グループの作成

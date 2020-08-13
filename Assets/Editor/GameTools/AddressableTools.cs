@@ -13,9 +13,21 @@ public class AddressableTools
 {
 
 
-    [MenuItem("NICELua/Marked AssetsPackage Addressable", false, 52)]
+    [MenuItem("NICELua/Initialize Addressable Enviroment", false, 52)]
     public static void RunCheckAssetBundle()
     {
+
+        var initGroups = new string[] {
+         "static_effect",
+         "static_lua",
+         "static_models",
+         "static_render_assets",
+         "static_shaders",
+         "static_ui",
+         "static_config"
+        };
+
+
         var start = DateTime.Now;
        
 
@@ -33,7 +45,11 @@ public class AddressableTools
         GameUtility.SafeWriteAllLines(assetPathMap, address);
         AssetDatabase.Refresh();
 
-
+        //初始化Groups
+        foreach(var g in initGroups)
+        {
+            AASUtility.CreateGroup(g);
+        }
         Debug.Log("Finished Update Asset Path Map... " + (DateTime.Now - start).TotalSeconds + "s");
         
     }
