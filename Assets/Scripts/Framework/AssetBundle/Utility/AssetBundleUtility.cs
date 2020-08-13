@@ -36,11 +36,12 @@ namespace AssetBundles
             string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
 #else
 #if UNITY_IPHONE || UNITY_IOS
-            string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
+                string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
 #elif UNITY_ANDROID
-            string outputPath = Path.Combine(Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
+                string outputPath = Path.Combine(Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
 #else
-            Logger.LogError("Unsupported platform!!!");
+                string outputPath ="";
+                Logger.LogError("Unsupported platform!!!");
 #endif
 #endif
             if (!string.IsNullOrEmpty(assetPath))
