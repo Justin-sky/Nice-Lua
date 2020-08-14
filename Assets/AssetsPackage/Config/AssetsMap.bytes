@@ -1,5 +1,4 @@
 Lua/Net/Config/ReceiveMsgDefine.lua.bytes
-Lua/Net/PB/user.pb.bytes
 Lua/Framework/Resource/Effect/EffectManager.lua.bytes
 Lua/Common/Tools/UnityEngine/Time.lua.bytes
 Lua/XLua/Perf/profiler.lua.bytes
@@ -32,7 +31,6 @@ Lua/Framework/Scene/Base/BaseScene.lua.bytes
 Lua/Common/Tools/list.lua.bytes
 Lua/Net/Config/MsgIDMap.lua.bytes
 Lua/Framework/UI/Component/UIInput.lua.bytes
-Lua/Net/PB/room.pb.bytes
 Lua/DataCenter/ClientData/ClientData.lua.bytes
 Lua/Scenes/LoginScene.lua.bytes
 Lua/Framework/Common/UpdatableSingleton.lua.bytes
@@ -65,10 +63,8 @@ Lua/UI/UILogin/ViewModel/UILoginServerViewModel.lua.bytes
 Lua/GameTest/ModuleTest/TestKeepModel.lua.bytes
 Lua/Common/Tools/UnityEngine/Ray.lua.bytes
 Lua/XLua/HotfixMain.lua.bytes
-Lua/Net/Config/ReceiveSinglePackage.lua.bytes
 Lua/Framework/UI/Component/UIButton.lua.bytes
 Lua/Common/Tools/UnityEngine/Quaternion.lua.bytes
-Lua/Net/PB/login.pb.bytes
 Lua/GameTest/DataTest/TestServerData.lua.bytes
 Lua/Framework/UI/Component/UIButtonGroup.lua.bytes
 Lua/LuaDebug.lua.bytes
@@ -93,7 +89,6 @@ Lua/Framework/Common/Updatable.lua.bytes
 Lua/Common/Tools/mime.lua.bytes
 Lua/Framework/UI/Component/UICanvas.lua.bytes
 Lua/Framework/Updater/Coroutine.lua.bytes
-Lua/Net/PB/common.pb.bytes
 Lua/XLua/Common/cs_coroutine.lua.bytes
 Lua/UI/UILoading/UILoadingConfig.lua.bytes
 Lua/Framework/UI/Component/UIText.lua.bytes
