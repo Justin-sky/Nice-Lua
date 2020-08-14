@@ -20,7 +20,6 @@ public class AddressableTools
          "static_effect",
          "static_lua",
          "static_models",
-         "static_render_assets",
          "static_shaders",
          "static_ui",
          "static_config"
