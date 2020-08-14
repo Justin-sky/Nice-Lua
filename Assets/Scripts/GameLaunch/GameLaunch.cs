@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using XLua;
+#if !UNITY_EDITOR
+using Addressable;
+#endif
+
 
 [Hotfix]
 [LuaCallCSharp]
@@ -15,7 +19,7 @@ public class GameLaunch : MonoBehaviour
     const string noticeTipPrefabPath = "UI/Prefabs/Common/UINoticeTip.prefab";
     GameObject launchPrefab;
     GameObject noticeTipPrefab;
-    GameUpdater updater;
+    AddressableUpdater updater;
 
     IEnumerator Start ()
     {
@@ -39,7 +43,7 @@ public class GameLaunch : MonoBehaviour
 
 #if !UNITY_EDITOR
         //预加载Lua
-        BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AssetBundleConfig.AssetsPathMapFileName, typeof(TextAsset));
+        BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AddressableConfig.AssetsPathMapFileName, typeof(TextAsset));
         yield return loader;
 
         TextAsset maptext = loader.asset as TextAsset;
@@ -122,7 +126,7 @@ public class GameLaunch : MonoBehaviour
             
             launchPrefab = handle.Result;
             var go = InstantiateGameObject(launchPrefab);
-            updater = go.AddComponent<GameUpdater>();
+            updater = go.AddComponent<AddressableUpdater>();
             yield break;
         }
         else

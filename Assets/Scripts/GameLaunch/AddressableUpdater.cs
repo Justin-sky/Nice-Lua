@@ -9,7 +9,7 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
-public class GameUpdater : MonoBehaviour
+public class AddressableUpdater : MonoBehaviour
 {
     Text statusText;
     Slider slider;
@@ -38,22 +38,23 @@ public class GameUpdater : MonoBehaviour
 
     IEnumerator checkUpdate()
     {
-
-
         var start = DateTime.Now;
-      
-        AsyncOperationHandle<List<string>> handle = Addressables.CheckForCatalogUpdates(false);
-        yield return handle;
-        Logger.Log(string.Format("CheckIfNeededUpdate use {0}ms", (DateTime.Now - start).Milliseconds));
 
-        if(handle.Status == AsyncOperationStatus.Succeeded)
+
+        var initHandle =Addressables.InitializeAsync();
+        yield return initHandle;
+
+      
+        var checkHandle = Addressables.CheckForCatalogUpdates(false);
+        yield return checkHandle;
+        Logger.Log(string.Format("CheckIfNeededUpdate use {0}ms", (DateTime.Now - start).Milliseconds));
+        Logger.Log($"catalog count: {checkHandle.Result.Count} === check status: {checkHandle.Status}");
+        if(checkHandle.Status == AsyncOperationStatus.Succeeded)
         {
-            List<string> catalogs = handle.Result;
+            List<string> catalogs = checkHandle.Result;
             if (catalogs != null && catalogs.Count > 0)
             {
-                UINoticeTip.Instance.ShowOneButtonTip("更新提示", $"本次更新资源包数量：{catalogs.Count}", "确定", null);
-                yield return UINoticeTip.Instance.WaitForResponse();
-
+               
                 needUpdateRes = true;
 
                 statusText.text = "正在更新资源...";
@@ -64,14 +65,47 @@ public class GameUpdater : MonoBehaviour
                 start = DateTime.Now;
                 AsyncOperationHandle<List<IResourceLocator>> updateHandle = Addressables.UpdateCatalogs(catalogs, true);
                 yield return updateHandle;
-                Logger.Log(string.Format("UpdateFinish use {0}ms", (DateTime.Now - start).Milliseconds));
 
+                var locators = updateHandle.Result;
+                Logger.Log($"locator count: {locators.Count}");
+
+                foreach(var v in locators)
+                {
+                    List<object> keys = new List<object>();
+                    keys.AddRange(v.Keys);
+
+                    var sizeHandle = Addressables.GetDownloadSizeAsync(keys);
+                    yield return sizeHandle;
+
+                    long size = sizeHandle.Result;
+                    Logger.Log($"download size:{size}");
+
+                    if(size > 0)
+                    {
+                        UINoticeTip.Instance.ShowOneButtonTip("更新提示", $"本次更新大小：{size}", "确定", null);
+                        yield return UINoticeTip.Instance.WaitForResponse();
+
+
+                        var downloadHandle = Addressables.DownloadDependenciesAsync(keys, Addressables.MergeMode.Union);
+                        while (!downloadHandle.IsDone)
+                        {
+                            float percentage = downloadHandle.PercentComplete;
+                            Logger.Log($"download pregress: {percentage}");
+                            slider.normalizedValue = percentage;
+
+                            yield return null;
+                        }
+                        Addressables.Release(downloadHandle);
+                    }
+                }
+
+                Logger.Log(string.Format("UpdateFinish use {0}ms", (DateTime.Now - start).Milliseconds));
                 yield return UpdateFinish();
 
                 Addressables.Release(updateHandle);
             }
 
-            Addressables.Release(handle);
+            Addressables.Release(checkHandle);
         }
         
 
