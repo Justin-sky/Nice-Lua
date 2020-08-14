@@ -36,9 +36,9 @@ namespace Addressable
             string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AddressableConfig.AssetBundlesFolderName);
 #else
 #if UNITY_IPHONE || UNITY_IOS
-                string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
+                string outputPath = Path.Combine("file://" + Application.streamingAssetsPath, AddressableConfig.AssetBundlesFolderName);
 #elif UNITY_ANDROID
-                string outputPath = Path.Combine(Application.streamingAssetsPath, AssetBundleConfig.AssetBundlesFolderName);
+                string outputPath = Path.Combine(Application.streamingAssetsPath, AddressableConfig.AssetBundlesFolderName);
 #else
                 string outputPath ="";
                 Logger.LogError("Unsupported platform!!!");
