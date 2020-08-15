@@ -44,7 +44,6 @@ public class GameLaunch : MonoBehaviour
         XLuaManager.Instance.Startup();
 
 
-
 #if !UNITY_EDITOR
         //预加载Lua
         BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AddressableConfig.AssetsPathMapFileName, typeof(TextAsset));
