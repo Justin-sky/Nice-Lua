@@ -1,10 +1,12 @@
 ﻿using Addressable;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using XLua;
+using XLua.LuaDLL;
 #if !UNITY_EDITOR
 using Addressable;
 #endif
@@ -40,6 +42,8 @@ public class GameLaunch : MonoBehaviour
         // 启动xlua热修复模块
         start = DateTime.Now;
         XLuaManager.Instance.Startup();
+
+
 
 #if !UNITY_EDITOR
         //预加载Lua

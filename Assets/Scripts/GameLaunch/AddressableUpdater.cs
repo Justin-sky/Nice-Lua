@@ -44,7 +44,7 @@ public class AddressableUpdater : MonoBehaviour
         var initHandle =Addressables.InitializeAsync();
         yield return initHandle;
 
-      
+        var a = Addressables.RuntimePath;
         var checkHandle = Addressables.CheckForCatalogUpdates(false);
         yield return checkHandle;
         Logger.Log(string.Format("CheckIfNeededUpdate use {0}ms", (DateTime.Now - start).Milliseconds));
@@ -63,7 +63,7 @@ public class AddressableUpdater : MonoBehaviour
 
                
                 start = DateTime.Now;
-                AsyncOperationHandle<List<IResourceLocator>> updateHandle = Addressables.UpdateCatalogs(catalogs, true);
+                AsyncOperationHandle<List<IResourceLocator>> updateHandle = Addressables.UpdateCatalogs(catalogs, false);
                 yield return updateHandle;
 
                 var locators = updateHandle.Result;
@@ -141,6 +141,8 @@ public class AddressableUpdater : MonoBehaviour
         //预加载Lua
         AddressablesManager.Instance.ReleaseLuas();
 
+
+        
         BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AddressableConfig.AssetsPathMapFileName, typeof(TextAsset));
         yield return loader;
 
