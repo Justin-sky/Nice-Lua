@@ -21,6 +21,6 @@ Road Map ：
 
 Clone[服务器：https://github.com/Justin-sky/Nice-ET ](https://github.com/Justin-sky/Nice-ET)代码到本地，VS安装.net core 3.0开发环境
 
-首次打开若addressable报错，请执行菜单： NICELua/Marked AssetPackage Addressable。
+[Addressable配置说明文档](https://zhuanlan.zhihu.com/p/184846532)
 
 QQ群：346340389
