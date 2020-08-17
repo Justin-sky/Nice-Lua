@@ -1,6 +1,6 @@
 local TimeUtil = {}
 
--- -- ½«Ò»¸öÊ±¼äÊı×ª»»³É"00:00:00"¸ñÊ½
+-- -- å°†ä¸€ä¸ªæ—¶é—´æ•°è½¬æ¢æˆ"00:00:00"æ ¼å¼
 function TimeUtil:getTimeString1(timeInt)
     if (tonumber(timeInt) <= 0) then
         return "00:00:00"
@@ -9,7 +9,7 @@ function TimeUtil:getTimeString1(timeInt)
     end
 end
 
--- ½«Ò»¸öÊ±¼äÊı×ª»»³É"00:00"¸ñÊ½
+-- å°†ä¸€ä¸ªæ—¶é—´æ•°è½¬æ¢æˆ"00:00"æ ¼å¼
 function TimeUtil:getTimeString(timeInt)
     if (tonumber(timeInt) <= 0) then
         return "00:00"
@@ -18,7 +18,7 @@ function TimeUtil:getTimeString(timeInt)
     end
 end
 
--- ½«Ò»¸öÊ±¼äÊı×ª»»³É"00"·Ö¸ñÊ½
+-- å°†ä¸€ä¸ªæ—¶é—´æ•°è½¬æ¢æˆ"00"åˆ†æ ¼å¼
 function TimeUtil:getTimeMinuteString(timeInt)
     if (tonumber(timeInt) <= 0) then
         return "00"
@@ -27,7 +27,7 @@ function TimeUtil:getTimeMinuteString(timeInt)
     end
 end
 
--- ½«Ò»¸öÊ±¼äÊı×ª»»³É"00¡°Ãë¸ñÊ½
+-- å°†ä¸€ä¸ªæ—¶é—´æ•°è½¬æ¢æˆ"00â€œç§’æ ¼å¼
 function TimeUtil:getTimeSecondString(timeInt)
     if (tonumber(timeInt) <= 0) then
         return "00"
@@ -36,7 +36,7 @@ function TimeUtil:getTimeSecondString(timeInt)
     end
 end
 
--- ½«Ò»¸öÊ±¼ä´Á×ª»»
+-- å°†ä¸€ä¸ªæ—¶é—´æˆ³è½¬æ¢
 function TimeUtil:getTimeStampString(time,splitStr,haveSec)
     if not time then
         return ""
@@ -116,23 +116,23 @@ end
 
 -- Author: KevinYu
 -- Date: 2015-11-12 11:44:29
--- À©Õ¹¹¦ÄÜ
+-- æ‰©å±•åŠŸèƒ½
 
 --[[
-os.date("*t", time) ·µ»ØµÄtable
+os.date("*t", time) è¿”å›çš„table
 time = {
-    "day"   = 12 ÈÕ
-    "hour"  = 15 Ê±
-    "isdst" = false ÊÇ·ñÏÄÁîÊ±
-    "min"   = 7 ·Ö
-    "month" = 11 ÔÂ
-    "sec"   = 12 Ãë
-    "wday"  = 5 ĞÇÆÚ¼¸(ĞÇÆÚÌìÎª1)
-    "yday"  = 316 Ò»ÄêÖĞµÄµÚ¼¸Ìì
-    "year"  = 2015 Äê
+    "day"   = 12 æ—¥
+    "hour"  = 15 æ—¶
+    "isdst" = false æ˜¯å¦å¤ä»¤æ—¶
+    "min"   = 7 åˆ†
+    "month" = 11 æœˆ
+    "sec"   = 12 ç§’
+    "wday"  = 5 æ˜ŸæœŸå‡ (æ˜ŸæœŸå¤©ä¸º1)
+    "yday"  = 316 ä¸€å¹´ä¸­çš„ç¬¬å‡ å¤©
+    "year"  = 2015 å¹´
  }]]
 
---»ñÈ¡±¾ÔÂÏà¹ØÊı¾İ
+--è·å–æœ¬æœˆç›¸å…³æ•°æ®
 function TimeUtil:getMonthData(time)
     local data = {}
     data.firstDayWeek = self:getWeekOfMonthFirstDay(time)
@@ -144,13 +144,13 @@ function TimeUtil:getMonthData(time)
     return data
 end
 
---»ñÈ¡±¾ÔÂÒ»ºÅÊÇĞÇÆÚ¼¸
+--è·å–æœ¬æœˆä¸€å·æ˜¯æ˜ŸæœŸå‡ 
 function TimeUtil:getWeekOfMonthFirstDay(time)
     time = tonumber(time)
     local tab = os.date("*t", time)
     local year, month, day, wday = tab.year, tab.month, tab.day, tab.wday
     local f_wday = 1
-    day = day % 7 --×ª»»µ½1-7ºÅ¶ÔÓ¦µÄµÚ¼¸Ìì  ĞÇÆÚÌìÎªµÚ1Ìì
+    day = day % 7 --è½¬æ¢åˆ°1-7å·å¯¹åº”çš„ç¬¬å‡ å¤©  æ˜ŸæœŸå¤©ä¸ºç¬¬1å¤©
     if day == 0 then
         f_wday = wday + 1
     else
@@ -161,10 +161,10 @@ function TimeUtil:getWeekOfMonthFirstDay(time)
         end
     end
 
-    return f_wday - 1  --·µ»Ø0 - 6 ¶ÔÓ¦ĞÇÆÚÌì-ĞÇÆÚÁù
+    return f_wday - 1  --è¿”å›0 - 6 å¯¹åº”æ˜ŸæœŸå¤©-æ˜ŸæœŸå…­
 end
 
---ÅĞ¶ÏÊÇ·ñÎªÈòÄê
+--åˆ¤æ–­æ˜¯å¦ä¸ºé—°å¹´
 function TimeUtil:isLeapYear(year)
     if (year % 4 == 0 and year % 100 ~= 0) or (year % 400 == 0) then
         return true
@@ -173,7 +173,7 @@ function TimeUtil:isLeapYear(year)
     return false
 end
 
---Ã¿¸öÔÂ¶ÔÓ¦µÄÌìÊı
+--æ¯ä¸ªæœˆå¯¹åº”çš„å¤©æ•°
 local months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 
 function TimeUtil:getMonthDays_(year, month)
@@ -193,42 +193,42 @@ function TimeUtil:getMonthDays(time)
     return self:getMonthDays_(tab.year, tab.month)
 end
 
---Äê
+--å¹´
 function TimeUtil:getYear(time)
     return tonumber(os.date("%Y", time))
 end
 
---ÔÂ
+--æœˆ
 function TimeUtil:getMonth(time)
     return tonumber(os.date("%m", time))
 end
 
---ÈÕ
+--æ—¥
 function TimeUtil:getDay(time)
     return tonumber(os.date("%d", time))
 end
 
---Ê±
+--æ—¶
 function TimeUtil:getHour(time)
     return tonumber(os.date("%H", time))
 end
 
---·Ö
+--åˆ†
 function TimeUtil:getMinutes(time)
     return tonumber(os.date("%M", time))
 end
 
---Ãë
+--ç§’
 function TimeUtil:getSeconds(time)
     return tonumber(os.date("%S", time))
 end
 
---ĞÇÆÚÖĞµÄµÚ¼¸Ìì£¬ĞÇÆÚÌìÎª 0  ÓëwdayÊôĞÔ²»Ò»Ñù
+--æ˜ŸæœŸä¸­çš„ç¬¬å‡ å¤©ï¼Œæ˜ŸæœŸå¤©ä¸º 0  ä¸wdayå±æ€§ä¸ä¸€æ ·
 function TimeUtil:getWeekDay(time)
     return tonumber(os.date("%w", time))
 end
 
---×ãÇò±ÈÈüÊ±¼ä¸ñÊ½
+--è¶³çƒæ¯”èµ›æ—¶é—´æ ¼å¼
 function TimeUtil:getFootballMathTime(time, separator)
     separator = separator or " "
     local date = os.date("*t", time)
