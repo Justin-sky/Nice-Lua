@@ -28,4 +28,6 @@ Object		= require "Common.Tools.UnityEngine.Object"
 
 list		= require "Common.Tools.list"
 
+FB          = require("Common.Tools.flatbuffers")
+
 require "Common.Tools.event"

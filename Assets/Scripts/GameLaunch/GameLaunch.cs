@@ -7,6 +7,8 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using XLua;
 using XLua.LuaDLL;
+using GamePlay;
+
 #if !UNITY_EDITOR
 using Addressable;
 #endif
@@ -32,6 +34,8 @@ public class GameLaunch : MonoBehaviour
         //        UnityEngine.iOS.Device.SetNoBackupFlag(Application.persistentDataPath);
         //#endif
 
+
+        
         var start = DateTime.Now;
 
         // 启动资源管理模块
