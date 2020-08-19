@@ -30,12 +30,10 @@ local function EnterGame()
 	end
 
 	--测试FB
-	local skillconfigTB = require("fb.skillconfigTB")
+	local skillconfigUtl = require("fb.skillconfigUtil")
+	local skilltr = skillconfigUtl:GetInstance():GetByID(1002)
+	print(skilltr:Name().." : "..skilltr:_id())
 
-	local tbbuf = FBUtil:GetInstance():GetFB("skillconfig")
-	local skilltb = skillconfigTB.GetRootAsskillconfigTB(tbbuf, 0)
-	local skilltr = skilltb:SkillconfigTRS(3);
-	print(skilltr:Name())
 
 	--切换场景
 	SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)

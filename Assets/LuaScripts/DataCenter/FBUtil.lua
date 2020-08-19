@@ -18,6 +18,10 @@ local function LoadFB(self)
     coroutine.waitforasyncop(loader, null)
 
     AddressablesManager:ReleaseFB()
+
+    --初始化Map
+    require("fb.FBMapManager"):GetInstance()
+
 end
 
 local function GetFB(self, key)
