@@ -34,6 +34,9 @@ local function EnterGame()
 	local skilltr = skillconfigUtl:GetInstance():GetByID(1002)
 	print(skilltr:Name().." : "..skilltr:_id())
 
+	local heroconfigUtl = require("fb.heroconfigUtil")
+	local herotr = heroconfigUtl:GetInstance():GetByID(2004);
+	print(herotr:Baseatk().." ： "..herotr:_id())
 
 	--切换场景
 	SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
