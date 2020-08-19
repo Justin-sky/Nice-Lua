@@ -13,7 +13,7 @@ local function LoadFB(self)
     loader.OnFBLoadedHandle = Bind(self, function (self, name, buf)
         local fbBuf = flatbuffers.binaryArray.New(buf)
         self.fbCaches[name] = fbBuf
-        print(name)
+        Logger.Log("Load fb file:"..name)
     end);
     coroutine.waitforasyncop(loader, null)
 
