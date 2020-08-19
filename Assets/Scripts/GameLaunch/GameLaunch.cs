@@ -12,7 +12,8 @@ using GamePlay;
 #if !UNITY_EDITOR
 using Addressable;
 #endif
-
+using FlatBuffers;
+using fb;
 
 [Hotfix]
 [LuaCallCSharp]
@@ -34,8 +35,6 @@ public class GameLaunch : MonoBehaviour
         //        UnityEngine.iOS.Device.SetNoBackupFlag(Application.persistentDataPath);
         //#endif
 
-
-        
         var start = DateTime.Now;
 
         // 启动资源管理模块

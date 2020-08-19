@@ -24,10 +24,11 @@ namespace Addressable
         public const string AssetBundleSuffix = ".assetbundle";
         public const string AssetsFolderName = "AssetsPackage";
         public const string ChannelFolderName = "Channel";
-        public const string AssetsPathMapFileName = "Config/AssetsMap.bytes";
+        public const string AssetsPathMapFileName = "Config/luamap/AssetsMap.bytes";
         public const string VariantMapParttren = "Variant";
         public const string CommonMapPattren = ",";
 
+        public const string FlatBufferLable = "FB";
 
     }
 }

@@ -8,6 +8,8 @@ GameMain = {};
 local function Initilize()
 	--预加载 pb协议
 	LoadPB:GetInstance():LoadPB()
+	--预加载 flatbuffer
+	FBUtil:GetInstance():LoadFB()
 end
 
 -- 进入游戏
@@ -26,7 +28,16 @@ local function EnterGame()
 	if selected == nil or ServerData:GetInstance().servers[selected] == nil then
 		ClientData:GetInstance():SetLoginServerID(10001)
 	end
-	
+
+	--测试FB
+	local skillconfigTB = require("fb.skillconfigTB")
+
+	local tbbuf = FBUtil:GetInstance():GetFB("skillconfig")
+	local skilltb = skillconfigTB.GetRootAsskillconfigTB(tbbuf, 0)
+	local skilltr = skilltb:SkillconfigTRS(3);
+	print(skilltr:Name())
+
+	--切换场景
 	SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
 end
 

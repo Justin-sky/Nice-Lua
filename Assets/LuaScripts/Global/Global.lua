@@ -25,6 +25,8 @@ Logger = require "Framework.Logger.Logger"
 require "Framework.Updater.Coroutine"
 
 -- game data
+FBUtil = require "DataCenter.FBUtil"
+
 DataMessageNames = require "DataCenter.Config.DataMessageNames"
 DataManager = require "DataCenter.DataManager"
 ClientData = require "DataCenter.ClientData.ClientData"
@@ -121,3 +123,4 @@ AtlasManager:GetInstance()
 LogicUpdater:GetInstance()
 NetManager:GetInstance()
 LoadPB:GetInstance()
+FBUtil:GetInstance()

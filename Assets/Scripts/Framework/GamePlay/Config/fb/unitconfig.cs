@@ -19,21 +19,22 @@ public struct unitconfigTB : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public unitconfigTB __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public fb.unitconfigTR? Unitconfigtrs(int j) { int o = __p.__offset(4); return o != 0 ? (fb.unitconfigTR?)(new fb.unitconfigTR()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
-  public int UnitconfigtrsLength { get { int o = __p.__offset(4); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public fb.unitconfigTR? UnitconfigTRS(int j) { int o = __p.__offset(4); return o != 0 ? (fb.unitconfigTR?)(new fb.unitconfigTR()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int UnitconfigTRSLength { get { int o = __p.__offset(4); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public fb.unitconfigTR? UnitconfigTRSByKey(int key) { int o = __p.__offset(4); return o != 0 ? fb.unitconfigTR.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
 
   public static Offset<fb.unitconfigTB> CreateunitconfigTB(FlatBufferBuilder builder,
-      VectorOffset unitconfigtrsOffset = default(VectorOffset)) {
+      VectorOffset unitconfigTRSOffset = default(VectorOffset)) {
     builder.StartTable(1);
-    unitconfigTB.AddUnitconfigtrs(builder, unitconfigtrsOffset);
+    unitconfigTB.AddUnitconfigTRS(builder, unitconfigTRSOffset);
     return unitconfigTB.EndunitconfigTB(builder);
   }
 
   public static void StartunitconfigTB(FlatBufferBuilder builder) { builder.StartTable(1); }
-  public static void AddUnitconfigtrs(FlatBufferBuilder builder, VectorOffset unitconfigtrsOffset) { builder.AddOffset(0, unitconfigtrsOffset.Value, 0); }
-  public static VectorOffset CreateUnitconfigtrsVector(FlatBufferBuilder builder, Offset<fb.unitconfigTR>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static VectorOffset CreateUnitconfigtrsVectorBlock(FlatBufferBuilder builder, Offset<fb.unitconfigTR>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
-  public static void StartUnitconfigtrsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddUnitconfigTRS(FlatBufferBuilder builder, VectorOffset unitconfigTRSOffset) { builder.AddOffset(0, unitconfigTRSOffset.Value, 0); }
+  public static VectorOffset CreateUnitconfigTRSVector(FlatBufferBuilder builder, Offset<fb.unitconfigTR>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateUnitconfigTRSVectorBlock(FlatBufferBuilder builder, Offset<fb.unitconfigTR>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static void StartUnitconfigTRSVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static Offset<fb.unitconfigTB> EndunitconfigTB(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<fb.unitconfigTB>(o);
@@ -98,6 +99,31 @@ public struct unitconfigTR : IFlatbufferObject
   public static Offset<fb.unitconfigTR> EndunitconfigTR(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<fb.unitconfigTR>(o);
+  }
+
+  public static VectorOffset CreateSortedVectorOfunitconfigTR(FlatBufferBuilder builder, Offset<unitconfigTR>[] offsets) {
+    Array.Sort(offsets, (Offset<unitconfigTR> o1, Offset<unitconfigTR> o2) => builder.DataBuffer.GetInt(Table.__offset(4, o1.Value, builder.DataBuffer)).CompareTo(builder.DataBuffer.GetInt(Table.__offset(4, o2.Value, builder.DataBuffer))));
+    return builder.CreateVectorOfTables(offsets);
+  }
+
+  public static unitconfigTR? __lookup_by_key(int vectorLocation, int key, ByteBuffer bb) {
+    int span = bb.GetInt(vectorLocation - 4);
+    int start = 0;
+    while (span != 0) {
+      int middle = span / 2;
+      int tableOffset = Table.__indirect(vectorLocation + 4 * (start + middle), bb);
+      int comp = bb.GetInt(Table.__offset(4, bb.Length - tableOffset, bb)).CompareTo(key);
+      if (comp > 0) {
+        span = middle;
+      } else if (comp < 0) {
+        middle++;
+        start += middle;
+        span -= middle;
+      } else {
+        return new unitconfigTR().__assign(tableOffset, bb);
+      }
+    }
+    return null;
   }
 };
 

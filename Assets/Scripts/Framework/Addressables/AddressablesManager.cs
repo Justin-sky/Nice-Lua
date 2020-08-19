@@ -15,13 +15,10 @@ namespace Addressable
     {
         const int MAX_ASSETBUNDLE_CREATE_NUM = 5;
 
-        //cache asset
-        List<UnityEngine.Object> assetsCaching = new List<UnityEngine.Object>();
-        Dictionary<string, TextAsset> luaCaching = null;
+        
 
         List<AddressablesAsyncLoader> processingAddressablesAsyncLoader = new List<AddressablesAsyncLoader>();
-        LuaAsyncLoader luaAsyncLoader = null;
-
+       
         // 等待处理的资源请求
         Queue<ResourceWebRequester> webRequesterQueue = new Queue<ResourceWebRequester>();
         // 正在处理的资源请求
@@ -74,9 +71,15 @@ namespace Addressable
         #endregion
 
         #region ============== preload lua Async
+
+        //cache asset
+        List<UnityEngine.Object> assetsCaching = new List<UnityEngine.Object>();
+        Dictionary<string, TextAsset> luaCaching = null;
+        LuaAsyncLoader luaAsyncLoader = null;
+
         public LuaAsyncLoader LoadLuaAsync(string[] luaPaths)
         {
-            luaAsyncLoader = LuaAsyncLoader.Get(); ;
+            luaAsyncLoader = LuaAsyncLoader.Get(); 
             luaAsyncLoader.Init(luaPaths);
             return luaAsyncLoader;
         }
@@ -117,6 +120,33 @@ namespace Addressable
         }
         #endregion
 
+
+        #region Load FB Async
+
+        FBAsyncLoader fbAsyncLoader = null;
+        public FBAsyncLoader LoadFBAsync(string fbLabel)
+        {
+            fbAsyncLoader = FBAsyncLoader.Get();
+            fbAsyncLoader.Init(fbLabel);
+            return fbAsyncLoader;
+        }
+
+        void OnProcessFBAsyncLoader()
+        {
+            if (fbAsyncLoader == null) return;
+
+            fbAsyncLoader.Update();
+        }
+        public void ReleaseFB()
+        {
+            if (fbAsyncLoader != null)
+            {
+                fbAsyncLoader.Dispose();
+                fbAsyncLoader = null;
+            }
+        }
+
+        #endregion
 
         #region =============== LoadAssetAsync
         public BaseAssetAsyncLoader LoadAssetAsync(string addressPath, Type assetType)
@@ -185,6 +215,7 @@ namespace Addressable
             OnProcessAddressablesAsyncLoader();
             OnProsessingWebRequester();
             OnProcessLuaAsyncLoader();
+            OnProcessFBAsyncLoader();
         }
 
       

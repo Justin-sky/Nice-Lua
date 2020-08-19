@@ -1,4 +1,5 @@
 ﻿using Addressable;
+using fb;
 using GameChannel;
 using System;
 using System.Collections;
@@ -133,16 +134,12 @@ public class AddressableUpdater : MonoBehaviour
         slider.normalizedValue = 1f;
         statusText.text = "正在准备资源...";
 
+
         // 重启资源管理器
         yield return AddressablesManager.Instance.Cleanup();
         yield return AddressablesManager.Instance.Initialize();
-
-        // 重启Lua虚拟机
-        //预加载Lua
         AddressablesManager.Instance.ReleaseLuas();
 
-
-        
         BaseAssetAsyncLoader loader = AddressablesManager.Instance.LoadAssetAsync(AddressableConfig.AssetsPathMapFileName, typeof(TextAsset));
         yield return loader;
 

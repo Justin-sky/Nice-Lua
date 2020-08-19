@@ -30,7 +30,7 @@ public static class FlatbufferTools
         {
             for (int i = 0; i < fbFiles.Length; i++)
             {
-                GameUtility.SafeRenameFile(fbFiles[i], fbFiles[i] + ".bytes");
+                GameUtility.SafeRenameFile(fbFiles[i], fbFiles[i].Replace(".bin", ".bytes") );
             }
 
         }

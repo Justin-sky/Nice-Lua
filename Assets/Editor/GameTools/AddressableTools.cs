@@ -22,7 +22,8 @@ public class AddressableTools
          "static_models",
          "static_shaders",
          "static_ui",
-         "static_config"
+         "static_fb",
+         "static_luamap"
         };
 
 
