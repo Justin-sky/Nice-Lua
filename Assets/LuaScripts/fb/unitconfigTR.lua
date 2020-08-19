@@ -28,33 +28,33 @@ function unitconfigTR_mt:_id()
     end
     return 0
 end
-function unitconfigTR_mt:Name()
+function unitconfigTR_mt:_name()
     local o = self.view:Offset(6)
     if o ~= 0 then
         return self.view:String(o + self.view.pos)
     end
 end
-function unitconfigTR_mt:Desc()
+function unitconfigTR_mt:_desc()
     local o = self.view:Offset(8)
     if o ~= 0 then
         return self.view:String(o + self.view.pos)
     end
 end
-function unitconfigTR_mt:Position()
+function unitconfigTR_mt:_position()
     local o = self.view:Offset(10)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
     end
     return 0
 end
-function unitconfigTR_mt:Height()
+function unitconfigTR_mt:_height()
     local o = self.view:Offset(12)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
     end
     return 0
 end
-function unitconfigTR_mt:Weight()
+function unitconfigTR_mt:_weight()
     local o = self.view:Offset(14)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
@@ -63,11 +63,11 @@ function unitconfigTR_mt:Weight()
 end
 function unitconfigTR.Start(builder) builder:StartObject(6) end
 function unitconfigTR.Add_id(builder, Id) builder:PrependInt32Slot(0, Id, 0) end
-function unitconfigTR.AddName(builder, name) builder:PrependUOffsetTRelativeSlot(1, name, 0) end
-function unitconfigTR.AddDesc(builder, desc) builder:PrependUOffsetTRelativeSlot(2, desc, 0) end
-function unitconfigTR.AddPosition(builder, position) builder:PrependInt32Slot(3, position, 0) end
-function unitconfigTR.AddHeight(builder, height) builder:PrependInt32Slot(4, height, 0) end
-function unitconfigTR.AddWeight(builder, weight) builder:PrependInt32Slot(5, weight, 0) end
+function unitconfigTR.Add_name(builder, Name) builder:PrependUOffsetTRelativeSlot(1, Name, 0) end
+function unitconfigTR.Add_desc(builder, Desc) builder:PrependUOffsetTRelativeSlot(2, Desc, 0) end
+function unitconfigTR.Add_position(builder, Position) builder:PrependInt32Slot(3, Position, 0) end
+function unitconfigTR.Add_height(builder, Height) builder:PrependInt32Slot(4, Height, 0) end
+function unitconfigTR.Add_weight(builder, Weight) builder:PrependInt32Slot(5, Weight, 0) end
 function unitconfigTR.End(builder) return builder:EndObject() end
 
 return unitconfigTR -- return the module

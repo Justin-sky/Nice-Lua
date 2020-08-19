@@ -28,47 +28,47 @@ function skillconfigTR_mt:_id()
     end
     return 0
 end
-function skillconfigTR_mt:Name()
+function skillconfigTR_mt:_name()
     local o = self.view:Offset(6)
     if o ~= 0 then
         return self.view:String(o + self.view.pos)
     end
 end
-function skillconfigTR_mt:Description()
+function skillconfigTR_mt:_description()
     local o = self.view:Offset(8)
     if o ~= 0 then
         return self.view:String(o + self.view.pos)
     end
 end
-function skillconfigTR_mt:Cooltime()
+function skillconfigTR_mt:_cooltime()
     local o = self.view:Offset(10)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
     end
     return 0
 end
-function skillconfigTR_mt:Costsp()
+function skillconfigTR_mt:_costsp()
     local o = self.view:Offset(12)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
     end
     return 0
 end
-function skillconfigTR_mt:Attackdistance()
+function skillconfigTR_mt:_attackdistance()
     local o = self.view:Offset(14)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Float32, o + self.view.pos)
     end
     return 0.0
 end
-function skillconfigTR_mt:Attackangle()
+function skillconfigTR_mt:_attackangle()
     local o = self.view:Offset(16)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Float32, o + self.view.pos)
     end
     return 0.0
 end
-function skillconfigTR_mt:Attacktargettags(j)
+function skillconfigTR_mt:_attacktargettags(j)
     local o = self.view:Offset(18)
     if o ~= 0 then
         local a = self.view:Vector(o)
@@ -76,14 +76,14 @@ function skillconfigTR_mt:Attacktargettags(j)
     end
     return ''
 end
-function skillconfigTR_mt:AttacktargettagsLength()
+function skillconfigTR_mt:_attacktargettagsLength()
     local o = self.view:Offset(18)
     if o ~= 0 then
         return self.view:VectorLen(o)
     end
     return 0
 end
-function skillconfigTR_mt:Impacttype(j)
+function skillconfigTR_mt:_impacttype(j)
     local o = self.view:Offset(20)
     if o ~= 0 then
         local a = self.view:Vector(o)
@@ -91,74 +91,74 @@ function skillconfigTR_mt:Impacttype(j)
     end
     return ''
 end
-function skillconfigTR_mt:ImpacttypeLength()
+function skillconfigTR_mt:_impacttypeLength()
     local o = self.view:Offset(20)
     if o ~= 0 then
         return self.view:VectorLen(o)
     end
     return 0
 end
-function skillconfigTR_mt:Nextbattlerid()
+function skillconfigTR_mt:_nextbattlerid()
     local o = self.view:Offset(22)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
     end
     return 0
 end
-function skillconfigTR_mt:Atkratio()
+function skillconfigTR_mt:_atkratio()
     local o = self.view:Offset(24)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Float32, o + self.view.pos)
     end
     return 0.0
 end
-function skillconfigTR_mt:Durationtime()
+function skillconfigTR_mt:_durationtime()
     local o = self.view:Offset(26)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Float32, o + self.view.pos)
     end
     return 0.0
 end
-function skillconfigTR_mt:Atkinterval()
+function skillconfigTR_mt:_atkinterval()
     local o = self.view:Offset(28)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Float32, o + self.view.pos)
     end
     return 0.0
 end
-function skillconfigTR_mt:Skillprefab()
+function skillconfigTR_mt:_skillprefab()
     local o = self.view:Offset(30)
     if o ~= 0 then
         return self.view:String(o + self.view.pos)
     end
 end
-function skillconfigTR_mt:Animationname()
+function skillconfigTR_mt:_animationname()
     local o = self.view:Offset(32)
     if o ~= 0 then
         return self.view:String(o + self.view.pos)
     end
 end
-function skillconfigTR_mt:Hitfxprefab()
+function skillconfigTR_mt:_hitfxprefab()
     local o = self.view:Offset(34)
     if o ~= 0 then
         return self.view:String(o + self.view.pos)
     end
 end
-function skillconfigTR_mt:Level()
+function skillconfigTR_mt:_level()
     local o = self.view:Offset(36)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
     end
     return 0
 end
-function skillconfigTR_mt:Attacktype()
+function skillconfigTR_mt:_attacktype()
     local o = self.view:Offset(38)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
     end
     return 0
 end
-function skillconfigTR_mt:Selectortype()
+function skillconfigTR_mt:_selectortype()
     local o = self.view:Offset(40)
     if o ~= 0 then
         return self.view:Get(flatbuffers.N.Int32, o + self.view.pos)
@@ -167,26 +167,26 @@ function skillconfigTR_mt:Selectortype()
 end
 function skillconfigTR.Start(builder) builder:StartObject(19) end
 function skillconfigTR.Add_id(builder, Id) builder:PrependInt32Slot(0, Id, 0) end
-function skillconfigTR.AddName(builder, name) builder:PrependUOffsetTRelativeSlot(1, name, 0) end
-function skillconfigTR.AddDescription(builder, description) builder:PrependUOffsetTRelativeSlot(2, description, 0) end
-function skillconfigTR.AddCooltime(builder, cooltime) builder:PrependInt32Slot(3, cooltime, 0) end
-function skillconfigTR.AddCostsp(builder, costsp) builder:PrependInt32Slot(4, costsp, 0) end
-function skillconfigTR.AddAttackdistance(builder, attackdistance) builder:PrependFloat32Slot(5, attackdistance, 0.0) end
-function skillconfigTR.AddAttackangle(builder, attackangle) builder:PrependFloat32Slot(6, attackangle, 0.0) end
-function skillconfigTR.AddAttacktargettags(builder, attacktargettags) builder:PrependUOffsetTRelativeSlot(7, attacktargettags, 0) end
-function skillconfigTR.StartAttacktargettagsVector(builder, numElems) return builder:StartVector(4, numElems, 4) end
-function skillconfigTR.AddImpacttype(builder, impacttype) builder:PrependUOffsetTRelativeSlot(8, impacttype, 0) end
-function skillconfigTR.StartImpacttypeVector(builder, numElems) return builder:StartVector(4, numElems, 4) end
-function skillconfigTR.AddNextbattlerid(builder, nextbattlerid) builder:PrependInt32Slot(9, nextbattlerid, 0) end
-function skillconfigTR.AddAtkratio(builder, atkratio) builder:PrependFloat32Slot(10, atkratio, 0.0) end
-function skillconfigTR.AddDurationtime(builder, durationtime) builder:PrependFloat32Slot(11, durationtime, 0.0) end
-function skillconfigTR.AddAtkinterval(builder, atkinterval) builder:PrependFloat32Slot(12, atkinterval, 0.0) end
-function skillconfigTR.AddSkillprefab(builder, skillprefab) builder:PrependUOffsetTRelativeSlot(13, skillprefab, 0) end
-function skillconfigTR.AddAnimationname(builder, animationname) builder:PrependUOffsetTRelativeSlot(14, animationname, 0) end
-function skillconfigTR.AddHitfxprefab(builder, hitfxprefab) builder:PrependUOffsetTRelativeSlot(15, hitfxprefab, 0) end
-function skillconfigTR.AddLevel(builder, level) builder:PrependInt32Slot(16, level, 0) end
-function skillconfigTR.AddAttacktype(builder, attacktype) builder:PrependInt32Slot(17, attacktype, 0) end
-function skillconfigTR.AddSelectortype(builder, selectortype) builder:PrependInt32Slot(18, selectortype, 0) end
+function skillconfigTR.Add_name(builder, Name) builder:PrependUOffsetTRelativeSlot(1, Name, 0) end
+function skillconfigTR.Add_description(builder, Description) builder:PrependUOffsetTRelativeSlot(2, Description, 0) end
+function skillconfigTR.Add_cooltime(builder, Cooltime) builder:PrependInt32Slot(3, Cooltime, 0) end
+function skillconfigTR.Add_costsp(builder, Costsp) builder:PrependInt32Slot(4, Costsp, 0) end
+function skillconfigTR.Add_attackdistance(builder, Attackdistance) builder:PrependFloat32Slot(5, Attackdistance, 0.0) end
+function skillconfigTR.Add_attackangle(builder, Attackangle) builder:PrependFloat32Slot(6, Attackangle, 0.0) end
+function skillconfigTR.Add_attacktargettags(builder, Attacktargettags) builder:PrependUOffsetTRelativeSlot(7, Attacktargettags, 0) end
+function skillconfigTR.Start_attacktargettagsVector(builder, numElems) return builder:StartVector(4, numElems, 4) end
+function skillconfigTR.Add_impacttype(builder, Impacttype) builder:PrependUOffsetTRelativeSlot(8, Impacttype, 0) end
+function skillconfigTR.Start_impacttypeVector(builder, numElems) return builder:StartVector(4, numElems, 4) end
+function skillconfigTR.Add_nextbattlerid(builder, Nextbattlerid) builder:PrependInt32Slot(9, Nextbattlerid, 0) end
+function skillconfigTR.Add_atkratio(builder, Atkratio) builder:PrependFloat32Slot(10, Atkratio, 0.0) end
+function skillconfigTR.Add_durationtime(builder, Durationtime) builder:PrependFloat32Slot(11, Durationtime, 0.0) end
+function skillconfigTR.Add_atkinterval(builder, Atkinterval) builder:PrependFloat32Slot(12, Atkinterval, 0.0) end
+function skillconfigTR.Add_skillprefab(builder, Skillprefab) builder:PrependUOffsetTRelativeSlot(13, Skillprefab, 0) end
+function skillconfigTR.Add_animationname(builder, Animationname) builder:PrependUOffsetTRelativeSlot(14, Animationname, 0) end
+function skillconfigTR.Add_hitfxprefab(builder, Hitfxprefab) builder:PrependUOffsetTRelativeSlot(15, Hitfxprefab, 0) end
+function skillconfigTR.Add_level(builder, Level) builder:PrependInt32Slot(16, Level, 0) end
+function skillconfigTR.Add_attacktype(builder, Attacktype) builder:PrependInt32Slot(17, Attacktype, 0) end
+function skillconfigTR.Add_selectortype(builder, Selectortype) builder:PrependInt32Slot(18, Selectortype, 0) end
 function skillconfigTR.End(builder) return builder:EndObject() end
 
 return skillconfigTR -- return the module

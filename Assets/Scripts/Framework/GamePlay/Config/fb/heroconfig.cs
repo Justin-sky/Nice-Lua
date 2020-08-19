@@ -54,36 +54,36 @@ public struct heroconfigTR : IFlatbufferObject
   public heroconfigTR __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public int _id { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public float Baseatk { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Sp { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Hp { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Attackdistance { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Attackinterval { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float _baseatk { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float _sp { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float _hp { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float _attackdistance { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float _attackinterval { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
 
   public static Offset<fb.heroconfigTR> CreateheroconfigTR(FlatBufferBuilder builder,
       int _id = 0,
-      float baseatk = 0.0f,
-      float sp = 0.0f,
-      float hp = 0.0f,
-      float attackdistance = 0.0f,
-      float attackinterval = 0.0f) {
+      float _baseatk = 0.0f,
+      float _sp = 0.0f,
+      float _hp = 0.0f,
+      float _attackdistance = 0.0f,
+      float _attackinterval = 0.0f) {
     builder.StartTable(6);
-    heroconfigTR.AddAttackinterval(builder, attackinterval);
-    heroconfigTR.AddAttackdistance(builder, attackdistance);
-    heroconfigTR.AddHp(builder, hp);
-    heroconfigTR.AddSp(builder, sp);
-    heroconfigTR.AddBaseatk(builder, baseatk);
+    heroconfigTR.Add_attackinterval(builder, _attackinterval);
+    heroconfigTR.Add_attackdistance(builder, _attackdistance);
+    heroconfigTR.Add_hp(builder, _hp);
+    heroconfigTR.Add_sp(builder, _sp);
+    heroconfigTR.Add_baseatk(builder, _baseatk);
     heroconfigTR.Add_id(builder, _id);
     return heroconfigTR.EndheroconfigTR(builder);
   }
 
   public static void StartheroconfigTR(FlatBufferBuilder builder) { builder.StartTable(6); }
   public static void Add_id(FlatBufferBuilder builder, int Id) { builder.AddInt(0, Id, 0); }
-  public static void AddBaseatk(FlatBufferBuilder builder, float baseatk) { builder.AddFloat(1, baseatk, 0.0f); }
-  public static void AddSp(FlatBufferBuilder builder, float sp) { builder.AddFloat(2, sp, 0.0f); }
-  public static void AddHp(FlatBufferBuilder builder, float hp) { builder.AddFloat(3, hp, 0.0f); }
-  public static void AddAttackdistance(FlatBufferBuilder builder, float attackdistance) { builder.AddFloat(4, attackdistance, 0.0f); }
-  public static void AddAttackinterval(FlatBufferBuilder builder, float attackinterval) { builder.AddFloat(5, attackinterval, 0.0f); }
+  public static void Add_baseatk(FlatBufferBuilder builder, float Baseatk) { builder.AddFloat(1, Baseatk, 0.0f); }
+  public static void Add_sp(FlatBufferBuilder builder, float Sp) { builder.AddFloat(2, Sp, 0.0f); }
+  public static void Add_hp(FlatBufferBuilder builder, float Hp) { builder.AddFloat(3, Hp, 0.0f); }
+  public static void Add_attackdistance(FlatBufferBuilder builder, float Attackdistance) { builder.AddFloat(4, Attackdistance, 0.0f); }
+  public static void Add_attackinterval(FlatBufferBuilder builder, float Attackinterval) { builder.AddFloat(5, Attackinterval, 0.0f); }
   public static Offset<fb.heroconfigTR> EndheroconfigTR(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<fb.heroconfigTR>(o);

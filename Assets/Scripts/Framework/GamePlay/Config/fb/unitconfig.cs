@@ -54,48 +54,48 @@ public struct unitconfigTR : IFlatbufferObject
   public unitconfigTR __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public int _id { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public string Name { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public string _name { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetNameBytes() { return __p.__vector_as_span<byte>(6, 1); }
+  public Span<byte> Get_nameBytes() { return __p.__vector_as_span<byte>(6, 1); }
 #else
-  public ArraySegment<byte>? GetNameBytes() { return __p.__vector_as_arraysegment(6); }
+  public ArraySegment<byte>? Get_nameBytes() { return __p.__vector_as_arraysegment(6); }
 #endif
-  public byte[] GetNameArray() { return __p.__vector_as_array<byte>(6); }
-  public string Desc { get { int o = __p.__offset(8); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] Get_nameArray() { return __p.__vector_as_array<byte>(6); }
+  public string _desc { get { int o = __p.__offset(8); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetDescBytes() { return __p.__vector_as_span<byte>(8, 1); }
+  public Span<byte> Get_descBytes() { return __p.__vector_as_span<byte>(8, 1); }
 #else
-  public ArraySegment<byte>? GetDescBytes() { return __p.__vector_as_arraysegment(8); }
+  public ArraySegment<byte>? Get_descBytes() { return __p.__vector_as_arraysegment(8); }
 #endif
-  public byte[] GetDescArray() { return __p.__vector_as_array<byte>(8); }
-  public int Position { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Height { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Weight { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public byte[] Get_descArray() { return __p.__vector_as_array<byte>(8); }
+  public int _position { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int _height { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int _weight { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
   public static Offset<fb.unitconfigTR> CreateunitconfigTR(FlatBufferBuilder builder,
       int _id = 0,
-      StringOffset nameOffset = default(StringOffset),
-      StringOffset descOffset = default(StringOffset),
-      int position = 0,
-      int height = 0,
-      int weight = 0) {
+      StringOffset _nameOffset = default(StringOffset),
+      StringOffset _descOffset = default(StringOffset),
+      int _position = 0,
+      int _height = 0,
+      int _weight = 0) {
     builder.StartTable(6);
-    unitconfigTR.AddWeight(builder, weight);
-    unitconfigTR.AddHeight(builder, height);
-    unitconfigTR.AddPosition(builder, position);
-    unitconfigTR.AddDesc(builder, descOffset);
-    unitconfigTR.AddName(builder, nameOffset);
+    unitconfigTR.Add_weight(builder, _weight);
+    unitconfigTR.Add_height(builder, _height);
+    unitconfigTR.Add_position(builder, _position);
+    unitconfigTR.Add_desc(builder, _descOffset);
+    unitconfigTR.Add_name(builder, _nameOffset);
     unitconfigTR.Add_id(builder, _id);
     return unitconfigTR.EndunitconfigTR(builder);
   }
 
   public static void StartunitconfigTR(FlatBufferBuilder builder) { builder.StartTable(6); }
   public static void Add_id(FlatBufferBuilder builder, int Id) { builder.AddInt(0, Id, 0); }
-  public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(1, nameOffset.Value, 0); }
-  public static void AddDesc(FlatBufferBuilder builder, StringOffset descOffset) { builder.AddOffset(2, descOffset.Value, 0); }
-  public static void AddPosition(FlatBufferBuilder builder, int position) { builder.AddInt(3, position, 0); }
-  public static void AddHeight(FlatBufferBuilder builder, int height) { builder.AddInt(4, height, 0); }
-  public static void AddWeight(FlatBufferBuilder builder, int weight) { builder.AddInt(5, weight, 0); }
+  public static void Add_name(FlatBufferBuilder builder, StringOffset NameOffset) { builder.AddOffset(1, NameOffset.Value, 0); }
+  public static void Add_desc(FlatBufferBuilder builder, StringOffset DescOffset) { builder.AddOffset(2, DescOffset.Value, 0); }
+  public static void Add_position(FlatBufferBuilder builder, int Position) { builder.AddInt(3, Position, 0); }
+  public static void Add_height(FlatBufferBuilder builder, int Height) { builder.AddInt(4, Height, 0); }
+  public static void Add_weight(FlatBufferBuilder builder, int Weight) { builder.AddInt(5, Weight, 0); }
   public static Offset<fb.unitconfigTR> EndunitconfigTR(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<fb.unitconfigTR>(o);

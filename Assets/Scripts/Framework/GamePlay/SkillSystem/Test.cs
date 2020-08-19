@@ -10,7 +10,7 @@ namespace GamePlay
             FlatBuffers.ByteBuffer bb = FlatBufferManager.Instance.GetSkillData("skillconfig");
             skillconfigTB tb = skillconfigTB.GetRootAsskillconfigTB(bb);
             skillconfigTR tr = (skillconfigTR)tb.SkillconfigTRSByKey(1003);
-            Logger.Log($" {tr._id} : {tr.Name} : {tr.Skillprefab}");
+            Logger.Log($" {tr._id} : {tr._name} : {tr._skillprefab}");
 
         }
     }

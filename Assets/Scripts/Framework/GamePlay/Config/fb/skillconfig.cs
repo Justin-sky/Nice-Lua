@@ -54,126 +54,126 @@ public struct skillconfigTR : IFlatbufferObject
   public skillconfigTR __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public int _id { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public string Name { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public string _name { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetNameBytes() { return __p.__vector_as_span<byte>(6, 1); }
+  public Span<byte> Get_nameBytes() { return __p.__vector_as_span<byte>(6, 1); }
 #else
-  public ArraySegment<byte>? GetNameBytes() { return __p.__vector_as_arraysegment(6); }
+  public ArraySegment<byte>? Get_nameBytes() { return __p.__vector_as_arraysegment(6); }
 #endif
-  public byte[] GetNameArray() { return __p.__vector_as_array<byte>(6); }
-  public string Description { get { int o = __p.__offset(8); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] Get_nameArray() { return __p.__vector_as_array<byte>(6); }
+  public string _description { get { int o = __p.__offset(8); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetDescriptionBytes() { return __p.__vector_as_span<byte>(8, 1); }
+  public Span<byte> Get_descriptionBytes() { return __p.__vector_as_span<byte>(8, 1); }
 #else
-  public ArraySegment<byte>? GetDescriptionBytes() { return __p.__vector_as_arraysegment(8); }
+  public ArraySegment<byte>? Get_descriptionBytes() { return __p.__vector_as_arraysegment(8); }
 #endif
-  public byte[] GetDescriptionArray() { return __p.__vector_as_array<byte>(8); }
-  public int Cooltime { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Costsp { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public float Attackdistance { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Attackangle { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public string Attacktargettags(int j) { int o = __p.__offset(18); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
-  public int AttacktargettagsLength { get { int o = __p.__offset(18); return o != 0 ? __p.__vector_len(o) : 0; } }
-  public string Impacttype(int j) { int o = __p.__offset(20); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
-  public int ImpacttypeLength { get { int o = __p.__offset(20); return o != 0 ? __p.__vector_len(o) : 0; } }
-  public int Nextbattlerid { get { int o = __p.__offset(22); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public float Atkratio { get { int o = __p.__offset(24); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Durationtime { get { int o = __p.__offset(26); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Atkinterval { get { int o = __p.__offset(28); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public string Skillprefab { get { int o = __p.__offset(30); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] Get_descriptionArray() { return __p.__vector_as_array<byte>(8); }
+  public int _cooltime { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int _costsp { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public float _attackdistance { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float _attackangle { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public string _attacktargettags(int j) { int o = __p.__offset(18); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
+  public int _attacktargettagsLength { get { int o = __p.__offset(18); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public string _impacttype(int j) { int o = __p.__offset(20); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
+  public int _impacttypeLength { get { int o = __p.__offset(20); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public int _nextbattlerid { get { int o = __p.__offset(22); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public float _atkratio { get { int o = __p.__offset(24); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float _durationtime { get { int o = __p.__offset(26); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float _atkinterval { get { int o = __p.__offset(28); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public string _skillprefab { get { int o = __p.__offset(30); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetSkillprefabBytes() { return __p.__vector_as_span<byte>(30, 1); }
+  public Span<byte> Get_skillprefabBytes() { return __p.__vector_as_span<byte>(30, 1); }
 #else
-  public ArraySegment<byte>? GetSkillprefabBytes() { return __p.__vector_as_arraysegment(30); }
+  public ArraySegment<byte>? Get_skillprefabBytes() { return __p.__vector_as_arraysegment(30); }
 #endif
-  public byte[] GetSkillprefabArray() { return __p.__vector_as_array<byte>(30); }
-  public string Animationname { get { int o = __p.__offset(32); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] Get_skillprefabArray() { return __p.__vector_as_array<byte>(30); }
+  public string _animationname { get { int o = __p.__offset(32); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetAnimationnameBytes() { return __p.__vector_as_span<byte>(32, 1); }
+  public Span<byte> Get_animationnameBytes() { return __p.__vector_as_span<byte>(32, 1); }
 #else
-  public ArraySegment<byte>? GetAnimationnameBytes() { return __p.__vector_as_arraysegment(32); }
+  public ArraySegment<byte>? Get_animationnameBytes() { return __p.__vector_as_arraysegment(32); }
 #endif
-  public byte[] GetAnimationnameArray() { return __p.__vector_as_array<byte>(32); }
-  public string Hitfxprefab { get { int o = __p.__offset(34); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] Get_animationnameArray() { return __p.__vector_as_array<byte>(32); }
+  public string _hitfxprefab { get { int o = __p.__offset(34); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetHitfxprefabBytes() { return __p.__vector_as_span<byte>(34, 1); }
+  public Span<byte> Get_hitfxprefabBytes() { return __p.__vector_as_span<byte>(34, 1); }
 #else
-  public ArraySegment<byte>? GetHitfxprefabBytes() { return __p.__vector_as_arraysegment(34); }
+  public ArraySegment<byte>? Get_hitfxprefabBytes() { return __p.__vector_as_arraysegment(34); }
 #endif
-  public byte[] GetHitfxprefabArray() { return __p.__vector_as_array<byte>(34); }
-  public int Level { get { int o = __p.__offset(36); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Attacktype { get { int o = __p.__offset(38); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Selectortype { get { int o = __p.__offset(40); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public byte[] Get_hitfxprefabArray() { return __p.__vector_as_array<byte>(34); }
+  public int _level { get { int o = __p.__offset(36); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int _attacktype { get { int o = __p.__offset(38); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int _selectortype { get { int o = __p.__offset(40); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
   public static Offset<fb.skillconfigTR> CreateskillconfigTR(FlatBufferBuilder builder,
       int _id = 0,
-      StringOffset nameOffset = default(StringOffset),
-      StringOffset descriptionOffset = default(StringOffset),
-      int cooltime = 0,
-      int costsp = 0,
-      float attackdistance = 0.0f,
-      float attackangle = 0.0f,
-      VectorOffset attacktargettagsOffset = default(VectorOffset),
-      VectorOffset impacttypeOffset = default(VectorOffset),
-      int nextbattlerid = 0,
-      float atkratio = 0.0f,
-      float durationtime = 0.0f,
-      float atkinterval = 0.0f,
-      StringOffset skillprefabOffset = default(StringOffset),
-      StringOffset animationnameOffset = default(StringOffset),
-      StringOffset hitfxprefabOffset = default(StringOffset),
-      int level = 0,
-      int attacktype = 0,
-      int selectortype = 0) {
+      StringOffset _nameOffset = default(StringOffset),
+      StringOffset _descriptionOffset = default(StringOffset),
+      int _cooltime = 0,
+      int _costsp = 0,
+      float _attackdistance = 0.0f,
+      float _attackangle = 0.0f,
+      VectorOffset _attacktargettagsOffset = default(VectorOffset),
+      VectorOffset _impacttypeOffset = default(VectorOffset),
+      int _nextbattlerid = 0,
+      float _atkratio = 0.0f,
+      float _durationtime = 0.0f,
+      float _atkinterval = 0.0f,
+      StringOffset _skillprefabOffset = default(StringOffset),
+      StringOffset _animationnameOffset = default(StringOffset),
+      StringOffset _hitfxprefabOffset = default(StringOffset),
+      int _level = 0,
+      int _attacktype = 0,
+      int _selectortype = 0) {
     builder.StartTable(19);
-    skillconfigTR.AddSelectortype(builder, selectortype);
-    skillconfigTR.AddAttacktype(builder, attacktype);
-    skillconfigTR.AddLevel(builder, level);
-    skillconfigTR.AddHitfxprefab(builder, hitfxprefabOffset);
-    skillconfigTR.AddAnimationname(builder, animationnameOffset);
-    skillconfigTR.AddSkillprefab(builder, skillprefabOffset);
-    skillconfigTR.AddAtkinterval(builder, atkinterval);
-    skillconfigTR.AddDurationtime(builder, durationtime);
-    skillconfigTR.AddAtkratio(builder, atkratio);
-    skillconfigTR.AddNextbattlerid(builder, nextbattlerid);
-    skillconfigTR.AddImpacttype(builder, impacttypeOffset);
-    skillconfigTR.AddAttacktargettags(builder, attacktargettagsOffset);
-    skillconfigTR.AddAttackangle(builder, attackangle);
-    skillconfigTR.AddAttackdistance(builder, attackdistance);
-    skillconfigTR.AddCostsp(builder, costsp);
-    skillconfigTR.AddCooltime(builder, cooltime);
-    skillconfigTR.AddDescription(builder, descriptionOffset);
-    skillconfigTR.AddName(builder, nameOffset);
+    skillconfigTR.Add_selectortype(builder, _selectortype);
+    skillconfigTR.Add_attacktype(builder, _attacktype);
+    skillconfigTR.Add_level(builder, _level);
+    skillconfigTR.Add_hitfxprefab(builder, _hitfxprefabOffset);
+    skillconfigTR.Add_animationname(builder, _animationnameOffset);
+    skillconfigTR.Add_skillprefab(builder, _skillprefabOffset);
+    skillconfigTR.Add_atkinterval(builder, _atkinterval);
+    skillconfigTR.Add_durationtime(builder, _durationtime);
+    skillconfigTR.Add_atkratio(builder, _atkratio);
+    skillconfigTR.Add_nextbattlerid(builder, _nextbattlerid);
+    skillconfigTR.Add_impacttype(builder, _impacttypeOffset);
+    skillconfigTR.Add_attacktargettags(builder, _attacktargettagsOffset);
+    skillconfigTR.Add_attackangle(builder, _attackangle);
+    skillconfigTR.Add_attackdistance(builder, _attackdistance);
+    skillconfigTR.Add_costsp(builder, _costsp);
+    skillconfigTR.Add_cooltime(builder, _cooltime);
+    skillconfigTR.Add_description(builder, _descriptionOffset);
+    skillconfigTR.Add_name(builder, _nameOffset);
     skillconfigTR.Add_id(builder, _id);
     return skillconfigTR.EndskillconfigTR(builder);
   }
 
   public static void StartskillconfigTR(FlatBufferBuilder builder) { builder.StartTable(19); }
   public static void Add_id(FlatBufferBuilder builder, int Id) { builder.AddInt(0, Id, 0); }
-  public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(1, nameOffset.Value, 0); }
-  public static void AddDescription(FlatBufferBuilder builder, StringOffset descriptionOffset) { builder.AddOffset(2, descriptionOffset.Value, 0); }
-  public static void AddCooltime(FlatBufferBuilder builder, int cooltime) { builder.AddInt(3, cooltime, 0); }
-  public static void AddCostsp(FlatBufferBuilder builder, int costsp) { builder.AddInt(4, costsp, 0); }
-  public static void AddAttackdistance(FlatBufferBuilder builder, float attackdistance) { builder.AddFloat(5, attackdistance, 0.0f); }
-  public static void AddAttackangle(FlatBufferBuilder builder, float attackangle) { builder.AddFloat(6, attackangle, 0.0f); }
-  public static void AddAttacktargettags(FlatBufferBuilder builder, VectorOffset attacktargettagsOffset) { builder.AddOffset(7, attacktargettagsOffset.Value, 0); }
-  public static VectorOffset CreateAttacktargettagsVector(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static VectorOffset CreateAttacktargettagsVectorBlock(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
-  public static void StartAttacktargettagsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
-  public static void AddImpacttype(FlatBufferBuilder builder, VectorOffset impacttypeOffset) { builder.AddOffset(8, impacttypeOffset.Value, 0); }
-  public static VectorOffset CreateImpacttypeVector(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static VectorOffset CreateImpacttypeVectorBlock(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
-  public static void StartImpacttypeVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
-  public static void AddNextbattlerid(FlatBufferBuilder builder, int nextbattlerid) { builder.AddInt(9, nextbattlerid, 0); }
-  public static void AddAtkratio(FlatBufferBuilder builder, float atkratio) { builder.AddFloat(10, atkratio, 0.0f); }
-  public static void AddDurationtime(FlatBufferBuilder builder, float durationtime) { builder.AddFloat(11, durationtime, 0.0f); }
-  public static void AddAtkinterval(FlatBufferBuilder builder, float atkinterval) { builder.AddFloat(12, atkinterval, 0.0f); }
-  public static void AddSkillprefab(FlatBufferBuilder builder, StringOffset skillprefabOffset) { builder.AddOffset(13, skillprefabOffset.Value, 0); }
-  public static void AddAnimationname(FlatBufferBuilder builder, StringOffset animationnameOffset) { builder.AddOffset(14, animationnameOffset.Value, 0); }
-  public static void AddHitfxprefab(FlatBufferBuilder builder, StringOffset hitfxprefabOffset) { builder.AddOffset(15, hitfxprefabOffset.Value, 0); }
-  public static void AddLevel(FlatBufferBuilder builder, int level) { builder.AddInt(16, level, 0); }
-  public static void AddAttacktype(FlatBufferBuilder builder, int attacktype) { builder.AddInt(17, attacktype, 0); }
-  public static void AddSelectortype(FlatBufferBuilder builder, int selectortype) { builder.AddInt(18, selectortype, 0); }
+  public static void Add_name(FlatBufferBuilder builder, StringOffset NameOffset) { builder.AddOffset(1, NameOffset.Value, 0); }
+  public static void Add_description(FlatBufferBuilder builder, StringOffset DescriptionOffset) { builder.AddOffset(2, DescriptionOffset.Value, 0); }
+  public static void Add_cooltime(FlatBufferBuilder builder, int Cooltime) { builder.AddInt(3, Cooltime, 0); }
+  public static void Add_costsp(FlatBufferBuilder builder, int Costsp) { builder.AddInt(4, Costsp, 0); }
+  public static void Add_attackdistance(FlatBufferBuilder builder, float Attackdistance) { builder.AddFloat(5, Attackdistance, 0.0f); }
+  public static void Add_attackangle(FlatBufferBuilder builder, float Attackangle) { builder.AddFloat(6, Attackangle, 0.0f); }
+  public static void Add_attacktargettags(FlatBufferBuilder builder, VectorOffset AttacktargettagsOffset) { builder.AddOffset(7, AttacktargettagsOffset.Value, 0); }
+  public static VectorOffset Create_attacktargettagsVector(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset Create_attacktargettagsVectorBlock(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static void Start_attacktargettagsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void Add_impacttype(FlatBufferBuilder builder, VectorOffset ImpacttypeOffset) { builder.AddOffset(8, ImpacttypeOffset.Value, 0); }
+  public static VectorOffset Create_impacttypeVector(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset Create_impacttypeVectorBlock(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static void Start_impacttypeVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void Add_nextbattlerid(FlatBufferBuilder builder, int Nextbattlerid) { builder.AddInt(9, Nextbattlerid, 0); }
+  public static void Add_atkratio(FlatBufferBuilder builder, float Atkratio) { builder.AddFloat(10, Atkratio, 0.0f); }
+  public static void Add_durationtime(FlatBufferBuilder builder, float Durationtime) { builder.AddFloat(11, Durationtime, 0.0f); }
+  public static void Add_atkinterval(FlatBufferBuilder builder, float Atkinterval) { builder.AddFloat(12, Atkinterval, 0.0f); }
+  public static void Add_skillprefab(FlatBufferBuilder builder, StringOffset SkillprefabOffset) { builder.AddOffset(13, SkillprefabOffset.Value, 0); }
+  public static void Add_animationname(FlatBufferBuilder builder, StringOffset AnimationnameOffset) { builder.AddOffset(14, AnimationnameOffset.Value, 0); }
+  public static void Add_hitfxprefab(FlatBufferBuilder builder, StringOffset HitfxprefabOffset) { builder.AddOffset(15, HitfxprefabOffset.Value, 0); }
+  public static void Add_level(FlatBufferBuilder builder, int Level) { builder.AddInt(16, Level, 0); }
+  public static void Add_attacktype(FlatBufferBuilder builder, int Attacktype) { builder.AddInt(17, Attacktype, 0); }
+  public static void Add_selectortype(FlatBufferBuilder builder, int Selectortype) { builder.AddInt(18, Selectortype, 0); }
   public static Offset<fb.skillconfigTR> EndskillconfigTR(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<fb.skillconfigTR>(o);
