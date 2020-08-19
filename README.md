@@ -23,4 +23,6 @@ Clone[服务器：https://github.com/Justin-sky/Nice-ET ](https://github.com/Jus
 
 [Addressable配置说明文档](https://zhuanlan.zhihu.com/p/184846532)
 
+[Flatbuffer使用说明文档](https://zhuanlan.zhihu.com/p/190182995)
+
 QQ群：346340389
