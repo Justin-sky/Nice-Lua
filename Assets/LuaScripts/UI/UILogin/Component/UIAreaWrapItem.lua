@@ -1,28 +1,28 @@
 --[[
 -- added by wsh @ 2017-12-11
--- UILoginÄ£¿éUILoginView´°¿ÚÖĞ·şÎñÆ÷ÁĞ±íµÄ¿É¸´ÓÃItem
+-- UILoginæ¨¡å—UILoginViewçª—å£ä¸­æœåŠ¡å™¨åˆ—è¡¨çš„å¯å¤ç”¨Item
 --]]
 
 local UIAreaWrapItem = BaseClass("UIAreaWrapItem", UIWrapComponent)
 local base = UIWrapComponent
 
 
--- ´´½¨
+-- åˆ›å»º
 local function OnCreate(self)
     base.OnCreate(self)
-    -- ×é¼ş³õÊ¼»¯
+    -- ç»„ä»¶åˆå§‹åŒ–
     self.area_btn_text = self:AddComponent(UIText, "Text")
 
 end
 
--- ×é¼ş±»¸´ÓÃÊ±»Øµ÷¸Ãº¯Êı£¬Ö´ĞĞ×é¼şµÄË¢ĞÂ
+-- ç»„ä»¶è¢«å¤ç”¨æ—¶å›è°ƒè¯¥å‡½æ•°ï¼Œæ‰§è¡Œç»„ä»¶çš„åˆ·æ–°
 local function OnRefresh(self, real_index, check)
     local area_id = self.view.area_ids[real_index + 1]
     local btn_name = LangUtil.GetServerAreaName(area_id)
     self.area_btn_text:SetText(btn_name)
 end
 
--- ×é¼şÌí¼ÓÁË°´Å¥×é£¬Ôò°´Å¥±»µã»÷Ê±»Øµ÷¸Ãº¯Êı
+-- ç»„ä»¶æ·»åŠ äº†æŒ‰é’®ç»„ï¼Œåˆ™æŒ‰é’®è¢«ç‚¹å‡»æ—¶å›è°ƒè¯¥å‡½æ•°
 local function OnClick(self, toggle_btn, real_index, check)
     if check then
         self.view:SetSelectedArea(real_index)
