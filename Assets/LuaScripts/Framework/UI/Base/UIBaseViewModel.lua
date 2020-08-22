@@ -4,14 +4,14 @@
 
 local UIBaseViewModel = BaseClass("UIBaseViewModel")
 
--- Èç·Ç±ØÒª£¬±ğÖØĞ´¹¹Ôìº¯Êı£¬Ê¹ÓÃOnCreate³õÊ¼»¯
+-- å¦‚éå¿…è¦ï¼Œåˆ«é‡å†™æ„é€ å‡½æ•°ï¼Œä½¿ç”¨OnCreateåˆå§‹åŒ–
 local function __init(self, ui_name)
     self.__data_callback = {}
     self.__ui_name = ui_name
     self:OnCreate()
 end
 
--- Èç·Ç±ØÒª£¬±ğÖØĞ´Îö¹¹º¯Êı£¬Ê¹ÓÃOnDestroyÏú»Ù×ÊÔ´
+-- å¦‚éå¿…è¦ï¼Œåˆ«é‡å†™ææ„å‡½æ•°ï¼Œä½¿ç”¨OnDestroyé”€æ¯èµ„æº
 local function __delete(self)
     self:OnDestroy()
     for k,v in pairs(self.__data_callback) do
@@ -35,55 +35,55 @@ local function RemoveCallback(keeper, msg_name, callback)
     keeper[msg_name] = nil
 end
 
--- ×¢²áÓÎÏ·Êı¾İ¼àÌıÊÂ¼ş£¬±ğÖØĞ´
+-- æ³¨å†Œæ¸¸æˆæ•°æ®ç›‘å¬äº‹ä»¶ï¼Œåˆ«é‡å†™
 local function AddDataListener(self, msg_name, callback)
     local bindFunc = Bind(self, callback)
     AddCallback(self.__data_callback, msg_name, bindFunc)
     DataManager:GetInstance():AddListener(msg_name, bindFunc)
 end
 
--- ×¢ÏúÓÎÏ·Êı¾İ¼àÌıÊÂ¼ş£¬±ğÖØĞ´
+-- æ³¨é”€æ¸¸æˆæ•°æ®ç›‘å¬äº‹ä»¶ï¼Œåˆ«é‡å†™
 local function RemoveDataListener(self, msg_name, callback)
     local bindFunc = GetCallback(self.__data_callback, msg_name)
     RemoveCallback(self.__data_callback, msg_name, bindFunc)
     DataManager:GetInstance():RemoveListener(msg_name, bindFunc)
 end
 
--- ´´½¨£º±äÁ¿¶¨Òå£¬³õÊ¼»¯£¬ÏûÏ¢×¢²á
--- ×¢Òâ£º´°¿ÚÉúÃüÖÜÆÚÄÚ±£³ÖµÄ³ÉÔ±±äÁ¿·ÅÕâ
+-- åˆ›å»ºï¼šå˜é‡å®šä¹‰ï¼Œåˆå§‹åŒ–ï¼Œæ¶ˆæ¯æ³¨å†Œ
+-- æ³¨æ„ï¼šçª—å£ç”Ÿå‘½å‘¨æœŸå†…ä¿æŒçš„æˆå‘˜å˜é‡æ”¾è¿™
 local function OnCreate(self)
 end
 
--- ´ò¿ª£ºË¢ĞÂÊı¾İÄ£ĞÍ
--- ×¢Òâ£º´°¿Ú¹Ø±ÕÊ±¿ÉÒÔÇåÀíµÄ³ÉÔ±±äÁ¿·ÅÕâ
+-- æ‰“å¼€ï¼šåˆ·æ–°æ•°æ®æ¨¡å‹
+-- æ³¨æ„ï¼šçª—å£å…³é—­æ—¶å¯ä»¥æ¸…ç†çš„æˆå‘˜å˜é‡æ”¾è¿™
 local function OnEnable(self, ...)
 end
 
--- ¹Ø±Õ
--- ×¢Òâ£º±ØĞëÇåÀíOnEnableÖĞÉùÃ÷µÄ±äÁ¿
+-- å…³é—­
+-- æ³¨æ„ï¼šå¿…é¡»æ¸…ç†OnEnableä¸­å£°æ˜çš„å˜é‡
 local function OnDisable(self)
 end
 
--- Ïú»Ù
--- ×¢Òâ£º±ØĞëÇåÀíOnCreateÖĞÉùÃ÷µÄ±äÁ¿
+-- é”€æ¯
+-- æ³¨æ„ï¼šå¿…é¡»æ¸…ç†OnCreateä¸­å£°æ˜çš„å˜é‡
 local function OnDestroy(self)
 end
 
--- ×¢²áÏûÏ¢
+-- æ³¨å†Œæ¶ˆæ¯
 local function OnAddListener(self)
 end
 
--- ×¢ÏúÏûÏ¢
+-- æ³¨é”€æ¶ˆæ¯
 local function OnRemoveListener(self)
 end
 
--- ¼¤»î£º¸øUIManagerÓÃ£¬±ğÖØĞ´
+-- æ¿€æ´»ï¼šç»™UIManagerç”¨ï¼Œåˆ«é‡å†™
 local function Activate(self, ...)
     self:OnAddListener()
     self:OnEnable(...)
 end
 
--- ·´¼¤»î£º¸øUIManagerÓÃ£¬±ğÖØĞ´
+-- åæ¿€æ´»ï¼šç»™UIManagerç”¨ï¼Œåˆ«é‡å†™
 local function Deactivate(self)
     self:OnRemoveListener()
     self:OnDisable()
