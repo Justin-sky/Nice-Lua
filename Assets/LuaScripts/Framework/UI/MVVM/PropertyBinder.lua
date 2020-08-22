@@ -25,7 +25,7 @@ local function getProperty(viewModel, path)
     return propertyPath, property[path[#path]]
 end
 
--- Èç·Ç±ØÒª£¬±ğÖØĞ´¹¹Ôìº¯Êı£¬Ê¹ÓÃOnCreate³õÊ¼»¯
+-- å¦‚éå¿…è¦ï¼Œåˆ«é‡å†™æ„é€ å‡½æ•°ï¼Œä½¿ç”¨OnCreateåˆå§‹åŒ–
 local function __init(self, view)
     self.view = view
     self._binders = {} --function(viewModel)
@@ -40,7 +40,7 @@ local  function Add(self, name, valueChangedHandler)
     local registerFunc = function(viewModel, bindableProperty)
         table.insert(bindableProperty.OnValueChanged, valueChangedHandler)
         local value = bindableProperty.Value
-        valueChangedHandler(nil, value) --³õÊ¼»¯Êı¾İ
+        valueChangedHandler(nil, value) --åˆå§‹åŒ–æ•°æ®
     end
 
     local unregisterFunc = function(viewModel, bindableProperty)
@@ -50,7 +50,7 @@ local  function Add(self, name, valueChangedHandler)
     self:RegisterEvent(registerFunc, unregisterFunc, name)
 end
 
-local  function AddEx(self, name, onAdd, onInsert, onRemove)--¸ølistÓÃ°ó¶¨
+local  function AddEx(self, name, onAdd, onInsert, onRemove)--ç»™listç”¨ç»‘å®š
     local registerFunc = function(viewModel, bindableProperty)
         if bindableProperty.AddHandlers then
             table.insert(bindableProperty.AddHandlers, onAdd)
