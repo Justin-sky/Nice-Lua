@@ -15,6 +15,10 @@ Road Map ：
 * 红点系统
 * 更多功能更新
 
+## 说明
+
+如果要在android或ios中发布测试项目，请下载 https://github.com/Justin-sky/Nice-Build  并自行编译各平台库
+
 ## 运行环境
 
 请在Unity2019.4以上环境运行
