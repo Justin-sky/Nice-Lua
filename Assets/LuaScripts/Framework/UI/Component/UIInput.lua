@@ -56,7 +56,7 @@ end
 -- 销毁
 local function OnDestroy(self)
 	if self.__onclick ~= nil then
-		self.unity_uiinput.onEditEnd:RemoveListener(self.__onEditEnd)
+		self.unity_uiinput.onEndEdit:RemoveListener(self.__onEditEnd)
 	end
 
 	self.unity_uiinput = nil
